@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="../../css/bootstrap.css" />
+<link rel="stylesheet" href="../../css/admin.css" />
+<script type="text/javascript" src="../jquery.js"></script>
+<script type="text/javascript" src="../bootstrap.js"></script>
+<script type="text/javascript">
+$(function(){
+  $('#btn_insert, h5.preview').fadeOut();
+
+  setInterval(function(){
+    //Set popup's width
+    var pwidth = 800;
+    parent.jQuery('#TB_window,#TB_iframeContent').width(pwidth);
+    parent.jQuery('#TB_window').css('margin-left',-(pwidth/2));
+  },100);
+
+  $('#frm_create').submit(function(e){
+    e.preventDefault();
+    
+    append_grid($('#quantity').val());
+  });
+
+  $('#quantity').bind('keyup change',function(){
+    append_grid($(this).val());
+  });
+
+  $('#col-width').bind('change keyup',function(){
+    var $active = $('#demo_grid div.active');
+    var val = $(this).val();
+    if(isNaN(val)||val>12||val<1) return;
+    var cw = $active.find('.grid').text().split(' ')[1];
+
+    $active.removeClass('col-xs-'+cw).addClass('col-xs-'+$(this).val());
+    $active.find('.grid').text('Grid '+ $(this).val() );
+  });
+
+  $('#col-offset').bind('keyup change',function(){
+
+    var val = $(this).val();
+    if(isNaN(val)||val>12||val<0) return;
+
+    var $active = $('#demo_grid div.active');
+
+
+    var cw = $active.find('.offset').text().split(' ')[1];
+
+    if(isNaN(cw)||cw>12) return;
+
+    $active.removeClass('offset'+cw).addClass('offset'+$(this).val());
+    $active.find('.offset').text('Offset '+ $(this).val() );
+    });
+
+
+    $('.demo_col').live('click',function(){
+    $('#demo_grid div').removeClass('active');
+    $(this).addClass('active');
+    var cw = $(this).find('.grid').text().split(' ')[1];
+    var os = $(this).find('.offset').text().split(' ')[1];
+    $('#col-width').val(cw);
+    $('#col-offset').val(os);
+
+    $('#col-edit').fadeIn();
+
+  });
+
+  $('#btn_insert').click(function(){
+
+    var shortcodes = '[row class="row"]';
+    $('#demo_grid > div').each(function(){
+      var clss = $(this).attr('class').replace(' demo_col','');
+      shortcodes+= '<br class="nc"/>[col class="'+clss+'"]Text[/col]';
+
+    });
+
+    shortcodes+= '<br class="nc"/>[/row]';
+    parent.tinymce.activeEditor.execCommand('mceInsertContent',false,shortcodes);
+
+    parent.tb_remove();
+  });
+
+});
+function append_grid(cols){
+  
+  if(isNaN(cols)||cols>12) return;
+
+  $('#btn_insert, h5.preview').fadeIn();
+
+  var basewidth = Math.floor(12/cols);
+  var extrawidth = 12- (basewidth*cols);
+  var offset = 0;
+
+  $('#demo_grid').empty();
+
+  for(i=0;i<cols;i++){
+    var cwidth = (extrawidth>0)?1:0;         
+    $('#demo_grid').append('<div class="col-xs-'+(basewidth+cwidth)+' demo_col"><span class="grid">Grid '+(basewidth+cwidth)+'</span> <span class="offset">Offset '+offset+'</span><h5>Click to edit</h5></div>');
+    extrawidth--;
+  }
+}
+</script>
+
+</head>
+<body>
+<div id="dws-wrapper">
+  <div id="dws-grid">
+    <form id="frm_create">
+      <label>Number of columns</label>
+      <input placeholder='Input number from 1 - 12' required pattern="\b([1-9]|1[0-2])\b" id="quantity" type="number" name="quantity" min="1" max="12">
+    </form>
+    <div id="col-edit" style="display:none;">
+      <label>Grid</label><input placeholder='Input number from 1 - 12' required pattern="\b([1-9]|1[0-2])\b" id="col-width" name="col-width" value="1" type="number" min="1" max="12">
+      <label>Offset</label><input placeholder='Input number from 1 - 12' required pattern="\b([0-9]|1[0-2])\b" id="col-offset" name="col-offset" value="0" type="number" min="0" max="12">
+
+    </div>
+    <h5 class="preview">Preview</h5>
+    <div id="demo_grid" class="row show-grid"></div>
+
+    <button id="btn_insert" class="btn btn-primary" >Insert shortcode</button>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,182 @@
+/* Editor
+-------------------------------------------------------------- */
+.wp_themeSkin .mceSplitButton span.mce_dws_grid,
+.wp_themeSkin .mceSplitButton span.mce_dws_alerts,
+.wp_themeSkin .mceSplitButton span.mce_dws_buttons,
+.wp_themeSkin span.mce_dws_icons,
+.wp_themeSkin span.mce_dws_tabs,
+.wp_themeSkin .mceSplitButton span.mce_dws_collapse {
+	background: url(../img/dwicons.png) no-repeat !important;
+}
+
+.wp_themeSkin .mceSplitButton span.mce_dws_grid {
+	background-position: -5px -19px !important;
+}
+
+.wp_themeSkin .mceSplitButton:hover span.mce_dws_grid,
+.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_dws_grid {
+	background-position: -5px 0 !important;
+}
+
+.wp_themeSkin .mceSplitButton span.mce_dws_alerts {
+	background-position: -25px -19px !important;
+}
+
+.wp_themeSkin .mceSplitButton:hover span.mce_dws_alerts,
+.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_dws_alerts  {
+	background-position: -25px 0 !important;
+}
+
+.wp_themeSkin .mceSplitButton span.mce_dws_buttons {
+	background-position: -46px -19px !important;
+}
+
+.wp_themeSkin .mceSplitButton:hover span.mce_dws_buttons,
+.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_dws_buttons  {
+	background-position: -46px 0 !important;
+}
+
+.wp_themeSkin span.mce_dws_icons {
+	background-position: -67px -20px !important;
+}
+
+.wp_themeSkin span.mce_dws_icons:hover  {
+	background-position: -67px -1px !important;
+}
+
+.wp_themeSkin span.mce_dws_tabs {
+	background-position: -88px -20px !important;
+}
+
+.wp_themeSkin span.mce_dws_tabs:hover {
+	background-position: -88px -1px !important;
+}
+
+.wp_themeSkin .mceSplitButton span.mce_dws_collapse {
+	background-position: -109px -20px !important;
+}
+
+.wp_themeSkin .mceSplitButton:hover span.mce_dws_collapse,
+.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_dws_collapse  {
+	background-position: -109px -1px !important;
+}
+
+.mceMenu label {
+	display: block;
+	margin: 10px 0 0;
+}
+
+.mceMenu input[type=text],
+.mceMenu select {
+	clear: both;
+	display: block;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 160px;
+	padding: 3px;
+	margin:  5px 0 0;
+}
+
+/* Iframe
+-------------------------------------------------------------- */
+#dws-wrapper {
+	padding: 20px;
+}
+
+#dws-wrapper .nav-tabs > .active > a > [class^="icon-"],
+#dws-wrapper .nav-tabs > .active > a > [class*=" icon-"] {
+	background-image: url("../img/glyphicons-halflings.png");
+}
+
+#dws-wrapper .nav-tabs .add-new {
+	float: right;
+}
+
+#dws-wrapper .nav-tabs li a {
+	outline: none;
+}
+
+#dws-wrapper .nav-tabs .delete-tab {
+	margin: 0 0 0 5px;
+	display: none;
+	height: 16px;
+	line-height: 12px;
+	text-align: center;
+	width: 16px;
+}
+
+#dws-wrapper .nav-tabs .active .delete-tab {
+	display: inline-block;
+}
+
+#dws-wrapper .nav-tabs .active .delete-tab:hover {
+	background: #bbb;
+	border-radius: 20px;
+	color: #fff;
+}
+
+#dws-wrapper .tab-content textarea {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100% !important;
+	height: 120px;
+	min-height: 120px;
+}
+
+#dws-wrapper .tab-content input[type=text],
+#dws-wrapper .tab-content select,
+#dws-wrapper #dws-grid input[type=number] {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 50%;
+	height: 30px;
+}
+
+#dws-wrapper #dws-grid form {
+	margin: 0;
+}
+
+.show-grid {
+	margin-bottom: 20px;
+	margin-top: 10px;
+}
+
+.show-grid h5 {
+	font-size: 92%;
+	font-weight: normal;
+	color: #999;
+}
+
+.show-grid [class*="col-"] {
+	background-color: #EEEEEE;
+	border: 1px solid #eee;
+	border-radius: 3px 3px 3px 3px;
+	padding: 10px 10px 0;
+	text-align: center;
+}
+
+.show-grid:hover [class*="col-"] {
+	background: none repeat scroll 0 0 #DDDDDD;
+	border-color: #ddd;
+}
+
+.show-grid .show-grid {
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.show-grid .show-grid [class*="col-"] {
+	background-color: #CCCCCC;
+}
+
+.show-grid [class*="col-"].active {
+	background: #fff;
+	border: 1px solid #ccc;
+}
