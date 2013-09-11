@@ -32,11 +32,10 @@
                         <select name="type">\
                         <option value="Default"> Default</option>\
                         <option value="Primary"> Primary</option>\
-                        <option value="Info" selected> Info</option>\
                         <option value="Success"> Success</option>\
+                        <option value="Info" selected> Info</option>\
                         <option value="Warning"> Warning</option>\
                         <option value="Danger"> Danger</option>\
-                        <option value="Inverse"> Inverse</option>\
                         <option value="Link"> Link</option>\
                         </select>\
                         <label>Link<br />\
