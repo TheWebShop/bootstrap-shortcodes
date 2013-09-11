@@ -1,13 +1,5 @@
 <?php 
-/**
- *DesignWall shortcodes grid
- *@package DesignWall Shorcodes
- *@since 1.0
-*/
 
-/**
- * Notification
- */
 function dws_notice($params, $content = null){
 	extract(shortcode_atts(array(
 		'type' => 'unknown'

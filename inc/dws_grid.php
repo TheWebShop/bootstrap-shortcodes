@@ -1,8 +1,5 @@
 <?php 
 
-/**
- * Row
- */
 function dws_row($params, $content = null){
 	extract(shortcode_atts(array(
 		'class' => 'row'
@@ -15,9 +12,6 @@ function dws_row($params, $content = null){
 }
 add_shortcode('row', 'dws_row');
 
-/**
- * Col span
- */
 function dws_span($params,$content=null){
 	extract(shortcode_atts(array(
 		'class' => 'col-xs-1'

@@ -1,13 +1,5 @@
 <?php 
-/**
- *DesignWall shortcodes grid
- *@package DesignWall Shorcodes
- *@since 1.0
-*/
 
-/**
- * Button
- */
 function dws_icons($params, $content = null){
 	extract(shortcode_atts(array(
 		'name' => 'default'

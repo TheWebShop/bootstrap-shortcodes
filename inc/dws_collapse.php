@@ -1,13 +1,4 @@
 <?php 
-/**
- *DesignWall shortcodes tabs
- *@package DesignWall Shorcodes
- *@since 1.0
-*/
-
-/**
- * Collapse
- */
 
 function dws_collapse($params, $content = null){
 	extract(shortcode_atts(array(
