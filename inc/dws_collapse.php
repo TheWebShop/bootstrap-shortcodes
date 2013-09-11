@@ -14,7 +14,7 @@ function dws_collapse($params, $content = null){
 		'id'=>''
  		), $params));
 	$content = preg_replace('/<br class="nc".\/>/', '', $content);
-	$result = '<div class="accordion" id="'.$id.'">';
+	$result = '<div class="panel-group" id="'.$id.'">';
 	$result .= do_shortcode($content );
 	$result .= '</div>'; 
 	return force_balance_tags( $result );
@@ -29,14 +29,16 @@ function dws_citem($params, $content = null){
 		'parent' => ''
  		), $params));
 	$content = preg_replace('/<br class="nc".\/>/', '', $content);
-	$result = ' <div class="accordion-group">';
-	$result .= ' <div class="accordion-heading">';
+	$result = ' <div class="panel panel-default">';
+	$result .= ' <div class="panel-heading">';
+	$result .= '  <h4 class="panel-title">';
 	$result .= '<a class="accordion-toggle" data-toggle="collapse" data-parent="#'.$parent.'" href="#'.$id.'">';
 	$result .= $title;
 	$result .= '</a>';
+	$result .= '</h4>';
 	$result .= '</div>';
-	$result .= '<div id="'.$id.'" class="accordion-body collapse">';
-	$result .= '<div class="accordion-inner">';
+	$result .= '<div id="'.$id.'" class="panel-collapse collapse">';
+	$result .= '<div class="panel-body">';
 	$result .= do_shortcode($content );
 	$result .= '</div>'; 
 	$result .= '</div>'; 
