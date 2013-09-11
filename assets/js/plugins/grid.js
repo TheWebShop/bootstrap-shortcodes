@@ -17,7 +17,13 @@
                     m.add({title : '12 Columns', onclick : function() {
                         tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[col class="col-sx-1"]Text[/col]<br class="nc"/>[/row]' );
                     }});
+                    m.add({title : '6 Columns', onclick : function() {
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-sx-2"]Text[/col]<br class="nc"/>[col class="col-sx-2"]Text[/col]<br class="nc"/>[col class="col-sx-2"]Text[/col]<br class="nc"/>[col class="col-sx-2"]Text[/col]<br class="nc"/>[col class="col-sx-2"]Text[/col]<br class="nc"/>[col class="col-sx-2"]Text[/col]<br class="nc"/>[/row]' );
+                    }});
                     m.add({title : '4 Columns', onclick : function() {
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-sx-3"]Text[/col]<br class="nc"/>[col class="col-sx-3"]Text[/col]<br class="nc"/>[col class="col-sx-3"]Text[/col]<br class="nc"/>[col class="col-sx-3"]Text[/col]<br class="nc"/>[/row]' );
+                    }});
+                    m.add({title : '3 Columns', onclick : function() {
                         tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-sx-4"]Text[/col]<br class="nc"/>[col class="col-sx-4"]Text[/col]<br class="nc"/>[col class="col-sx-4"]Text[/col]<br class="nc"/>[/row]' );
                     }});
                     m.add({title : '2 Columns', onclick : function() {

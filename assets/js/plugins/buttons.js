@@ -23,10 +23,10 @@
                         $menu.append('');
                         $menu.append('<div style="padding: 0 10px 10px"><label>Size<br/>\
                         <select name="size">\
-                        <option value="Mini">Mini</option>\
-                        <option value="Small">Small</option>\
+                        <option value="xs">Mini</option>\
+                        <option value="sm">Small</option>\
                         <option value="Normal" selected>Normal</option>\
-                        <option value="Large">Large</option>\
+                        <option value="lg">Large</option>\
                         </select></label>\
                         <label>Types<br/>\
                         <select name="type">\

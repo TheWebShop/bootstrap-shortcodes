@@ -13,8 +13,8 @@ function dws_notice($params, $content = null){
 		'type' => 'unknown'
 	), $params));
 	$content = preg_replace('/<br class="nc".\/>/', '', $content);
-	$result = '<div class="alert alert-'.$type.'">';
-	$result .= '<button class="close" type="button" data-dismiss="alert">×</button>';
+	$result = '<div class="alert alert-'.$type.' alert-dismissable">';
+	$result .= '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
 	$result .= do_shortcode($content );
 	$result .= '</div>'; 
 	return force_balance_tags( $result );
