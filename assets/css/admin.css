@@ -2,6 +2,7 @@
 -------------------------------------------------------------- */
 .wp_themeSkin .mceSplitButton span.mce_dws_grid,
 .wp_themeSkin .mceSplitButton span.mce_dws_alerts,
+.wp_themeSkin .mceSplitButton span.mce_dws_wells,
 .wp_themeSkin .mceSplitButton span.mce_dws_buttons,
 .wp_themeSkin span.mce_dws_icons,
 .wp_themeSkin span.mce_dws_tabs,
@@ -25,6 +26,15 @@
 .wp_themeSkin .mceSplitButton:hover span.mce_dws_alerts,
 .wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_dws_alerts  {
 	background-position: -25px 0 !important;
+}
+
+.wp_themeSkin .mceSplitButton span.mce_dws_wells {
+	background-position: -129px -19px !important;
+}
+
+.wp_themeSkin .mceSplitButton:hover span.mce_dws_wells,
+.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_dws_wells  {
+	background-position: -129px 0 !important;
 }
 
 .wp_themeSkin .mceSplitButton span.mce_dws_buttons {
