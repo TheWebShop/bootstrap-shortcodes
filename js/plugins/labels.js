@@ -12,8 +12,8 @@
                 });
 
                 c.onRenderMenu.add(function(c, m) {
-					// Boxes & frames
-					m.add({title : 'Labels & Badges', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+                    // Boxes & frames
+                    m.add({title : 'Labels & Badges', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
                     m.add({title : 'Default', onclick : function() {
                         tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[label]Default[/label]' );
                     }}); 

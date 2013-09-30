@@ -1,9 +1,9 @@
-=== DW Shortcodes Bootstrap ===
+=== Bootstrap Shortcodes ===
 Contributors: sinetheta, Designwall Team
-Tags: shortcode, shortcodes, bootstrap, buttons, grid, responsive, widget
+Tags: shortcode, shortcodes, bootstrap, buttons, grid, well, responsive, widget
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 1.0
+Stable tag: 1.1
 License: GNU General Public License v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,10 +26,15 @@ Please report issues [here](https://github.com/TheWebShop/bootstrap-shortcodes/i
 
 == Changelog ==
 
+= 1.1 =
+* Added support for wells
+
 = 1.0 =
 * Upgraded from Bootstrap 2 to 3
 
 == Screenshots ==
-1. screenshot-1.jpg
-2. screenshot-2.jpg
-3. screenshot-3.png
+
+1. The rendered Bootstrap components as they would appear with a default Bootstrap 3 theme.
+2. Custom buttons added to the TinyMCE visual editor for adding shortcodes to content.
+3. The glyphicon selection tool for adding Bootstrap icons.
+4. The grid maker tool to help create custom layouts.

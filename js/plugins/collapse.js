@@ -12,7 +12,6 @@
                     }
                     //'class':'mceListBoxMenu'
                 });
-                
 
                 c.onRenderMenu.add(function(c, m) {
                     m.onShowMenu.add(function(c,m){
@@ -53,13 +52,13 @@
                                     tinymce.activeEditor.execCommand('mceInsertContent',false,shortcode);
                                     c.hideMenu();
                                 }).wrap('<div style="padding: 0 10px 10px"></div>')
-                 
+
                         $menu.data('added',true); 
 
                     });
 
                    // XSmall
-					m.add({title : 'Collapse', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+                    m.add({title : 'Collapse', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
 
                  });
                 // Return the new splitbutton instance

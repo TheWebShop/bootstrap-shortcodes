@@ -12,8 +12,8 @@
                 });
 
                 c.onRenderMenu.add(function(c, m) {
-					// Boxes & frames
-					m.add({title : 'Fluid grid system', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+                    // Boxes & frames
+                    m.add({title : 'Fluid grid system', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
                     m.add({title : '12 Columns', onclick : function() {
                         tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[/row]' );
                     }});
@@ -33,7 +33,7 @@
                         tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-xs-12"]Text[/col]<br class="nc"/>[/row]' );
                     }}); 
                     m.add({title : 'Custom Grid', onclick : function() {
-                         tb_show('Custom Grid', '../wp-content/plugins/bootstrap-shortcodes/assets/js/plugins/grid.html?TB_iframe=1');
+                         tb_show('Custom Grid', '../wp-content/plugins/bootstrap-shortcodes/js/plugins/grid.html?TB_iframe=1');
                     }}); 
 
                 });

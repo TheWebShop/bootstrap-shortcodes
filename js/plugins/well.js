@@ -28,7 +28,6 @@
 
                 // Return the new splitbutton instance
                 return c;
-                
             }
             return null;
         }

@@ -8,14 +8,12 @@
                 var c = cm.createButton('dws_icons', {
                     title : 'Icons',
                     onclick : function() {
-                        tb_show('Select icons', '../wp-content/plugins/bootstrap-shortcodes/assets/js/plugins/icons.html?TB_iframe=1');
+                        tb_show('Select icons', '../wp-content/plugins/bootstrap-shortcodes/js/plugins/icons.html?TB_iframe=1');
                     }
                 });
 
-        
                 // Return the new splitbutton instance
                 return c;
-                
             }
             return null;
         }
