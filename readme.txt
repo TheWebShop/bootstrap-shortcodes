@@ -1,5 +1,5 @@
 === Bootstrap Shortcodes ===
-Contributors: sinetheta, Designwall Team
+Contributors: sinetheta, beaurixon, Designwall Team
 Tags: shortcode, shortcodes, bootstrap, buttons, grid, well, responsive, widget
 Requires at least: 3.0
 Tested up to: 3.6
