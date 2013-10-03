@@ -11,11 +11,12 @@ Forked from DW Shortcodes Bootstrap http://wordpress.org/plugins/dw-shortcodes-b
 */
 
 require_once('inc/dws_grid.php');
+require_once('inc/dws_collapse.php');
 require_once('inc/dws_alert.php');
 require_once('inc/dws_well.php');
 require_once('inc/dws_buttons.php');
-require_once('inc/dws_collapse.php');
 require_once('inc/dws_icons.php');
+require_once('inc/dws_lead.php');
 
 class DesignwallShortcodes{
   
@@ -56,10 +57,11 @@ class DesignwallShortcodes{
   {
     array_push($buttons, 'dws_grid');
     array_push($buttons, 'dws_collapse');
-    array_push($buttons, 'dws_buttons');
     array_push($buttons, 'dws_alerts');
     array_push($buttons, 'dws_wells');
+    array_push($buttons, 'dws_buttons');
     array_push($buttons, 'dws_icons');
+    array_push($buttons, 'dws_lead');
     return $buttons;
   }
 
@@ -68,10 +70,11 @@ class DesignwallShortcodes{
     
     $plgs['dws_grid'] = plugins_url('assets/js/plugins/grid.js', __FILE__ );
     $plgs['dws_collapse'] = plugins_url('assets/js/plugins/collapse.js', __FILE__ );
-    $plgs['dws_buttons'] = plugins_url('assets/js/plugins/buttons.js', __FILE__ );
     $plgs['dws_alerts'] = plugins_url('assets/js/plugins/alert.js', __FILE__ );
     $plgs['dws_wells'] = plugins_url('assets/js/plugins/well.js', __FILE__ );
+    $plgs['dws_buttons'] = plugins_url('assets/js/plugins/buttons.js', __FILE__ );
     $plgs['dws_icons'] = plugins_url('assets/js/plugins/icons.js', __FILE__ );
+    $plgs['dws_lead'] = plugins_url('assets/js/plugins/lead.js', __FILE__ );
     return $plgs;
   }
 
