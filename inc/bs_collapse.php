@@ -1,6 +1,6 @@
 <?php 
 
-function dws_collapse($params, $content = null){
+function bs_collapse($params, $content = null){
     extract(shortcode_atts(array(
         'id'=>''
          ), $params));
@@ -10,10 +10,10 @@ function dws_collapse($params, $content = null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('collapse', 'dws_collapse');
+add_shortcode('collapse', 'bs_collapse');
 
 
-function dws_citem($params, $content = null){
+function bs_citem($params, $content = null){
     extract(shortcode_atts(array(
         'id'=>'',
         'title'=>'Collapse title',
@@ -36,6 +36,4 @@ function dws_citem($params, $content = null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('citem', 'dws_citem');
-
-
+add_shortcode('citem', 'bs_citem');

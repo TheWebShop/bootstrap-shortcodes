@@ -1,6 +1,6 @@
 <?php 
 
-function dws_row($params, $content = null){
+function bs_row($params, $content = null){
     extract(shortcode_atts(array(
         'class' => 'row'
     ), $params));
@@ -10,9 +10,9 @@ function dws_row($params, $content = null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('row', 'dws_row');
+add_shortcode('row', 'bs_row');
 
-function dws_span($params,$content=null){
+function bs_span($params,$content=null){
     extract(shortcode_atts(array(
         'class' => 'col-xs-1'
         ), $params));
@@ -22,4 +22,4 @@ function dws_span($params,$content=null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('col', 'dws_span');
+add_shortcode('col', 'bs_span');

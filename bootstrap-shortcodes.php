@@ -10,120 +10,163 @@ Author URI: https://github.com/Sinetheta
 Forked from DW Shortcodes Bootstrap http://wordpress.org/plugins/dw-shortcodes-bootstrap/
 */
 
-require_once('inc/dws_grid.php');
-require_once('inc/dws_alert.php');
-require_once('inc/dws_well.php');
-require_once('inc/dws_buttons.php');
-require_once('inc/dws_collapse.php');
-require_once('inc/dws_icons.php');
+require_once('inc/bs_grid.php');
+require_once('inc/bs_alert.php');
+require_once('inc/bs_well.php');
+require_once('inc/bs_buttons.php');
+require_once('inc/bs_collapse.php');
+require_once('inc/bs_icons.php');
 
-class DesignwallShortcodes{
-    function __construct() {
-        add_action('init',array(&$this, 'init'));
-        add_action('admin_menu', array(&$this, 'dw_add_options_page'));
-        register_activation_hook(__FILE__, array(&$this, 'dwsc_add_defaults'));
-        add_action('admin_init', array(&$this, 'dwsc_init'));
+class BootstrapShortcodes{
+
+    public $shortcodes = array(
+        'grid',
+        'collapse',
+        'buttons',
+        'alerts',
+        'wells',
+        'icons'
+    );
+
+    public function __construct() {
+        if ( !defined( 'BOOTSTRAP_SHORTCODES_PLUGIN_URL' ) ) {
+            define( 'BOOTSTRAP_SHORTCODES_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+            define( 'BOOTSTRAP_SHORTCODES_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+        }
+
+        add_action( 'init' , array( &$this, 'init' ) );
+
+        register_activation_hook(__FILE__, array(&$this, 'add_options_defaults'));
+
+        add_action( 'admin_init', array( &$this, 'register_settings' ) );
+        add_action( 'admin_menu', array( &$this, 'register_settings_page' ) );
     }
 
     function init() {
-        $options = get_option('dwsc_options');
+        $options = get_option('bs_options');
         if(!is_admin()){
-            if( isset($options['chk_default_options_css']) && $options['chk_default_options_css'] ){
-                wp_enqueue_style("dws_bootstrap", plugins_url('css/bootstrap.css', __FILE__ ));
-                wp_enqueue_style("dws_shortcodes", plugins_url('css/shortcodes.css', __FILE__ ));
+            if( isset($options['bs_boostrap_css']) && $options['bs_boostrap_css'] ){
+                wp_enqueue_style("bs_bootstrap", plugins_url('css/bootstrap.css', __FILE__ ) );
+                wp_enqueue_style("bs_shortcodes", plugins_url('css/shortcodes.css', __FILE__ ) );
             }
-            if( isset($options['chk_default_options_js']) && $options['chk_default_options_js'] )
-                wp_enqueue_script('dws_bootstrap', plugins_url('js/bootstrap.js', __FILE__ ),array('jquery'));
+            if( isset($options['bs_bootstrap_js']) && $options['bs_bootstrap_js'] )
+                wp_enqueue_script('bs_bootstrap', plugins_url('js/bootstrap.js', __FILE__ ) ,array('jquery'));
         } else {
-            wp_enqueue_style("dws_admin_style", plugins_url('css/admin.css', __FILE__ ));
+            wp_enqueue_style("bs_admin_style", plugins_url('css/admin.css', __FILE__ ) );
         }
 
         if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') ) {
-                return;
+            return;
         }
 
         if ( get_user_option('rich_editing') == 'true' ) {
-        //    wp_enqueue_style("dws_bootstrap", plugins_url('css/bootstrap.css', __FILE__ ));
+            //wp_enqueue_style("dws_bootstrap", plugins_url('css/bootstrap.css', __FILE__ ));
             add_filter( 'mce_external_plugins', array(&$this, 'regplugins') );
             add_filter( 'mce_buttons_3', array(&$this, 'regbtns') );
         }
     }
 
     function regbtns($buttons) {
-        array_push($buttons, 'dws_grid');
-        array_push($buttons, 'dws_collapse');
-        array_push($buttons, 'dws_buttons');
-        array_push($buttons, 'dws_alerts');
-        array_push($buttons, 'dws_wells');
-        array_push($buttons, 'dws_icons');
+        
+        $options = get_option('bs_options');
+
+        foreach ($this->shortcodes as &$shortcode) {
+            if( isset($options['chk_default_options_' . $shortcode]) ) {
+                array_push($buttons, 'bs_' . $shortcode);
+            }
+        }
+
         return $buttons;
     }
 
     function regplugins($plgs) {
-        
-        $plgs['dws_grid'] = plugins_url('js/plugins/grid.js', __FILE__ );
-        $plgs['dws_collapse'] = plugins_url('js/plugins/collapse.js', __FILE__ );
-        $plgs['dws_buttons'] = plugins_url('js/plugins/buttons.js', __FILE__ );
-        $plgs['dws_alerts'] = plugins_url('js/plugins/alert.js', __FILE__ );
-        $plgs['dws_wells'] = plugins_url('js/plugins/well.js', __FILE__ );
-        $plgs['dws_icons'] = plugins_url('js/plugins/icons.js', __FILE__ );
+
+        foreach ($this->shortcodes as &$shortcode) {
+            $plgs['bs_' . $shortcode] = plugins_url('js/plugins/' . $shortcode . '.js', __FILE__ );
+        }
+
         return $plgs;
     }
 
     /* Add menu page. */
-    function dw_add_options_page() {
+    function register_settings_page() {
         add_options_page(__('Bootstrap Shortcodes options','dwshortcodes'), __('Bootstrap Shortcode options','dwshortcodes'), 'manage_options', __FILE__, array(&$this, 'dw_render_form'));
     }
 
     /* Define default option settings. */
-    function dwsc_add_defaults() {
+    function add_options_defaults() {
             $arr = array( 
-                "chk_default_options_css"   => "1",
-                "chk_default_options_js"    => "1"
+                "chk_default_options_css"       => "1",
+                "chk_default_options_js"        => "1",
+                "chk_default_options_grid"      => "1",
+                "chk_default_options_collapse"  => "1",
+                "chk_default_options_buttons"   => "1",
+                "chk_default_options_alerts"    => "1",
+                "chk_default_options_wells"     => "1",
+                "chk_default_options_icons"     => "1"
             );
-            update_option( 'dwsc_options', $arr );
+            update_option( 'bs_options', $arr );
     }
 
     /* Init plugin options to white list our options. */
-    function dwsc_init(){
+    function register_settings(){
 
-        register_setting( 'dwsc_plugin_options', 'dwsc_options' );
+        register_setting( 'bs_plugin_options', 'bs_options' );
 
     }
 
 
     function dw_render_form() {
         ?>
-    <div class="wrap">
-        <div class="icon32" id="icon-options-general"><br></div>
-        <h2>Bootstrap Shortcodes Options</h2>
-        <form method="post" action="options.php">
-            <?php settings_fields('dwsc_plugin_options'); ?>
-            <?php $options = get_option('dwsc_options'); ?>
-            <table class="form-table">
-            
-                <tr><td colspan="2"><div style="margin-top:10px;"></div></td></tr>
+        <div class="wrap">
+            <div class="icon32" id="icon-options-general"><br></div>
+            <h2>Bootstrap Shortcodes Options</h2>
+            <form method="post" action="options.php">
+                <?php settings_fields('bs_plugin_options'); ?>
+                <?php $options = get_option('bs_options'); ?>
+                <table class="form-table">
+                
+                    <tr><td colspan="2"><div style="margin-top:10px;"></div></td></tr>
 
-                <tr valign="top" style="border-top:#dddddd 1px solid;">
-                    <th scope="row">Twitter Bootstrap CSS</th>
-                    <td>
-                        <label><input name="dwsc_options[chk_default_options_css]" type="checkbox" value="1" <?php if (isset($options['chk_default_options_css'])) { checked('1', $options['chk_default_options_css']); } ?> /> Load Twitter Bootstrap css file</label><br /><span style="color:#666666;margin-left:2px;">Uncheck this if you already include Bootstrap css on your template</span>
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">Twitter Bootstrap JS</th>
-                    <td>
-                        <label><input name="dwsc_options[chk_default_options_js]" type="checkbox" value="1" <?php if (isset($options['chk_default_options_js'])) { checked('1', $options['chk_default_options_js']); } ?> /> Load Twitter Bootstrap javascript file</label><br /><span style="color:#666666;margin-left:2px;">Uncheck this if you already include Bootstrap javascript on your template</span>
-                    </td>
-                </tr>
-            </table>
-            <p class="submit">
-            <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
-            </p>
-        </form>
+                    <tr valign="top" style="border-top:#dddddd 1px solid;">
+                        <th scope="row">Twitter Bootstrap CSS</th>
+                        <td>
+                            <label><input name="bs_options[chk_default_options_css]" type="checkbox" value="1" <?php if (isset($options['chk_default_options_css'])) { checked('1', $options['chk_default_options_css']); } ?> /> Load Twitter Bootstrap css file</label><br /><span style="color:#666666;margin-left:2px;">Uncheck this if you already include Bootstrap css on your template</span>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Twitter Bootstrap JS</th>
+                        <td>
+                            <label><input name="bs_options[chk_default_options_js]" type="checkbox" value="1" <?php if (isset($options['chk_default_options_js'])) { checked('1', $options['chk_default_options_js']); } ?> /> Load Twitter Bootstrap javascript file</label><br /><span style="color:#666666;margin-left:2px;">Uncheck this if you already include Bootstrap javascript on your template</span>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Twitter Bootstrap Shortcodes</th>
+                        <td>
 
-    </div>
-    <?php 
+                            <? foreach ($this->shortcodes as &$shortcode): ?>
+                            <label>
+                                <input 
+                                    name="bs_options[chk_default_options_<?php echo $shortcode; ?>]"
+                                    type="checkbox"
+                                    value="1"
+                                    <?php if (isset($options['chk_default_options_'.$shortcode])) { checked('1', $options['chk_default_options_'.$shortcode]); } ?>
+                                /> <?php echo $shortcode; ?>
+                            </label>
+                            <br />
+                            <?php endforeach; ?>
+
+                            <span style="color:#666666;margin-left:2px;">Uncheck to remove button from TinyMCE editor</span>
+                        </td>
+                    </tr>
+                </table>
+                <p class="submit">
+                <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+                </p>
+            </form>
+
+        </div>
+        <?php 
     }
 }
-$dwcodes = new DesignwallShortcodes();
+$bscodes = new BootstrapShortcodes();

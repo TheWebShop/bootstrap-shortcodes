@@ -1,11 +1,11 @@
 // JavaScript Document
 (function() {
     // Creates a new plugin class and a custom listbox
-    tinymce.create('tinymce.plugins.dws_collapse', {
+    tinymce.create('tinymce.plugins.bs_collapse', {
         createControl: function(n, cm) {
             switch (n) {                
-                case 'dws_collapse':
-                var c = cm.createSplitButton('dws_collapse', {
+                case 'bs_collapse':
+                var c = cm.createSplitButton('bs_collapse', {
                     title : 'Collapse',
                     onclick : function() {
 
@@ -68,5 +68,5 @@
             return null;
         }
     });
-    tinymce.PluginManager.add('dws_collapse', tinymce.plugins.dws_collapse);
+    tinymce.PluginManager.add('bs_collapse', tinymce.plugins.bs_collapse);
 })();

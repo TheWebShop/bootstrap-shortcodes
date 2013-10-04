@@ -1,6 +1,6 @@
 <?php 
 
-function dws_buttons($params, $content = null){
+function bs_buttons($params, $content = null){
     extract(shortcode_atts(array(
         'size' => 'default',
         'type' => 'default',
@@ -12,4 +12,4 @@ function dws_buttons($params, $content = null){
     $result = '<a class="btn btn-'.$size.' btn-'.$type.'" href="'.$href.'">'.$value.'</a>';
     return force_balance_tags( $result );
 }
-add_shortcode('button', 'dws_buttons');
+add_shortcode('button', 'bs_buttons');

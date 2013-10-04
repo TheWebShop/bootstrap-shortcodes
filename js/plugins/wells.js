@@ -1,11 +1,11 @@
 // JavaScript Document
 (function() {
     // Creates a new plugin class and a custom listbox
-    tinymce.create('tinymce.plugins.dws_wells', {
+    tinymce.create('tinymce.plugins.bs_wells', {
         createControl: function(n, cm) {
             switch (n) {                
-                case 'dws_wells':
-                var c = cm.createSplitButton('dws_wells', {
+                case 'bs_wells':
+                var c = cm.createSplitButton('bs_wells', {
                     title : 'Well',
                     onclick : function() {
                     }
@@ -32,5 +32,5 @@
             return null;
         }
     });
-    tinymce.PluginManager.add('dws_wells', tinymce.plugins.dws_wells);
+    tinymce.PluginManager.add('bs_wells', tinymce.plugins.bs_wells);
 })();

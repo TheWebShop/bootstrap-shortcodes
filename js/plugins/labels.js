@@ -1,11 +1,11 @@
 // JavaScript Document
 (function() {
     // Creates a new plugin class and a custom listbox
-    tinymce.create('tinymce.plugins.dws_labels', {
+    tinymce.create('tinymce.plugins.bs_labels', {
         createControl: function(n, cm) {
             switch (n) {                
-                case 'dws_labels':
-                var c = cm.createSplitButton('dws_labels', {
+                case 'bs_labels':
+                var c = cm.createSplitButton('bs_labels', {
                     title : 'Boxes & frames shortcodes',
                     onclick : function() {
                     }
@@ -29,5 +29,5 @@
             return null;
         }
     });
-    tinymce.PluginManager.add('dws_labels', tinymce.plugins.dws_labels);
+    tinymce.PluginManager.add('bs_labels', tinymce.plugins.bs_labels);
 })();

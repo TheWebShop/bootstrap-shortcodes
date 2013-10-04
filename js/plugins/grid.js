@@ -1,11 +1,11 @@
 // JavaScript Document
 (function() {
     // Creates a new plugin class and a custom listbox
-    tinymce.create('tinymce.plugins.dws_grid', {
+    tinymce.create('tinymce.plugins.bs_grid', {
         createControl: function(n, cm) {
             switch (n) {                
-                case 'dws_grid':
-                var c = cm.createSplitButton('dws_grid', {
+                case 'bs_grid':
+                var c = cm.createSplitButton('bs_grid', {
                     title : 'Fluid grid system',
                     onclick : function() {
                     }
@@ -45,5 +45,5 @@
             return null;
         }
     });
-    tinymce.PluginManager.add('dws_grid', tinymce.plugins.dws_grid);
+    tinymce.PluginManager.add('bs_grid', tinymce.plugins.bs_grid);
 })();

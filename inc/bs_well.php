@@ -1,6 +1,6 @@
 <?php 
 
-function dws_well($params, $content = null){
+function bs_well($params, $content = null){
     extract(shortcode_atts(array(
         'size' => 'unknown'
     ), $params));
@@ -11,4 +11,4 @@ function dws_well($params, $content = null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('well', 'dws_well');
+add_shortcode('well', 'bs_well');

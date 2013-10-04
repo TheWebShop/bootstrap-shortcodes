@@ -1,6 +1,6 @@
 <?php
 
-function dws_notice($params, $content = null){
+function bs_notice($params, $content = null){
     extract(shortcode_atts(array(
         'type' => 'unknown'
     ), $params));
@@ -11,4 +11,4 @@ function dws_notice($params, $content = null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('notification', 'dws_notice');
+add_shortcode('notification', 'bs_notice');

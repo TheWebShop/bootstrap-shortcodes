@@ -1,11 +1,11 @@
 // JavaScript Document
 (function() {
     // Creates a new plugin class and a custom listbox
-    tinymce.create('tinymce.plugins.dws_alerts', {
+    tinymce.create('tinymce.plugins.bs_alerts', {
         createControl: function(n, cm) {
             switch (n) {                
-                case 'dws_alerts':
-                var c = cm.createSplitButton('dws_alerts', {
+                case 'bs_alerts':
+                var c = cm.createSplitButton('bs_alerts', {
                     title : 'Notification',
                     onclick : function() {
                     }
@@ -36,5 +36,5 @@
             return null;
         }
     });
-    tinymce.PluginManager.add('dws_alerts', tinymce.plugins.dws_alerts);
+    tinymce.PluginManager.add('bs_alerts', tinymce.plugins.bs_alerts);
 })();

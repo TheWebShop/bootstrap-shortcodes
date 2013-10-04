@@ -1,6 +1,6 @@
 <?php 
 
-function dws_icons($params, $content = null){
+function bs_icons($params, $content = null){
     extract(shortcode_atts(array(
         'name' => 'default'
     ), $params));
@@ -9,4 +9,4 @@ function dws_icons($params, $content = null){
     $result = '<i class="'.$name.'"></i>';
     return force_balance_tags( $result );
 }
-add_shortcode('icon', 'dws_icons');
+add_shortcode('icon', 'bs_icons');

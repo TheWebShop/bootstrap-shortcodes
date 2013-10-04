@@ -1,73 +1,73 @@
 /* Editor
 -------------------------------------------------------------- */
-.wp_themeSkin .mceSplitButton span.mce_dws_grid,
-.wp_themeSkin .mceSplitButton span.mce_dws_alerts,
-.wp_themeSkin .mceSplitButton span.mce_dws_wells,
-.wp_themeSkin .mceSplitButton span.mce_dws_buttons,
-.wp_themeSkin span.mce_dws_icons,
-.wp_themeSkin span.mce_dws_tabs,
-.wp_themeSkin .mceSplitButton span.mce_dws_collapse {
+.wp_themeSkin .mceSplitButton span.mce_bs_grid,
+.wp_themeSkin .mceSplitButton span.mce_bs_alerts,
+.wp_themeSkin .mceSplitButton span.mce_bs_wells,
+.wp_themeSkin .mceSplitButton span.mce_bs_buttons,
+.wp_themeSkin span.mce_bs_icons,
+.wp_themeSkin span.mce_bs_tabs,
+.wp_themeSkin .mceSplitButton span.mce_bs_collapse {
     background: url(../images/dwicons.png) no-repeat !important;
 }
 
-.wp_themeSkin .mceSplitButton span.mce_dws_grid {
+.wp_themeSkin .mceSplitButton span.mce_bs_grid {
     background-position: -5px -19px !important;
 }
 
-.wp_themeSkin .mceSplitButton:hover span.mce_dws_grid,
-.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_dws_grid {
+.wp_themeSkin .mceSplitButton:hover span.mce_bs_grid,
+.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_bs_grid {
     background-position: -5px 0 !important;
 }
 
-.wp_themeSkin .mceSplitButton span.mce_dws_alerts {
+.wp_themeSkin .mceSplitButton span.mce_bs_alerts {
     background-position: -25px -19px !important;
 }
 
-.wp_themeSkin .mceSplitButton:hover span.mce_dws_alerts,
-.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_dws_alerts  {
+.wp_themeSkin .mceSplitButton:hover span.mce_bs_alerts,
+.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_bs_alerts  {
     background-position: -25px 0 !important;
 }
 
-.wp_themeSkin .mceSplitButton span.mce_dws_wells {
+.wp_themeSkin .mceSplitButton span.mce_bs_wells {
     background-position: -129px -19px !important;
 }
 
-.wp_themeSkin .mceSplitButton:hover span.mce_dws_wells,
-.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_dws_wells  {
+.wp_themeSkin .mceSplitButton:hover span.mce_bs_wells,
+.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_bs_wells  {
     background-position: -129px 0 !important;
 }
 
-.wp_themeSkin .mceSplitButton span.mce_dws_buttons {
+.wp_themeSkin .mceSplitButton span.mce_bs_buttons {
     background-position: -46px -19px !important;
 }
 
-.wp_themeSkin .mceSplitButton:hover span.mce_dws_buttons,
-.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_dws_buttons  {
+.wp_themeSkin .mceSplitButton:hover span.mce_bs_buttons,
+.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_bs_buttons  {
     background-position: -46px 0 !important;
 }
 
-.wp_themeSkin span.mce_dws_icons {
+.wp_themeSkin span.mce_bs_icons {
     background-position: -67px -20px !important;
 }
 
-.wp_themeSkin span.mce_dws_icons:hover  {
+.wp_themeSkin span.mce_bs_icons:hover  {
     background-position: -67px -1px !important;
 }
 
-.wp_themeSkin span.mce_dws_tabs {
+.wp_themeSkin span.mce_bs_tabs {
     background-position: -88px -20px !important;
 }
 
-.wp_themeSkin span.mce_dws_tabs:hover {
+.wp_themeSkin span.mce_bs_tabs:hover {
     background-position: -88px -1px !important;
 }
 
-.wp_themeSkin .mceSplitButton span.mce_dws_collapse {
+.wp_themeSkin .mceSplitButton span.mce_bs_collapse {
     background-position: -109px -20px !important;
 }
 
-.wp_themeSkin .mceSplitButton:hover span.mce_dws_collapse,
-.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_dws_collapse  {
+.wp_themeSkin .mceSplitButton:hover span.mce_bs_collapse,
+.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_bs_collapse  {
     background-position: -109px -1px !important;
 }
 
@@ -92,24 +92,24 @@
 
 /* Iframe
 -------------------------------------------------------------- */
-#dws-wrapper {
+#bs-wrapper {
     padding: 20px;
 }
 
-#dws-wrapper .nav-tabs > .active > a > [class^="icon-"],
-#dws-wrapper .nav-tabs > .active > a > [class*=" icon-"] {
+#bs-wrapper .nav-tabs > .active > a > [class^="icon-"],
+#bs-wrapper .nav-tabs > .active > a > [class*=" icon-"] {
     background-image: url("../images/glyphicons-halflings.png");
 }
 
-#dws-wrapper .nav-tabs .add-new {
+#bs-wrapper .nav-tabs .add-new {
     float: right;
 }
 
-#dws-wrapper .nav-tabs li a {
+#bs-wrapper .nav-tabs li a {
     outline: none;
 }
 
-#dws-wrapper .nav-tabs .delete-tab {
+#bs-wrapper .nav-tabs .delete-tab {
     margin: 0 0 0 5px;
     display: none;
     height: 16px;
@@ -118,17 +118,17 @@
     width: 16px;
 }
 
-#dws-wrapper .nav-tabs .active .delete-tab {
+#bs-wrapper .nav-tabs .active .delete-tab {
     display: inline-block;
 }
 
-#dws-wrapper .nav-tabs .active .delete-tab:hover {
+#bs-wrapper .nav-tabs .active .delete-tab:hover {
     background: #bbb;
     border-radius: 20px;
     color: #fff;
 }
 
-#dws-wrapper .tab-content textarea {
+#bs-wrapper .tab-content textarea {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -138,9 +138,9 @@
     min-height: 120px;
 }
 
-#dws-wrapper .tab-content input[type=text],
-#dws-wrapper .tab-content select,
-#dws-wrapper #dws-grid input[type=number] {
+#bs-wrapper .tab-content input[type=text],
+#bs-wrapper .tab-content select,
+#bs-wrapper #bs-grid input[type=number] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -149,7 +149,7 @@
     height: 30px;
 }
 
-#dws-wrapper #dws-grid form {
+#bs-wrapper #bs-grid form {
     margin: 0;
 }
 
