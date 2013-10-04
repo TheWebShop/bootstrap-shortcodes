@@ -3,7 +3,7 @@
 Plugin Name: Bootstrap Shortcodes
 Plugin URI: https://github.com/TheWebShop/bootstrap-shortcodes
 Description: A simple shortcode generator. Add buttons, columns, toggles and alerts to your theme.
-Version: 1.1.0
+Version: 1.2.0
 Author: Kevin Attfield 
 Author URI: https://github.com/Sinetheta
 
@@ -29,11 +29,6 @@ class BootstrapShortcodes{
     );
 
     public function __construct() {
-        if ( !defined( 'BOOTSTRAP_SHORTCODES_PLUGIN_URL' ) ) {
-            define( 'BOOTSTRAP_SHORTCODES_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-            define( 'BOOTSTRAP_SHORTCODES_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-        }
-
         add_action( 'init' , array( &$this, 'init' ) );
 
         register_activation_hook(__FILE__, array(&$this, 'add_options_defaults'));
@@ -44,6 +39,7 @@ class BootstrapShortcodes{
 
     function init() {
         $options = get_option('bs_options');
+
         if(!is_admin()){
             if( isset($options['bs_boostrap_css']) && $options['bs_boostrap_css'] ){
                 wp_enqueue_style("bs_bootstrap", plugins_url('css/bootstrap.css', __FILE__ ) );
@@ -88,12 +84,10 @@ class BootstrapShortcodes{
         return $plgs;
     }
 
-    /* Add menu page. */
     function register_settings_page() {
         add_options_page(__('Bootstrap Shortcodes options','dwshortcodes'), __('Bootstrap Shortcode options','dwshortcodes'), 'manage_options', __FILE__, array(&$this, 'dw_render_form'));
     }
 
-    /* Define default option settings. */
     function add_options_defaults() {
             $arr = array( 
                 "chk_default_options_css"       => "1",
@@ -108,13 +102,9 @@ class BootstrapShortcodes{
             update_option( 'bs_options', $arr );
     }
 
-    /* Init plugin options to white list our options. */
     function register_settings(){
-
         register_setting( 'bs_plugin_options', 'bs_options' );
-
     }
-
 
     function dw_render_form() {
         ?>
@@ -165,8 +155,7 @@ class BootstrapShortcodes{
                 </p>
             </form>
 
-        </div>
-        <?php 
+        </div><?php
     }
 }
 $bscodes = new BootstrapShortcodes();
