@@ -3,7 +3,7 @@ Contributors: sinetheta, beaurixon, Designwall Team
 Tags: shortcode, shortcodes, bootstrap, buttons, grid, well, responsive, widget
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 1.3
+Stable tag: 1.4
 License: GNU General Public License v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,10 @@ Please report issues [here](https://github.com/TheWebShop/bootstrap-shortcodes/i
 
 == Changelog ==
 
-= 1.2 =
+= 1.4 =
+* Added support for tabs
+
+= 1.3 =
 * Added support for leads
 
 = 1.2 =

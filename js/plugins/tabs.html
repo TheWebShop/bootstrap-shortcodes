@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../css/bootstrap.css" />
+    <link rel="stylesheet" href="../../css/admin.css" />
+    <script type="text/javascript" src="../jquery.js"></script>
+    <script type="text/javascript" src="../bootstrap.js"></script>
+
+    <script type="text/javascript">
+    jQuery(function($) {
+        $('[data-editable]').live('click', function() {
+            if ($(this).find('input').length > 0) return;
+            var val = $.trim($(this).html());
+            $(this).html('<input type="text" />').find('input')[0].focus();
+            $(this).find('input').val(val);
+            $(this).find('input')[0].select();
+            var attr = $(this).attr('data-removable');
+
+            if (typeof attr !== 'undefined' && attr !== false) {
+                $('<i class="icon-remove" style="position:absolute; cursor:pointer; margin:6px 0 0 7px;"></i>').appendTo(this).click(function() {
+                    $(this).parent().remove();
+                })
+                    .hover(function() {
+                        $(this).parent()[0].removeAttribute('data-editable');
+                    }, function() {
+                        $(this).parent()[0].setAttribute('data-editable', 'true');
+                        $(this).parent().find('input')[0].focus();
+                    })
+            }
+        })
+
+        $('[data-editable] input').live('blur', function() {
+
+            $(this).parent().html($(this).val())
+            swich_column()
+        })
+
+
+
+
+        $('input[name=type]').on('change', function() {
+            if (this.id == 'sl_container') {
+                $('#c_parent').hide();
+            } else {
+                $('#c_parent').show();
+            }
+        })
+
+        /**
+         * Save tab
+         */
+        $('#savetab').click(function() {
+            var id = $('#txt_id').val();
+            var title = $('#txt_tabtitle').val();
+            var content = $('#txt_content').val();
+            var mparent = $('#sl_parent').val();
+            if (id.indexOf('#') > -1) {
+                $(id).html('<p>' + content + '</p>');
+                $('#myTab a[href=' + id + ']').text(title);
+                if (mparent != '') $('#myTab a[href=' + id + ']').parent().removeClass('active').appendTo($('#' + mparent).next());
+            } else {
+                $('#' + id).html(title + '<b class="caret"></b>')
+            }
+            $('#fields').hide();
+            $(this).hide();
+            $('#deletetab').hide();
+            $('.alert-info').fadeIn().delay(500).fadeOut();
+            $('#newtab').show();
+        });
+
+
+
+        /**
+         * Create new tab
+         */
+        $('#newtab').click(function(e) {
+            $('input[name=type]').each(function() {
+                this.removeAttribute('disabled')
+            });
+            if ($('#fields').is(':hidden')) {
+                $('#fields').fadeIn();
+                $('#txt_tabtitle').val('New tab');
+                $('#sl_tab')[0].checked = true;
+                $('#sl_parent').val('');
+                $('#txt_content').val('');
+                $('#c_parent').show();
+                $(this).val('Save');
+                return;
+            }
+            var title = $('#txt_tabtitle').val();
+            var type = $('input[name=type]:checked').val();
+            var mparent = $('#sl_parent').val();
+            var content = $('#txt_content').val();
+            var id = 'bs_tab' + e.timeStamp;
+
+            if (type == 'tab') {
+                if (mparent == '') {
+
+                    $('#myTab').append('<li><a data-toggle="tab" href="#' + id + '">' + title + '</a></li>');
+                    $('#myTabContent').append('<div id="' + id + '" class="tab-pane fade"><p>' + content + '</p></div>');
+                } else {
+                    $('#' + mparent).next().append('<li><a data-toggle="tab" href="#' + id + '">' + title + '</a></li>');
+                    $('#myTabContent').append('<div id="' + id + '" class="tab-pane fade"><p>' + content + '</p></div>');
+                }
+            } else {
+                $('#myTab').append('<li class="dropdown"><a id="' + id + '" data-toggle="dropdown" class="dropdown-toggle" href="#">' + title + '<b class="caret"></b></a><ul class="dropdown-menu"></ul></li>');
+                $('#sl_parent').append('<option value="' + id + '">' + title + '</option>');
+            }
+            $('#fields').hide();
+            $(this).val('Insert new tab');
+            $('.alert-success').fadeIn().delay(500).fadeOut();
+        })
+
+        /**
+         * Insert button
+         */
+        $('#btn_insert').click(function(e) {
+            //Generate shortcode
+            //--------------
+            //  [tabs]
+            //    [thead]
+            //      [tab type="tab" href="#link" title="title"]
+            //      [dropdown title="title"]
+            //        [tab type="tab" href="#link" title="title"]
+            //      [/dropdown]
+            //    [/thead]
+            //    [tcontents]
+            //      [tcontent id="link"]
+            //      [/tcontent]
+            //    [/tcontents]
+            //  [/tabs]
+            //  ---------------
+
+            //Clean tab
+            $('#myTab li.add-new').remove();
+            $('#myTabContent').find('#bs_container,#bs_new_tab').remove();
+            var shortcode = '[tabs]<br class="nc"/>[thead]<br class="nc"/>';
+            var tid = Math.floor((Math.random() * 100) + 1);
+            //Generate header
+            $('#myTab>li').each(function(i, e) {
+                var $this = $(this);
+                var title = $this.find('a:first').text();
+                var href = $this.find('a:first').attr('href') + tid;
+                var sclass = (i == 0) ? 'active' : '';
+                if ($this.hasClass('dropdown')) {
+                    var id = $this.find('a:first').attr('id') + tid;
+                    shortcode += '[dropdown id="' + id + '" title="' + title + '"]<br class="nc"/>';
+                    var subcode = '';
+                    $(this).find('li').each(function() {
+                        var shref = $(this).find('a').attr('href') + tid;
+                        var stitle = $(this).find('a').text();
+
+                        subcode += '[tab type="tab" href="' + shref + '" title="' + stitle + '"]<br class="nc"/>';
+                    });
+                    shortcode += subcode;
+                    shortcode += '[/dropdown]<br class="nc"/>';
+                } else {
+
+                    shortcode += '[tab class="' + sclass + '"  type="tab" href="' + href + '" title="' + title + '"]<br class="nc"/>';
+                }
+
+            })
+            shortcode += '[/thead][tcontents]<br class="nc"/>';
+
+            //Generate content
+            $('#myTabContent > div').each(function(j, e) {
+                var content = $(this).find('.tab_content').val();
+                var id = this.id + tid;
+                sclass = (j == 0) ? 'active' : '';
+                shortcode += '[tcontent  class="' + sclass + '"  id="' + id + '"]' + content + '[/tcontent]<br class="nc"/>';
+            });
+            shortcode += '[/tcontents]<br class="nc"/>[/tabs]';
+
+            parent.tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
+
+            parent.tb_remove();
+        })
+
+
+        $('.tab_title').live('keyup', function() {
+            var tid = $(this).closest('.tab-pane').attr('id');
+            if (tid != 'bs_container') {
+                $('a[href="#' + tid + '"]').html($(this).val());
+            } else {
+                $('#myTab > li.active > a ').html($(this).val() + ' <b class="caret"></b>');
+                $('.tab_parent option[value=' + $('#myTab > li.active > a ').attr('id') + ']').text($(this).val());
+            }
+        })
+
+        /**
+         * Tab delete
+         */
+        $('.tab-delete').live('click', function() {
+            var id = $(this).closest('.tab-pane').attr('id');
+            $(this).closest('.tab-pane').remove();
+            $('#myTab a[href=#' + id + ']').closest('li').remove();
+
+        });
+
+        $('.cnt-delte').click(function() {
+            $('.tab_parent option[value=' + $('#myTab > li.active > a ').attr('id') + ']').remove();
+            $('#myTab > li.active .dropdown-menu li a').each(function() {
+                var id = $(this).attr('href')
+                $(id).remove();
+            })
+
+            $('#myTab > li.active').remove();
+            $(this).closest('.tab-pane').removeClass('active in');
+
+        })
+
+        /**
+         * Tab focus
+         */
+        $('#myTab').on('click', 'a', function(e) {
+            e.preventDefault();
+            var title = $(this).text();
+            var type = $(this).hasClass('dropdown-toggle') ? 'container' : 'tab';
+            var mparent = '';
+            if (type == 'tab' && ($(this).closest('li.dropdown').length > 0)) {
+                mparent = $.trim($(this).closest('li.dropdown').find('a:first').attr('id'));
+                $($(this).attr('href')).find('.tab_parent').val(mparent);
+            }
+
+            if (type == 'container') {
+                $('#myTab > .active').removeClass('active')
+                $(this).closest('.dropdown').addClass('active');
+                $('#myTabContent > .active').removeClass('active').removeClass('in').end()
+                    .find('#bs_container').addClass('active').addClass('in');
+
+                $('#myTabContent > .active').find('.tab_title').val($(this).html().replace(' <b class="caret"></b>', ''));
+
+            }
+
+        });
+
+        /*
+         * Tab parent change
+         */
+        $('.tab_parent').live('change', function() {
+
+            if ($(this).attr('id')) return;
+            var id = '#' + $(this).closest('.tab-pane').attr('id'),
+                pid = $(this).val();
+            $('#myTab >li').removeClass('active');
+            if (pid != '') {
+                $('#myTab a[href=' + id + ']').parent().removeClass('active').appendTo($('#' + pid).next());
+            } else {
+                if ($('#myTab a[href=' + id + ']').closest('.dropdown').length == 0) return
+                $('#myTab a[href=' + id + ']').parent().addClass('active').prependTo($('#myTab'));
+            }
+        })
+
+        $('#new_type').on('change', function() {
+            if ($(this).val() == 1) {
+                $('#new_parent,#new_content').hide();
+            } else {
+                $('#new_parent,#new_content').show();
+            }
+        });
+
+        $('.add-new').on('click', function() {
+            $('#new_title').val($('#new_title').attr('placeholder'));
+            $('#new_type').val('');
+            $('#new_parent').val('').show();
+            $('#new_content').val('').show();
+        })
+
+        $('#new_tab').click(function(e) {
+            var title = $('#new_title').val();
+            var type = $('#new_type').val();
+            var mparent = $('#new_parent').val();
+            var content = '<input type="text" class="tab_title" value="' + title + '" />\
+      <select class="tab_parent"> ' + $('.tab_parent:first').html() + '\
+      </select>\
+      <textarea class="tab_content">' + $('#new_content').val() + '</textarea>\
+        <button class="tab-delete btn"><i class="icon-trash"></i> Remove</button>';
+
+
+            var id = 'bs_tab' + e.timeStamp;
+
+            if (type != 1) {
+                if (mparent == '') {
+                    $('#myTab').append('<li><a data-toggle="tab" href="#' + id + '">' + title + '</a></li>');
+                    $('#myTabContent').append('<div id="' + id + '" class="tab-pane fade"><p>' + content + '</p></div>');
+                } else {
+                    $('#' + mparent).next().append('<li><a data-toggle="tab" href="#' + id + '">' + title + '</a></li>');
+                    $('#myTabContent').append('<div id="' + id + '" class="tab-pane fade"><p>' + content + '</p></div>');
+                }
+                $('a[href=#' + id + ']').trigger('click')
+            } else {
+                $('#myTab').append('<li class="dropdown"><a id="' + id + '" data-toggle="dropdown" class="dropdown-toggle" href="#">' + title + ' <b class="caret"></b></a><ul class="dropdown-menu"></ul></li>');
+                $('.tab_parent').append('<option value="' + id + '">' + title + '</option>');
+                $('#' + id).trigger('click')
+            }
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div id="bs-wrapper">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active"><a href="#bs_first_tab" data-toggle="tab">Tab title</a>
+            </li>
+            <li class="dropdown">
+                <a id="bs_dropdown" href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#bs_dropdown1" data-toggle="tab">@fat</a>
+                    </li>
+                    <li><a href="#bs_dropdown2" data-toggle="tab">@mdo</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="add-new"><a href="#bs_new_tab" data-toggle="tab"><i class="glyphicon glyphicon-plus-sign" title="Add new tab"></i></a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="bs_first_tab">
+                <input type="text" class="tab_title" value="Tab title" />
+                <select class="tab_parent">
+                    <option value="">- Select tab parent -</option>
+                    <option value="bs_dropdown">Dropdown</option>
+                </select>
+                <textarea class="tab_content">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</textarea>
+                <button class="tab-delete btn"><i class="icon-trash"></i> Remove</button>
+            </div>
+
+            <div class="tab-pane fade" id="bs_container">
+                <input type="text" class="tab_title" value="Tab title" />
+                <button class="cnt-delte btn" style="display:block"><i class="icon-trash"></i> Remove</button>
+            </div>
+            <div class="tab-pane fade" id="bs_dropdown1">
+                <input type="text" class="tab_title" value="@fat" />
+                <select class="tab_parent">
+                    <option value="">- Select tab parent -</option>
+                    <option value="bs_dropdown">Dropdown</option>
+                </select>
+                <textarea class="tab_content">Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone.</textarea>
+                <button class="tab-delete btn"><i class="icon-trash"></i> Remove</button>
+            </div>
+            <div class="tab-pane fade" id="bs_dropdown2">
+                <input type="text" class="tab_title" value="@mdo" />
+                <select class="tab_parent">
+                    <option value="">- Select tab parent -</option>
+                    <option value="bs_dropdown">Dropdown</option>
+                </select>
+                <textarea class="tab_content">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica.</textarea>
+                <button class="tab-delete btn"><i class="icon-trash"></i> Remove</button>
+            </div>
+            <div class="tab-pane fade" id="bs_new_tab">
+                <input id="new_title" type="text" onfocus="this.select()" placeholder="Tab title" value="Tab Title" />
+                <select id="new_type">
+                    <option value="">- Select tab type -</option>
+                    <option value="0">Tab</option>
+                    <option value="1">Container</option>
+                </select>
+                <select id="new_parent" class="tab_parent">
+                    <option value="">- Select tab parent -</option>
+                    <option value="bs_dropdown">Default tab</option>
+                </select>
+                <textarea id="new_content" placeholder="Tab content"></textarea>
+                <br/>
+                <input id="new_tab" type="button" value="Create new tab" class="btn btn-success" />
+            </div>
+        </div>
+        <hr />
+        <p>
+            <button id="btn_insert" class="btn btn-primary">Insert shortcode</button>
+        </p>
+    </div>
+
+    </div>
+</body>
+
+</html>
