@@ -13,7 +13,7 @@
 
                 c.onRenderMenu.add(function(c, m) {
                     // Boxes & frames
-                    m.add({title : 'Notification', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+                    m.add({title : 'Alerts', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
                     m.add({title : 'Success notification', onclick : function() {
                         tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[notification type="success"]<strong>Well done!</strong>   You successfully read <a href="#" class="alert-link">this important alert message</a>.  [/notification]' );
                     }});   
