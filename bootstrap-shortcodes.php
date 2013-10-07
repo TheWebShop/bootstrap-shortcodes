@@ -10,22 +10,24 @@ Author URI: https://github.com/Sinetheta
 Forked from DW Shortcodes Bootstrap http://wordpress.org/plugins/dw-shortcodes-bootstrap/
 */
 
-require_once('inc/bs_grid.php');
 require_once('inc/bs_alert.php');
-require_once('inc/bs_well.php');
 require_once('inc/bs_buttons.php');
 require_once('inc/bs_collapse.php');
+require_once('inc/bs_grid.php');
 require_once('inc/bs_icons.php');
+require_once('inc/bs_leads.php');
+require_once('inc/bs_well.php');
 
 class BootstrapShortcodes{
 
     public $shortcodes = array(
-        'grid',
-        'collapse',
-        'buttons',
         'alerts',
-        'wells',
-        'icons'
+        'buttons',
+        'collapse',
+        'grid',
+        'icons',
+        'leads',
+        'wells'
     );
 
     public function __construct() {
@@ -92,12 +94,13 @@ class BootstrapShortcodes{
             $arr = array( 
                 "chk_default_options_css"       => "1",
                 "chk_default_options_js"        => "1",
-                "chk_default_options_grid"      => "1",
-                "chk_default_options_collapse"  => "1",
-                "chk_default_options_buttons"   => "1",
                 "chk_default_options_alerts"    => "1",
-                "chk_default_options_wells"     => "1",
-                "chk_default_options_icons"     => "1"
+                "chk_default_options_buttons"   => "1",
+                "chk_default_options_collapse"  => "1",
+                "chk_default_options_grid"      => "1",
+                "chk_default_options_icons"     => "1",
+                "chk_default_options_leads"     => "1",
+                "chk_default_options_wells"     => "1"
             );
             update_option( 'bs_options', $arr );
     }
