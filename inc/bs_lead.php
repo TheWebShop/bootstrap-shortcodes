@@ -1,5 +1,7 @@
-<?php 
-function bs_leads($params, $content = null){
+<?php
+
+function bs_lead($params, $content = null){
+	
     $content = preg_replace('/<br class="nc".\/>/', '', $content);
     $result = '<div class="lead">';
     $result .= do_shortcode($content );
@@ -7,4 +9,4 @@ function bs_leads($params, $content = null){
 
     return force_balance_tags( $result );
 }
-add_shortcode('lead', 'dws_lead');
+add_shortcode('lead', 'bs_lead');

@@ -10,26 +10,26 @@ Author URI: https://github.com/Sinetheta
 Forked from DW Shortcodes Bootstrap http://wordpress.org/plugins/dw-shortcodes-bootstrap/
 */
 
-require_once('inc/bs_alert.php');
-require_once('inc/bs_buttons.php');
-require_once('inc/bs_collapse.php');
 require_once('inc/bs_grid.php');
-require_once('inc/bs_icons.php');
-require_once('inc/bs_leads.php');
 require_once('inc/bs_tabs.php');
+require_once('inc/bs_collapse.php');
+require_once('inc/bs_alert.php');
 require_once('inc/bs_well.php');
+require_once('inc/bs_buttons.php');
+require_once('inc/bs_icons.php');
+require_once('inc/bs_lead.php');
 
 class BootstrapShortcodes{
 
     public $shortcodes = array(
-        'alerts',
-        'buttons',
-        'collapse',
         'grid',
-        'icons',
-        'leads',
         'tabs',
-        'wells'
+        'collapse',
+        'alerts',
+        'wells',
+        'buttons',
+        'icons',
+        'lead'
     );
 
     public function __construct() {
@@ -89,21 +89,21 @@ class BootstrapShortcodes{
     }
 
     function register_settings_page() {
-        add_options_page(__('Bootstrap Shortcodes options','dwshortcodes'), __('Bootstrap Shortcode options','dwshortcodes'), 'manage_options', __FILE__, array(&$this, 'dw_render_form'));
+        add_options_page(__('BS Shortcodes','bsshortcodes'), __('BS Shortcodes','bsshortcodes'), 'manage_options', __FILE__, array(&$this, 'dw_render_form'));
     }
 
     function add_options_defaults() {
             $arr = array( 
                 "chk_default_options_css"       => "1",
                 "chk_default_options_js"        => "1",
-                "chk_default_options_alerts"    => "1",
-                "chk_default_options_buttons"   => "1",
-                "chk_default_options_collapse"  => "1",
                 "chk_default_options_grid"      => "1",
-                "chk_default_options_icons"     => "1",
-                "chk_default_options_leads"     => "1",
                 "chk_default_options_tabs"      => "1",
-                "chk_default_options_wells"     => "1"
+                "chk_default_options_collapse"  => "1",
+                "chk_default_options_alerts"    => "1",
+                "chk_default_options_wells"     => "1",
+                "chk_default_options_buttons"   => "1",
+                "chk_default_options_icons"     => "1",
+                "chk_default_options_lead"      => "1"
             );
             update_option( 'bs_options', $arr );
     }
@@ -165,3 +165,4 @@ class BootstrapShortcodes{
     }
 }
 $bscodes = new BootstrapShortcodes();
+= new BootstrapShortcodes();
