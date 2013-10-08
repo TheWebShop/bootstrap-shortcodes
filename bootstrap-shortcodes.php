@@ -165,4 +165,3 @@ class BootstrapShortcodes{
     }
 }
 $bscodes = new BootstrapShortcodes();
-= new BootstrapShortcodes();
