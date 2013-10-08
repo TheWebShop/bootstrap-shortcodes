@@ -3,7 +3,7 @@
 Plugin Name: Bootstrap Shortcodes
 Plugin URI: https://github.com/TheWebShop/bootstrap-shortcodes
 Description: A simple shortcode generator. Add buttons, columns, toggles and alerts to your theme.
-Version: 1.4.0
+Version: 1.4.2
 Author: Kevin Attfield 
 Author URI: https://github.com/Sinetheta
 
@@ -45,11 +45,11 @@ class BootstrapShortcodes{
         $options = get_option('bs_options');
 
         if(!is_admin()){
-            if( isset($options['bs_boostrap_css']) && $options['bs_boostrap_css'] ){
+            if( isset($options['chk_default_options_css']) && $options['chk_default_options_css'] ){
                 wp_enqueue_style("bs_bootstrap", plugins_url('css/bootstrap.css', __FILE__ ) );
                 wp_enqueue_style("bs_shortcodes", plugins_url('css/shortcodes.css', __FILE__ ) );
             }
-            if( isset($options['bs_bootstrap_js']) && $options['bs_bootstrap_js'] )
+            if( isset($options['chk_default_options_js']) && $options['chk_default_options_js'] )
                 wp_enqueue_script('bs_bootstrap', plugins_url('js/bootstrap.js', __FILE__ ) ,array('jquery'));
         } else {
             wp_enqueue_style("bs_admin_style", plugins_url('css/admin.css', __FILE__ ) );
