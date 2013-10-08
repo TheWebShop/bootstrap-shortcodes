@@ -6,7 +6,7 @@
             switch (n) {                
                 case 'bs_grid':
                 var c = cm.createSplitButton('bs_grid', {
-                    title : 'Fluid grid system',
+                    title : 'Grid',
                     onclick : function() {
                     }
                 });
