@@ -7,4 +7,4 @@ function bs_leads($params, $content = null){
 
     return force_balance_tags( $result );
 }
-add_shortcode('lead', 'dws_lead');
+add_shortcode('leads', 'bs_leads');
