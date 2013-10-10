@@ -3,7 +3,7 @@
 Plugin Name: Bootstrap Shortcodes
 Plugin URI: https://github.com/TheWebShop/bootstrap-shortcodes
 Description: A simple shortcode generator. Add buttons, columns, toggles and alerts to your theme.
-Version: 1.4.2
+Version: 1.4.3
 Author: Kevin Attfield 
 Author URI: https://github.com/Sinetheta
 
@@ -140,7 +140,7 @@ class BootstrapShortcodes{
                         <th scope="row">Twitter Bootstrap Shortcodes</th>
                         <td>
 
-                            <? foreach ($this->shortcodes as &$shortcode): ?>
+                            <?php foreach ($this->shortcodes as &$shortcode): ?>
                             <label>
                                 <input 
                                     name="bs_options[chk_default_options_<?php echo $shortcode; ?>]"
