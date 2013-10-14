@@ -18,6 +18,7 @@ require_once('inc/bs_icons.php');
 require_once('inc/bs_leads.php');
 require_once('inc/bs_tabs.php');
 require_once('inc/bs_well.php');
+require_once('inc/bs_tooltip.php');
 
 class BootstrapShortcodes{
 
@@ -29,7 +30,8 @@ class BootstrapShortcodes{
         'icons',
         'leads',
         'tabs',
-        'wells'
+        'wells',
+    	'tooltip'	
     );
 
     public function __construct() {
@@ -103,7 +105,8 @@ class BootstrapShortcodes{
                 "chk_default_options_icons"     => "1",
                 "chk_default_options_leads"     => "1",
                 "chk_default_options_tabs"      => "1",
-                "chk_default_options_wells"     => "1"
+                "chk_default_options_wells"     => "1",
+                "chk_default_options_tooltip"   => "1"
             );
             update_option( 'bs_options', $arr );
     }
