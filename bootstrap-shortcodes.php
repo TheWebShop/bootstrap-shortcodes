@@ -3,7 +3,7 @@
 Plugin Name: Bootstrap Shortcodes
 Plugin URI: https://github.com/TheWebShop/bootstrap-shortcodes
 Description: A simple shortcode generator. Add buttons, columns, toggles and alerts to your theme.
-Version: 1.4.3
+Version: 1.5.0
 Author: Kevin Attfield 
 Author URI: https://github.com/Sinetheta
 
@@ -31,7 +31,7 @@ class BootstrapShortcodes{
         'buttons',
         'icons',
         'lead',
-    	'tooltip'	
+        'tooltip'
     );
 
     public function __construct() {
@@ -47,12 +47,14 @@ class BootstrapShortcodes{
         $options = get_option('bs_options');
 
         if(!is_admin()){
-            if( isset($options['chk_default_options_css']) && $options['chk_default_options_css'] ){
+            if( isset($options['chk_default_options_css']) && $options['chk_default_options_css'] ) {
                 wp_enqueue_style("bs_bootstrap", plugins_url('css/bootstrap.css', __FILE__ ) );
                 wp_enqueue_style("bs_shortcodes", plugins_url('css/shortcodes.css', __FILE__ ) );
             }
-            if( isset($options['chk_default_options_js']) && $options['chk_default_options_js'] )
-                wp_enqueue_script('bs_bootstrap', plugins_url('js/bootstrap.js', __FILE__ ) ,array('jquery'));
+            if( isset($options['chk_default_options_js']) && $options['chk_default_options_js'] ) {
+                wp_enqueue_script('bs_bootstrap', plugins_url('js/bootstrap.js', __FILE__ ) , array('jquery'));
+            }
+            wp_enqueue_script('bs_init', plugins_url('js/init.js', __FILE__ ) , array('bs_bootstrap'));
         } else {
             wp_enqueue_style("bs_admin_style", plugins_url('css/admin.css', __FILE__ ) );
         }
