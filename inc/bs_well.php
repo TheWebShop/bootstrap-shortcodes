@@ -11,4 +11,4 @@ function bs_well($params, $content = null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('well', 'bs_well');
+add_shortcode('bs_well', 'bs_well');

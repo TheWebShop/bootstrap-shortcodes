@@ -10,7 +10,7 @@ function bs_collapse($params, $content = null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('collapse', 'bs_collapse');
+add_shortcode('bs_collapse', 'bs_collapse');
 
 
 function bs_citem($params, $content = null){
@@ -36,4 +36,4 @@ function bs_citem($params, $content = null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('citem', 'bs_citem');
+add_shortcode('bs_citem', 'bs_citem');

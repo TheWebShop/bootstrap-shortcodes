@@ -15,22 +15,22 @@
                     // Boxes & frames
                     m.add({title : 'Fluid grid system', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
                     m.add({title : '12 Columns', onclick : function() {
-                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[col class="col-xs-1"]Text[/col]<br class="nc"/>[/row]' );
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[bs_row class="row"]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-1"]Text[/bs_col]<br class="nc"/>[/bs_row]' );
                     }});
                     m.add({title : '6 Columns', onclick : function() {
-                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-xs-2"]Text[/col]<br class="nc"/>[col class="col-xs-2"]Text[/col]<br class="nc"/>[col class="col-xs-2"]Text[/col]<br class="nc"/>[col class="col-xs-2"]Text[/col]<br class="nc"/>[col class="col-xs-2"]Text[/col]<br class="nc"/>[col class="col-xs-2"]Text[/col]<br class="nc"/>[/row]' );
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[bs_row class="row"]<br class="nc"/>[bs_col class="col-xs-2"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-2"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-2"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-2"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-2"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-2"]Text[/bs_col]<br class="nc"/>[/bs_row]' );
                     }});
                     m.add({title : '4 Columns', onclick : function() {
-                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-xs-3"]Text[/col]<br class="nc"/>[col class="col-xs-3"]Text[/col]<br class="nc"/>[col class="col-xs-3"]Text[/col]<br class="nc"/>[col class="col-xs-3"]Text[/col]<br class="nc"/>[/row]' );
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[bs_row class="row"]<br class="nc"/>[bs_col class="col-xs-3"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-3"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-3"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-3"]Text[/bs_col]<br class="nc"/>[/bs_row]' );
                     }});
                     m.add({title : '3 Columns', onclick : function() {
-                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-xs-4"]Text[/col]<br class="nc"/>[col class="col-xs-4"]Text[/col]<br class="nc"/>[col class="col-xs-4"]Text[/col]<br class="nc"/>[/row]' );
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[bs_row class="row"]<br class="nc"/>[bs_col class="col-xs-4"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-4"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-4"]Text[/bs_col]<br class="nc"/>[/bs_row]' );
                     }});
                     m.add({title : '2 Columns', onclick : function() {
-                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-xs-6"]Text[/col]<br class="nc"/>[col class="col-xs-6"]Text[/col]<br class="nc"/>[/row]' );
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[bs_row class="row"]<br class="nc"/>[bs_col class="col-xs-6"]Text[/bs_col]<br class="nc"/>[bs_col class="col-xs-6"]Text[/bs_col]<br class="nc"/>[/bs_row]' );
                     }}); 
                     m.add({title : '1 Columns', onclick : function() {
-                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[row class="row"]<br class="nc"/>[col class="col-xs-12"]Text[/col]<br class="nc"/>[/row]' );
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[bs_row class="row"]<br class="nc"/>[bs_col class="col-xs-12"]Text[/bs_col]<br class="nc"/>[/bs_row]' );
                     }}); 
                     m.add({title : 'Custom Grid', onclick : function() {
                          tb_show('Custom Grid', '../wp-content/plugins/bootstrap-shortcodes/js/plugins/grid.html?TB_iframe=1');

@@ -68,14 +68,14 @@ $(function(){
 
     $('#btn_insert').click(function(){
 
-        var shortcodes = '[row class="row"]';
+        var shortcodes = '[bs_row class="row"]';
         $('#demo_grid > div').each(function(){
             var clss = $(this).attr('class').replace(' demo_col','');
-            shortcodes+= '<br class="nc"/>[col class="'+clss+'"]Text[/col]';
+            shortcodes+= '<br class="nc"/>[bs_col class="'+clss+'"]Text[/col]';
 
         });
 
-        shortcodes+= '<br class="nc"/>[/row]';
+        shortcodes+= '<br class="nc"/>[/bs_row]';
         parent.tinymce.activeEditor.execCommand('mceInsertContent',false,shortcodes);
 
         parent.tb_remove();

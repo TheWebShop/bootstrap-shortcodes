@@ -1,17 +1,17 @@
 <?php 
 //-------------- 
-//  [tabs]
-//    [thead]
-//      [tab href="#link" title="title"]
-//      [dropdown title="title"]
-//        [tab href="#link" title="title"]
-//      [/dropdown]
-//    [/thead]
-//    [tcontents]
-//      [tcontent id="link"]
-//      [/tcontent]
-//    [/tcontents]
-//  [/tabs]
+//  [bs_tabs]
+//    [bs_thead]
+//      [bs_tab href="#link" title="title"]
+//      [bs_dropdown title="title"]
+//        [bs_tab href="#link" title="title"]
+//      [/bs_dropdown]
+//    [/bs_thead]
+//    [bs_tcontents]
+//      [bs_tcontent id="link"]
+//      [/bs_tcontent]
+//    [/bs_tcontents]
+//  [/bs_tabs]
 //  ---------------
 
 function bs_tabs($params, $content = null){
@@ -21,7 +21,7 @@ function bs_tabs($params, $content = null){
   $result .= '</div>'; 
   return force_balance_tags( $result );
 }
-add_shortcode('tabs', 'bs_tabs');
+add_shortcode('bs_tabs', 'bs_tabs');
 
 function bs_thead($params, $content = null){
   $content = preg_replace('/<br class="nc".\/>/', '', $content);
@@ -30,7 +30,7 @@ function bs_thead($params, $content = null){
   $result .= '</ul>'; 
   return force_balance_tags( $result );
 }
-add_shortcode('thead', 'bs_thead');
+add_shortcode('bs_thead', 'bs_thead');
 
 function bs_tab($params, $content = null){
   extract(shortcode_atts(array(
@@ -45,7 +45,7 @@ function bs_tab($params, $content = null){
   $result .= '</li>'; 
   return force_balance_tags( $result );
 }
-add_shortcode('tab', 'bs_tab');
+add_shortcode('bs_tab', 'bs_tab');
 
 function bs_dropdown($params, $content = null){
   global $bs_timestamp;
@@ -62,7 +62,7 @@ function bs_dropdown($params, $content = null){
   $result .= '</ul></li>'; 
   return force_balance_tags( $result );
 }
-add_shortcode('dropdown', 'bs_dropdown');
+add_shortcode('bs_dropdown', 'bs_dropdown');
 
 function bs_tcontents($params, $content = null){
   $content = preg_replace('/<br class="nc".\/>/', '', $content);
@@ -71,7 +71,7 @@ function bs_tcontents($params, $content = null){
   $result .= '</div>'; 
   return force_balance_tags( $result );
 }
-add_shortcode('tcontents', 'bs_tcontents');
+add_shortcode('bs_tcontents', 'bs_tcontents');
 
 function bs_tcontent($params, $content = null){
   extract(shortcode_atts(array(
@@ -85,4 +85,4 @@ function bs_tcontent($params, $content = null){
   $result .= '</div>'; 
   return force_balance_tags( $result );
 }
-add_shortcode('tcontent', 'bs_tcontent');
+add_shortcode('bs_tcontent', 'bs_tcontent');

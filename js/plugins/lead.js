@@ -7,7 +7,7 @@
                 var c = cm.createButton('bs_lead', {
                     title : 'Lead',
                     onclick : function() {
-                        tinyMCE.activeEditor.execCommand('mceInsertContent', false, '[lead]This is a lead text and needs your attention.[/lead]');
+                        tinyMCE.activeEditor.execCommand('mceInsertContent', false, '[bs_lead]This is a lead text and needs your attention.[/bs_lead]');
                     }
                 });
                 // Return the new splitbutton instance

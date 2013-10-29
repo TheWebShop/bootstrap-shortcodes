@@ -30,24 +30,24 @@
                          /**
                           * Shortcode markup
                           * -----------------------
-                          *      [collapse id="#"]
-                          *         [citem title="" id="" parent=""]
-                          *         [/citem]
-                          *     [/collapse]
+                          *      [bs_collapse id="#"]
+                          *         [bs_citem title="" id="" parent=""]
+                          *         [/bs_citem]
+                          *     [/bs_collapse]
                           *  -----------------------
                           */
                                 var uID =  Math.floor((Math.random()*100)+1);
-                                var shortcode = '[collapse id="collapse_'+uID+'"]<br class="nc"/>';
+                                var shortcode = '[bs_collapse id="collapse_'+uID+'"]<br class="nc"/>';
                                 var num = $menu.find('input[name=itemnum]').val();
                                     for(i=0;i<num;i++){
                                         var id = Math.floor((Math.random()*100)+1);
                                         var title = 'Collapsible Group Item '+(i+1);
-                                        shortcode+= '[citem title="'+title+'" id="citem_'+id+'" parent="collapse_'+uID+'"]<br class="nc"/>';
+                                        shortcode+= '[bs_citem title="'+title+'" id="citem_'+id+'" parent="collapse_'+uID+'"]<br class="nc"/>';
                                         shortcode += 'Collapse content goes here....<br class="nc"/>';
-                                        shortcode += '[/citem]<br class="nc"/>';
+                                        shortcode += '[/bs_citem]<br class="nc"/>';
                                     }
 
-                                shortcode+= '[/collapse]';
+                                shortcode+= '[/bs_collapse]';
 
                                     tinymce.activeEditor.execCommand('mceInsertContent',false,shortcode);
                                     c.hideMenu();

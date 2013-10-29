@@ -10,7 +10,7 @@ function bs_row($params, $content = null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('row', 'bs_row');
+add_shortcode('bs_row', 'bs_row');
 
 function bs_span($params,$content=null){
     extract(shortcode_atts(array(
@@ -22,4 +22,4 @@ function bs_span($params,$content=null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('col', 'bs_span');
+add_shortcode('bs_col', 'bs_span');

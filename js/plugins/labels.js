@@ -15,10 +15,10 @@
                     // Boxes & frames
                     m.add({title : 'Labels & Badges', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
                     m.add({title : 'Default', onclick : function() {
-                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[label]Default[/label]' );
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[bs_label]Default[/bs_label]' );
                     }}); 
                     m.add({title : 'Success', onclick : function() {
-                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[label class="success"]Default[/label]' );
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[bs_label class="success"]Default[/bs_label]' );
                     }});
                 });
 

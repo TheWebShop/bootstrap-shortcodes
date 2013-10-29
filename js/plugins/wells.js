@@ -15,13 +15,13 @@
                     // Boxes & frames
                     m.add({title : 'Well', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
                     m.add({title : 'Small well', onclick : function() {
-                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[well size="sm"]This well needs your attention.[/well]' );
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[bs_well size="sm"]This well needs your attention.[/bs_well]' );
                     }});   
                     m.add({title : 'Medium well', onclick : function() {
-                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[well size="md"]This well needs your attention.[/well]' );
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[bs_well size="md"]This well needs your attention.[/bs_well]' );
                     }});  
                     m.add({title : 'Large well', onclick : function() {
-                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[well size="lg"]This well needs your attention.[/well]' );
+                        tinyMCE.activeEditor.execCommand( 'mceInsertContent', false, '[bs_well size="lg"]This well needs your attention.[/bs_well]' );
                     }});
                    
                 });

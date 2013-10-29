@@ -11,4 +11,4 @@ function bs_notice($params, $content = null){
     $result .= '</div>'; 
     return force_balance_tags( $result );
 }
-add_shortcode('notification', 'bs_notice');
+add_shortcode('bs_notification', 'bs_notice');

@@ -13,7 +13,7 @@
             $('.glyphicons').on('click', 'li', function() {
                 var iclass = $(this).find('.glyphicon').attr('class');
 
-                parent.tinymce.activeEditor.execCommand('mceInsertContent', false, '[icon name="' + iclass + '"]');
+                parent.tinymce.activeEditor.execCommand('mceInsertContent', false, '[bs_icon name="' + iclass + '"]');
                 parent.tb_remove()
             });
         });
