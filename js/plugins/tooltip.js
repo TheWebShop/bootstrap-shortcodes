@@ -46,9 +46,9 @@
                                 var content = $menu.find('input[name=content]').val();
                                 var placement = $menu.find('select[name=placement]').val();
                                 var trigger = $menu.find('select[name=trigger]').val();
-                                var shortcode = '[tooltip placement="' + placement + '" trigger="' + trigger + '"]';
+                                var shortcode = '[bs_tooltip placement="' + placement + '" trigger="' + trigger + '"]';
                                 shortcode+= content;
-                                shortcode+= '[/tooltip]';
+                                shortcode+= '[/bs_tooltip]';
 
                                 tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
                                 c.hideMenu();

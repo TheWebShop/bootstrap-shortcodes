@@ -9,4 +9,4 @@ function bs_icons($params, $content = null){
     $result = '<i class="'.$name.'"></i>';
     return force_balance_tags( $result );
 }
-add_shortcode('icon', 'bs_icons');
+add_shortcode('bs_icon', 'bs_icons');

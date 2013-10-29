@@ -119,24 +119,24 @@
         $('#btn_insert').click(function(e) {
             //Generate shortcode
             //--------------
-            //  [tabs]
-            //    [thead]
-            //      [tab type="tab" href="#link" title="title"]
-            //      [dropdown title="title"]
-            //        [tab type="tab" href="#link" title="title"]
-            //      [/dropdown]
-            //    [/thead]
-            //    [tcontents]
-            //      [tcontent id="link"]
-            //      [/tcontent]
-            //    [/tcontents]
-            //  [/tabs]
+            //  [bs_tabs]
+            //    [bs_thead]
+            //      [bs_tab type="tab" href="#link" title="title"]
+            //      [bs_dropdown title="title"]
+            //        [bs_tab type="tab" href="#link" title="title"]
+            //      [/bs_dropdown]
+            //    [/bs_thead]
+            //    [bs_tcontents]
+            //      [bs_tcontent id="link"]
+            //      [/bs_tcontent]
+            //    [/bs_tcontents]
+            //  [/bs_tabs]
             //  ---------------
 
             //Clean tab
             $('#myTab li.add-new').remove();
             $('#myTabContent').find('#bs_container,#bs_new_tab').remove();
-            var shortcode = '[tabs]<br class="nc"/>[thead]<br class="nc"/>';
+            var shortcode = '[bs_tabs]<br class="nc"/>[bs_thead]<br class="nc"/>';
             var tid = Math.floor((Math.random() * 100) + 1);
             //Generate header
             $('#myTab>li').each(function(i, e) {
@@ -146,32 +146,32 @@
                 var sclass = (i == 0) ? 'active' : '';
                 if ($this.hasClass('dropdown')) {
                     var id = $this.find('a:first').attr('id') + tid;
-                    shortcode += '[dropdown id="' + id + '" title="' + title + '"]<br class="nc"/>';
+                    shortcode += '[bs_dropdown id="' + id + '" title="' + title + '"]<br class="nc"/>';
                     var subcode = '';
                     $(this).find('li').each(function() {
                         var shref = $(this).find('a').attr('href') + tid;
                         var stitle = $(this).find('a').text();
 
-                        subcode += '[tab type="tab" href="' + shref + '" title="' + stitle + '"]<br class="nc"/>';
+                        subcode += '[bs_tab type="tab" href="' + shref + '" title="' + stitle + '"]<br class="nc"/>';
                     });
                     shortcode += subcode;
-                    shortcode += '[/dropdown]<br class="nc"/>';
+                    shortcode += '[/bs_dropdown]<br class="nc"/>';
                 } else {
 
-                    shortcode += '[tab class="' + sclass + '"  type="tab" href="' + href + '" title="' + title + '"]<br class="nc"/>';
+                    shortcode += '[bs_tab class="' + sclass + '"  type="tab" href="' + href + '" title="' + title + '"]<br class="nc"/>';
                 }
 
             })
-            shortcode += '[/thead][tcontents]<br class="nc"/>';
+            shortcode += '[/bs_thead][bs_tcontents]<br class="nc"/>';
 
             //Generate content
             $('#myTabContent > div').each(function(j, e) {
                 var content = $(this).find('.tab_content').val();
                 var id = this.id + tid;
                 sclass = (j == 0) ? 'active' : '';
-                shortcode += '[tcontent  class="' + sclass + '"  id="' + id + '"]' + content + '[/tcontent]<br class="nc"/>';
+                shortcode += '[bs_tcontent  class="' + sclass + '"  id="' + id + '"]' + content + '[/bs_tcontent]<br class="nc"/>';
             });
-            shortcode += '[/tcontents]<br class="nc"/>[/tabs]';
+            shortcode += '[/bs_tcontents]<br class="nc"/>[/bs_tabs]';
 
             parent.tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
 

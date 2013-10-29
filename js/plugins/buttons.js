@@ -47,7 +47,7 @@
                                     var size = $menu.find('select[name=size]').val();
                                     var type = $menu.find('select[name=type]').val();
                                     var link = $menu.find('input[name=link]').val();
-                                    tinymce.activeEditor.execCommand('mceInsertContent',false,'[button size="'+size.toLowerCase()+'" type="'+type.toLowerCase()+'" value="'+type+'" href="'+link+'"]');
+                                    tinymce.activeEditor.execCommand('mceInsertContent',false,'[bs_button size="'+size.toLowerCase()+'" type="'+type.toLowerCase()+'" value="'+type+'" href="'+link+'"]');
                                     c.hideMenu();
                                 }).wrap('<div style="padding: 0 10px 10px"></div>')
                  

@@ -9,4 +9,4 @@ function bs_lead($params, $content = null){
 
     return force_balance_tags( $result );
 }
-add_shortcode('lead', 'bs_lead');
+add_shortcode('bs_lead', 'bs_lead');
