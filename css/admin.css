@@ -6,6 +6,7 @@
 .wp_themeSkin .mceSplitButton span.mce_bs_alerts,
 .wp_themeSkin .mceSplitButton span.mce_bs_wells,
 .wp_themeSkin .mceSplitButton span.mce_bs_buttons,
+.wp_themeSkin .mceSplitButton span.mce_bs_labels,
 .wp_themeSkin .mceSplitButton span.mce_bs_tooltip,
 .wp_themeSkin span.mce_bs_icons,
 .wp_themeSkin span.mce_bs_lead {
@@ -57,6 +58,14 @@
 .wp_themeSkin .mceSplitButton:hover span.mce_bs_buttons,
 .wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_bs_buttons  {
     background-position: -107px 0px !important;
+}
+
+.wp_themeSkin .mceSplitButton span.mce_bs_labels {
+    background-position: -191px -19px !important;
+}
+.wp_themeSkin .mceSplitButton:hover span.mce_bs_labels,
+.wp_themeSkin .mceSplitButtonSelected .mceSplitButton span.mce_bs_labels  {
+    background-position: -191px 0px !important;
 }
 
 .wp_themeSkin .mceSplitButton span.mce_bs_tooltip {
