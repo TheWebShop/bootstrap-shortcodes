@@ -3,7 +3,7 @@
 Plugin Name: Bootstrap Shortcodes
 Plugin URI: https://github.com/TheWebShop/bootstrap-shortcodes
 Description: A simple shortcode generator. Add buttons, columns, toggles and alerts to your theme.
-Version: 2.0
+Version: 2.1
 Author: Kevin Attfield 
 Author URI: https://github.com/Sinetheta
 
@@ -16,6 +16,7 @@ require_once('inc/bs_collapse.php');
 require_once('inc/bs_alert.php');
 require_once('inc/bs_well.php');
 require_once('inc/bs_buttons.php');
+require_once('inc/bs_labels.php');
 require_once('inc/bs_icons.php');
 require_once('inc/bs_lead.php');
 require_once('inc/bs_tooltip.php');
@@ -29,6 +30,7 @@ class BootstrapShortcodes{
         'alerts',
         'wells',
         'buttons',
+        'labels',
         'icons',
         'lead',
         'tooltip'
@@ -106,6 +108,7 @@ class BootstrapShortcodes{
                 "chk_default_options_alerts"    => "1",
                 "chk_default_options_wells"     => "1",
                 "chk_default_options_buttons"   => "1",
+                "chk_default_options_labels"   => "1",
                 "chk_default_options_icons"     => "1",
                 "chk_default_options_lead"      => "1",
                 "chk_default_options_tooltip"   => "1"
