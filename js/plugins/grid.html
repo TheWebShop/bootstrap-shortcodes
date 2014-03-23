@@ -48,7 +48,7 @@ $(function(){
 
         if(isNaN(cw)||cw>12) return;
 
-        $active.removeClass('offset'+cw).addClass('offset'+$(this).val());
+        $active.removeClass('col-xs-offset-'+cw).addClass('col-xs-offset-'+$(this).val());
         $active.find('.offset').text('Offset '+ $(this).val() );
     });
 
