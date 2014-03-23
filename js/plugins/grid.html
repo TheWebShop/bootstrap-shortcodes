@@ -23,7 +23,15 @@ $(function(){
     });
 
     $('#quantity').bind('keyup change',function(){
-        append_grid($(this).val());
+        var lastQuantity = $(this).data('lastQuantity');
+        var currentQuantity = $(this).val();
+
+        if (currentQuantity === lastQuantity) {
+            return 'no need to update'
+        } else {
+            $(this).data('lastQuantity', currentQuantity);
+            append_grid(currentQuantity);
+        }
     });
 
     $('#col-width').bind('change keyup',function(){
