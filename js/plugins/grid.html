@@ -19,7 +19,6 @@ $(function(){
 
     $('#frm_create').submit(function(e){
         e.preventDefault();
-        
         append_grid($('#quantity').val());
     });
 
@@ -51,10 +50,10 @@ $(function(){
 
         $active.removeClass('offset'+cw).addClass('offset'+$(this).val());
         $active.find('.offset').text('Offset '+ $(this).val() );
-        });
+    });
 
 
-        $('.demo_col').live('click',function(){
+    $('#demo_grid').on('click', '.demo_col', function(){
         $('#demo_grid div').removeClass('active');
         $(this).addClass('active');
         var cw = $(this).find('.grid').text().split(' ')[1];
@@ -74,7 +73,6 @@ $(function(){
             shortcodes+= '<br class="nc"/>[bs_col class="'+clss+'"]Text[/bs_col]';
 
         });
-
         shortcodes+= '<br class="nc"/>[/bs_row]';
         parent.tinymce.activeEditor.execCommand('mceInsertContent',false,shortcodes);
 
@@ -83,7 +81,6 @@ $(function(){
 
 });
 function append_grid(cols){
-    
     if(isNaN(cols)||cols>12) return;
 
     $('#btn_insert, h5.preview').fadeIn();
@@ -95,7 +92,7 @@ function append_grid(cols){
     $('#demo_grid').empty();
 
     for(i=0;i<cols;i++){
-        var cwidth = (extrawidth>0)?1:0;                 
+        var cwidth = (extrawidth>0)?1:0;
         $('#demo_grid').append('<div class="col-xs-'+(basewidth+cwidth)+' demo_col"><span class="grid">Grid '+(basewidth+cwidth)+'</span> <span class="offset">Offset '+offset+'</span><h5>Click to edit</h5></div>');
         extrawidth--;
     }
