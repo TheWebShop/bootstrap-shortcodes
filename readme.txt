@@ -2,8 +2,8 @@
 Contributors: sinetheta, beaurixon, no3x, Designwall Team
 Tags: shortcode, shortcodes, bootstrap, buttons, grid, well, responsive, widget
 Requires at least: 3.0
-Tested up to: 3.6
-Stable tag: 2.1
+Tested up to: 3.8.1
+Stable tag: 2.1.1
 License: GNU General Public License v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Please report issues [here](https://github.com/TheWebShop/bootstrap-shortcodes/i
 4. Add new shortcodes to posts or pages.
 
 == Changelog ==
+
+= 2.1.1 =
+* Fixed grid wizard
 
 = 2.1 =
 * Added support for labels

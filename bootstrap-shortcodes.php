@@ -3,7 +3,7 @@
 Plugin Name: Bootstrap Shortcodes
 Plugin URI: https://github.com/TheWebShop/bootstrap-shortcodes
 Description: A simple shortcode generator. Add buttons, columns, toggles and alerts to your theme.
-Version: 2.1
+Version: 2.1.1
 Author: Kevin Attfield 
 Author URI: https://github.com/Sinetheta
 
