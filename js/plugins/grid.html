@@ -69,7 +69,8 @@ $(function(){
 
         var shortcodes = '[bs_row class="row"]';
         $('#demo_grid > div').each(function(){
-            var clss = $(this).attr('class').replace(' demo_col','');
+            $(this).removeClass('demo_col active');
+            var clss = $(this).attr('class');
             shortcodes+= '<br class="nc"/>[bs_col class="'+clss+'"]Text[/bs_col]';
 
         });
