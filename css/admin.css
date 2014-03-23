@@ -172,9 +172,43 @@
     margin: 0;
 }
 
+.show-grid.row {
+    background-color: #F5F5F5;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0 1px 13px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: inset 0 1px 13px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 1px 13px rgba(0, 0, 0, 0.1);
+    border: 1px solid #DDD;
+    border-radius: 4px 4px 4px 4px;
+    margin: 15px 0;
+    position: relative;
+    padding: 44px 14px 14px;
+}
+
+.show-grid.row:before {
+    background-color: #F5F5F5;
+    border: 1px solid #DDD;
+    border-radius: 4px 0 4px 0;
+    color: #9DA0A4;
+    content: "Row";
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    line-height: 2;
+    padding: 3px 7px;
+    position: absolute;
+    top: -1px;
+}
+
 .show-grid {
     margin-bottom: 20px;
     margin-top: 10px;
+}
+
+.show-grid *{
+    cursor: pointer;
 }
 
 .show-grid h5 {
@@ -184,14 +218,14 @@
 }
 
 .show-grid [class*="col-"] {
-    background-color: #EEEEEE;
+    background-color: #fff;
     border: 1px solid #eee;
     border-radius: 3px 3px 3px 3px;
     padding: 10px 10px 0;
     text-align: center;
 }
 
-.show-grid:hover [class*="col-"] {
+.show-grid [class*="col-"]:hover {
     background: none repeat scroll 0 0 #DDDDDD;
     border-color: #ddd;
 }
@@ -206,6 +240,7 @@
 }
 
 .show-grid [class*="col-"].active {
-    background: #fff;
-    border: 1px solid #ccc;
+    background: #563D7C;
+    color: #fff;
+    border: 1px solid #fff;
 }
