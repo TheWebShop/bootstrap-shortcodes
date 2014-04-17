@@ -68,7 +68,7 @@ class BootstrapShortcodes{
         if ( get_user_option('rich_editing') == 'true' ) {
             //wp_enqueue_style("dws_bootstrap", plugins_url('css/bootstrap.css', __FILE__ ));
             add_filter( 'mce_external_plugins', array(&$this, 'regplugins') );
-            add_filter( 'mce_buttons_3', array(&$this, 'regbtns') );
+            add_filter( 'mce_buttons', array(&$this, 'regbtns') );
         }
     }
 
@@ -88,7 +88,7 @@ class BootstrapShortcodes{
     function regplugins($plgs) {
 
         foreach ($this->shortcodes as &$shortcode) {
-            $plgs['bs_' . $shortcode] = plugins_url('js/plugins/' . $shortcode . '.js', __FILE__ );
+            $plgs['bs_' . $shortcode] = plugins_url('/js/plugins/' . $shortcode . '.js', __FILE__ );
         }
 
         return $plgs;
