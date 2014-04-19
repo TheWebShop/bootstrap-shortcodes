@@ -2,7 +2,7 @@
 	// Creates a new plugin
 	tinymce.PluginManager.add( 'bs_alerts', function( editor, url ) {
         editor.addButton( 'bs_alerts', {
-        	type: 'splitbutton',
+        	type: 'menubutton',
             text: 'Alerts',
             tooltip: tinymce.translate('Styles for success, warning, and error messages'),
             icon: false,
@@ -12,9 +12,7 @@
                { text: 'Warning notification', onclick: function() { editor.insertContent('[bs_notification type="warning"]<strong>Warning!</strong>Best check yo self, you\'re <a href="#" class="alert-link">not looking too good</a>.[/bs_notification]');} },
                { text: 'Error notification', onclick: function() { editor.insertContent('[bs_notification type="danger"]<strong>Oh snap!</strong> <a href="#" class="alert-link">Change a few things</a> up and try submitting again.[/bs_notification]');} }
            ],
-           onclick: function() {
-        	   // A button must have onclick - should toggle the menu
-           }
+         
         });
     });
 })();
