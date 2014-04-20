@@ -62,3 +62,5 @@ Please report issues [here](https://github.com/TheWebShop/bootstrap-shortcodes/i
 2. Custom buttons added to the TinyMCE visual editor for adding shortcodes to content.
 3. The glyphicon selection tool for adding Bootstrap icons.
 4. The grid maker tool to help create custom layouts.
+5. The button maker tool to help setting up your buttons.
+6. The available notifications.
