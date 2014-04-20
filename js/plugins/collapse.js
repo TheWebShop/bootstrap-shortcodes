@@ -2,8 +2,8 @@
 	// Creates a new plugin
 	tinymce.PluginManager.add( 'bs_collapse', function( editor, url ) {
         editor.addButton( 'bs_collapse', {
-        	text: 'Collapse',
-            tooltip: tinymce.translate('Collapse'),
+            tooltip: 'Collapse',
+            icon: 'bs-collapse',
             onclick: function() {
                  // Open window
                  editor.windowManager.open({
