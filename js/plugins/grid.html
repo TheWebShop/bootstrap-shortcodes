@@ -15,7 +15,7 @@ $(function(){
         var pwidth = 800;
         parent.jQuery('#TB_window,#TB_iframeContent').width(pwidth);
         parent.jQuery('#TB_window').css('margin-left',-(pwidth/2));
-    },100);
+    }, 100);
 
     $('#frm_create').submit(function(e){
         e.preventDefault();
@@ -83,9 +83,8 @@ $(function(){
 
         });
         shortcodes+= '<br class="nc"/>[/bs_row]';
-        parent.tinymce.activeEditor.execCommand('mceInsertContent',false,shortcodes);
-
-        parent.tb_remove();
+        top.tinymce.activeEditor.execCommand('mceInsertContent', false, shortcodes);
+        top.tinymce.activeEditor.windowManager.close();
     });
 
 });
@@ -148,7 +147,7 @@ function append_grid(cols){
         <div id="demo_grid" class="row show-grid"></div>
 
         <div class="form-group">
-            <button id="btn_insert" class="btn btn-primary" style="display: none;">Insert shortcode</button>
+            <button id="btn_insert" class="btn btn-primary" style="display: none;">Insert</button>
         </div>
     </div>
 </div>

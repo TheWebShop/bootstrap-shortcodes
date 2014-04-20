@@ -7,9 +7,8 @@
     <link rel="stylesheet" href="../../css/admin.css" />
     <script type="text/javascript" src="../jquery.js"></script>
     <script type="text/javascript" src="../bootstrap.js"></script>
-
     <script type="text/javascript">
-    jQuery(function($) {
+    $(function() {
         $('[data-editable]').live('click', function() {
             if ($(this).find('input').length > 0) return;
             var val = $.trim($(this).html());
@@ -173,10 +172,10 @@
             });
             shortcode += '[/bs_tcontents]<br class="nc"/>[/bs_tabs]';
 
-            parent.tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
-
-            parent.tb_remove();
-        })
+            top.tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
+            top.tinymce.activeEditor.windowManager.close();
+            
+        });
 
 
         $('.tab_title').live('keyup', function() {
@@ -251,7 +250,7 @@
                 if ($('#myTab a[href=' + id + ']').closest('.dropdown').length == 0) return
                 $('#myTab a[href=' + id + ']').parent().addClass('active').prependTo($('#myTab'));
             }
-        })
+        });
 
         $('#new_type').on('change', function() {
             if ($(this).val() == 1) {
@@ -266,7 +265,7 @@
             $('#new_type').val('');
             $('#new_parent').val('').show();
             $('#new_content').val('').show();
-        })
+        });
 
         $('#new_tab').click(function(e) {
             var title = $('#new_title').val();
