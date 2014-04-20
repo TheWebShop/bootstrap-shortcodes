@@ -2,8 +2,8 @@
 Contributors: sinetheta, beaurixon, no3x, Designwall Team
 Tags: shortcode, shortcodes, bootstrap, buttons, grid, well, responsive, widget
 Requires at least: 3.0
-Tested up to: 3.8.1
-Stable tag: 2.1.1
+Tested up to: 3.9
+Stable tag: 3.0.0
 License: GNU General Public License v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Please report issues [here](https://github.com/TheWebShop/bootstrap-shortcodes/i
 4. Add new shortcodes to posts or pages.
 
 == Changelog ==
+
+= 3.0.0 =
+* Updated for Wordpress 3.9 and TinyMCE 4
 
 = 2.1.1 =
 * Fixed grid wizard
