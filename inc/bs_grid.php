@@ -1,25 +1,25 @@
-<?php 
+<?php
 
-function bs_row($params, $content = null){
-    extract(shortcode_atts(array(
+function bs_row( $params, $content=null ) {
+    extract( shortcode_atts( array(
         'class' => 'row'
-    ), $params));
-    $content = preg_replace('/<br class="nc".\/>/', '', $content);
-    $result = '<div class="'.$class.'">';
-    $result .= do_shortcode($content );
-    $result .= '</div>'; 
+    ), $params ) );
+    $content = preg_replace( '/<br class="nc".\/>/', '', $content );
+    $result = '<div class="' . $class . '">';
+    $result .= do_shortcode( $content );
+    $result .= '</div>';
     return force_balance_tags( $result );
 }
 add_shortcode('bs_row', 'bs_row');
 
-function bs_span($params,$content=null){
-    extract(shortcode_atts(array(
+function bs_span( $params, $content=null ) {
+    extract( shortcode_atts( array(
         'class' => 'col-xs-1'
-        ), $params));
+        ), $params ) );
 
-    $result = '<div class="'.$class.'">';
-    $result .= do_shortcode($content );
-    $result .= '</div>'; 
+    $result = '<div class="' . $class . '">';
+    $result .= do_shortcode( $content );
+    $result .= '</div>';
     return force_balance_tags( $result );
 }
-add_shortcode('bs_col', 'bs_span');
+add_shortcode( 'bs_col', 'bs_span' );

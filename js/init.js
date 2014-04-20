@@ -1,4 +1,4 @@
-(function($){
+(function($) {
     $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip()
             // Stop "click triggered" tootips from acting as bookmarks to top of page

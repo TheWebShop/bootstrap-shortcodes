@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!doctype html>
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../../css/bootstrap.css" />
@@ -8,44 +7,44 @@
     <script type="text/javascript" src="../jquery.js"></script>
     <script type="text/javascript" src="../bootstrap.js"></script>
     <script type="text/javascript">
-    $(function() {
-		jQuery('#insert').click(function() {
-			 var content = jQuery('body').find('input[name=content]').val();
-             var placement = jQuery('body').find('select[name=placement]').val();
-             var trigger = jQuery('body').find('select[name=trigger]').val();
-             var shortcode = '[bs_tooltip placement="' + placement + '" trigger="' + trigger + '"]';
-             shortcode += content;
-             shortcode += '[/bs_tooltip]';
+    $(document).ready(function() {
+        $('#insert').click(function() {
+            var content = $('body').find('input[name=content]').val();
+            var placement = $('body').find('select[name=placement]').val();
+            var trigger = $('body').find('select[name=trigger]').val();
+            var shortcode = '[bs_tooltip placement="' + placement + '" trigger="' + trigger + '"]';
+            shortcode += content;
+            shortcode += '[/bs_tooltip]';
 
-	       	top.tinymce.activeEditor.insertContent( shortcode );
-	       	top.tinymce.activeEditor.windowManager.close();
-		});
-	});
+            top.tinymce.activeEditor.insertContent(shortcode);
+            top.tinymce.activeEditor.windowManager.close();
+        });
+    });
     </script>
 </head>
 
 <body>
 <div class="container">
-		<form role="form">
-			<div class="form-group">
-				<label for="text">Text</label>
-				<input type="text" class="form-control" id="content" name="content" placeholder="Content" onclick="this.select()" />
-				<label for="placement">Placement</label>
-				<select class="form-control" id="placement" name="placement">
-					<option value="top" selected>Top</option>
-					<option value="right">Right</option>
-					<option value="bottom">Bottom</option>
-					<option value="left">Left</option>
-				</select>
-				<label for="trigger">Trigger</label>
-				<select class="form-control" id="trigger" name="trigger">
-					<option value="click">Click</option>
-					<option value="hover" selected>Hover</option>
-					<option value="focus">Focus</option>
-				</select>
-			</div>
-			<button type="submit" id="insert" class="btn btn-primary">Insert</button>
-		</form>
-	</div>
+        <form role="form">
+            <div class="form-group">
+                <label for="text">Text</label>
+                <input type="text" class="form-control" id="content" name="content" placeholder="Content" onclick="this.select()" />
+                <label for="placement">Placement</label>
+                <select class="form-control" id="placement" name="placement">
+                    <option value="top" selected>Top</option>
+                    <option value="right">Right</option>
+                    <option value="bottom">Bottom</option>
+                    <option value="left">Left</option>
+                </select>
+                <label for="trigger">Trigger</label>
+                <select class="form-control" id="trigger" name="trigger">
+                    <option value="click">Click</option>
+                    <option value="hover" selected>Hover</option>
+                    <option value="focus">Focus</option>
+                </select>
+            </div>
+            <button type="submit" id="insert" class="btn btn-primary">Insert</button>
+        </form>
+    </div>
 </body>
 </html>

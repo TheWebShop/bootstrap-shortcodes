@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!doctype html>
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../../css/bootstrap.css" />
@@ -8,7 +7,7 @@
     <script type="text/javascript" src="../jquery.js"></script>
     <script type="text/javascript" src="../bootstrap.js"></script>
     <script type="text/javascript">
-    $(function() {
+    $(document).ready(function() {
         $('[data-editable]').live('click', function() {
             if ($(this).find('input').length > 0) return;
             var val = $.trim($(this).html());
@@ -35,7 +34,6 @@
             $(this).parent().html($(this).val())
             swich_column()
         })
-
 
 
 
@@ -174,7 +172,7 @@
 
             top.tinymce.activeEditor.execCommand('mceInsertContent', false, shortcode);
             top.tinymce.activeEditor.windowManager.close();
-            
+
         });
 
 
