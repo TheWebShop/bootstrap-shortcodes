@@ -8,18 +8,19 @@
 <script type="text/javascript" src="../bootstrap.js"></script>
 <script type="text/javascript">
 $(function() {
-	jQuery('').appendTo("body").click(function() {
+	jQuery('#insert').click(function() {
         var size = jQuery('body').find('select[name=size]').val();
         var type = jQuery('body').find('select[name=type]').val();
+        var value = jQuery('body').find('input[name=value]').val();
         var link = jQuery('body').find('input[name=link]').val();
-        top.tinymce.activeEditor.insertContent('[bs_button size="'+size.toLowerCase()+'" type="'+type.toLowerCase()+'" value="'+type+'" href="'+link+'"]');
+        top.tinymce.activeEditor.insertContent('[bs_button size="'+size.toLowerCase()+'" type="'+type.toLowerCase()+'" value="'+value+'" href="'+link+'"]');
         top.tinymce.activeEditor.windowManager.close();
-	}).wrap('<div style="padding: 10px"></div>');
+	});
 });
 </script>
 </head>
 <body>
-	<div style="padding: 10px">
+	<div class="container">
 		<form role="form">
 			<div class="form-group">
 				<label for="size">Size</label>
@@ -39,10 +40,12 @@ $(function() {
 					<option value="Danger"> Danger</option>
 					<option value="Link"> Link</option>
 				</select>
+				<label for="value">Value</label>
+				<input type="text" class="form-control" id="value" name="value" placeholder="Value" onclick="this.select()" />
 				<label for="link">Link</label>
 				<input type="text" class="form-control" id="link" name="link" placeholder="#" onclick="this.select()" />
 			</div>
-			<button type="submit" class="btn btn-primary">Insert</button>
+			<button type="submit" id="insert" class="btn btn-primary">Insert</button>
 		</form>
 	</div>
 </body>
