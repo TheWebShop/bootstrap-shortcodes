@@ -8,13 +8,15 @@
 <script type="text/javascript" src="../bootstrap.js"></script>
 <script type="text/javascript">
 (function($) {
-    $('#insert').click(function() {
+    $(document).ready(function() {
+        $('#insert').click(function() {
         var size = $('select[name=size]').val();
         var type = $('select[name=type]').val();
         var value = $('input[name=value]').val();
         var link = $('input[name=link]').val();
         top.tinymce.activeEditor.insertContent('[bs_button size="'+size.toLowerCase()+'" type="'+type.toLowerCase()+'" value="'+value+'" href="'+link+'"]');
         top.tinymce.activeEditor.windowManager.close();
+        });
     });
 }(jQuery));
 </script>
@@ -41,9 +43,9 @@
                     <option value="Link"> Link</option>
                 </select>
                 <label for="value">Value</label>
-                <input type="text" class="form-control" id="value" name="value" placeholder="Value" onclick="this.select()" />
+                <input type="text" class="form-control" id="value" name="value" placeholder="Value" />
                 <label for="link">Link</label>
-                <input type="text" class="form-control" id="link" name="link" placeholder="#" onclick="this.select()" />
+                <input type="text" class="form-control" id="link" name="link" placeholder="#" />
             </div>
             <button type="submit" id="insert" class="btn btn-primary">Insert</button>
         </form>
