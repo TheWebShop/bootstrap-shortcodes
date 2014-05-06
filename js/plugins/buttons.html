@@ -8,7 +8,7 @@
 <script type="text/javascript" src="../bootstrap.js"></script>
 <script type="text/javascript">
 (function($) {
-	$(document).ready(function() {
+    $(document).ready(function() {
         $('#insert').click(function() {
         var size = $('select[name=size]').val();
         var type = $('select[name=type]').val();
@@ -17,7 +17,7 @@
         top.tinymce.activeEditor.insertContent('[bs_button size="'+size.toLowerCase()+'" type="'+type.toLowerCase()+'" value="'+value+'" href="'+link+'"]');
         top.tinymce.activeEditor.windowManager.close();
         });
-	});
+    });
 }(jQuery));
 </script>
 </head>
