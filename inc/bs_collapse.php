@@ -23,7 +23,7 @@ function bs_citem( $params, $content=null ){
     $result =  '<div class="panel panel-default">';
     $result .= '    <div class="panel-heading">';
     $result .= '        <h4 class="panel-title">';
-    $result .= '<a class="accordion-toggle" data-toggle="collapse" data-parent="#' . $parent . '" href="#' . $id . '">';
+    $result .= '<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#' . $parent . '" href="#' . $id . '">';
     $result .= $title;
     $result .= '</a>';
     $result .= '        </h4>';
