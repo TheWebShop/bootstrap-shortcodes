@@ -21,14 +21,14 @@ function bs_citem( $params, $content=null ){
          ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
     $result =  '<div class="panel panel-default">';
-    $result .= '    <div class="panel-heading">';
+    $result .= '    <div class="panel-heading" role="tab" id="heading_' . $id . '">';
     $result .= '        <h4 class="panel-title">';
-    $result .= '<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#' . $parent . '" href="#' . $id . '">';
+    $result .= '<a class="accordion-toggle collapsed" data-toggle="collapse" aria-controls="heading_' . $id . '" data-parent="#' . $parent . '" href="#' . $id . '">';
     $result .= $title;
     $result .= '</a>';
     $result .= '        </h4>';
     $result .= '    </div>';
-    $result .= '    <div id="' . $id . '" class="panel-collapse collapse">';
+    $result .= '    <div id="' . $id . '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_' . $id . '">';
     $result .= '        <div class="panel-body">';
     $result .= do_shortcode( $content );
     $result .= '        </div>';
