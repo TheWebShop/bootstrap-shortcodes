@@ -2,8 +2,8 @@
 Contributors: sinetheta, beaurixon, no3x, Designwall Team
 Tags: shortcode, shortcodes, bootstrap, buttons, grid, well, responsive, widget
 Requires at least: 3.9
-Tested up to: 3.9
-Stable tag: 3.0.2
+Tested up to: 4.0
+Stable tag: 3.1
 License: GNU General Public License v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,10 @@ Please report issues [here](https://github.com/TheWebShop/bootstrap-shortcodes/i
 4. Add new shortcodes to posts or pages.
 
 == Changelog ==
+
+= 3.1.0 =
+* Updated Boostrap from 3.1.1 to 3.3.1
+* Added Aria roles to accordion panels
 
 = 3.0.2 =
 * Minor bugfixes and preview updates
