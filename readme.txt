@@ -67,11 +67,18 @@ Please report issues [here](https://github.com/TheWebShop/bootstrap-shortcodes/i
 = 1.0 =
 * Upgraded from Bootstrap 2 to 3
 
+== Frequently Asked Questions ==
+
+= There is no Button in the Visual Editor =
+
+You must toggle the Advanced Editor Toolbar to unlock the Bootstrap Shortcodes icons. (see screenshot)
+
 == Screenshots ==
 
 1. The rendered Bootstrap components as they would appear with a default Bootstrap 3 theme.
-2. Custom buttons added to the TinyMCE visual editor for adding shortcodes to content.
-3. The glyphicon selection tool for adding Bootstrap icons.
-4. The grid maker tool to help create custom layouts.
-5. The button maker tool to help setting up your buttons.
-6. The available notifications.
+2. Enable the Bootstrap Shortcodes icons by toggling the Advanced Editor Toolbar.
+3. Custom buttons added to the TinyMCE visual editor for adding shortcodes to content.
+4. The glyphicon selection tool for adding Bootstrap icons.
+5. The grid maker tool to help create custom layouts.
+6. The button maker tool to help setting up your buttons.
+7. The available notifications.
