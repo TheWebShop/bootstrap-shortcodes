@@ -64,6 +64,18 @@ class BootstrapShortcodes{
             add_filter( 'mce_external_plugins', array( &$this, 'regplugins' ) );
             add_filter( 'mce_buttons_3', array( &$this, 'regbtns' ) );
         }
+        $this->changeFilterPriorities();
+    }
+
+    /**
+     * Change priorities of filters.
+     */
+    function changeFilterPriorities() {
+        /* wpautop will do the work after the shortcodes now.
+        * All shortcodes are registered with default priority (10).
+        */
+        remove_filter( 'the_content', 'wpautop');
+        add_filter( 'the_content', 'wpautop', 12);
     }
 
     function regbtns( $buttons ) {
