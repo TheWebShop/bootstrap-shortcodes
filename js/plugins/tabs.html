@@ -8,7 +8,7 @@
     <script type="text/javascript" src="../bootstrap.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-        $('[data-editable]').live('click', function() {
+        $(document).on('click', '[data-editable]', function() {
             if ($(this).find('input').length > 0) return;
             var val = $.trim($(this).html());
             $(this).html('<input type="text" />').find('input')[0].focus();
@@ -29,7 +29,7 @@
             }
         })
 
-        $('[data-editable] input').live('blur', function() {
+        $(document).on('blur', '[data-editable] input', function() {
 
             $(this).parent().html($(this).val())
             swich_column()
@@ -176,7 +176,7 @@
         });
 
 
-        $('.tab_title').live('keyup', function() {
+        $(document).on('keyup', '.tab_title', function() {
             var tid = $(this).closest('.tab-pane').attr('id');
             if (tid != 'bs_container') {
                 $('a[href="#' + tid + '"]').html($(this).val());
@@ -189,7 +189,7 @@
         /**
          * Tab delete
          */
-        $('.tab-delete').live('click', function() {
+        $(document).on('click', '.tab-delete', function() {
             var id = $(this).closest('.tab-pane').attr('id');
             $(this).closest('.tab-pane').remove();
             $('#myTab a[href=#' + id + ']').closest('li').remove();
@@ -236,7 +236,7 @@
         /*
          * Tab parent change
          */
-        $('.tab_parent').live('change', function() {
+        $(document).on('change', '.tab_parent', function() {
 
             if ($(this).attr('id')) return;
             var id = '#' + $(this).closest('.tab-pane').attr('id'),
