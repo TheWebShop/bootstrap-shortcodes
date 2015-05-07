@@ -41,7 +41,7 @@
             if (isNaN(val) || val > 12 || val < 1) return;
             var cw = $active.find('.grid').text().split(' ')[1];
 
-            $active.removeClass('col-sm-' + cw).addClass('col-sm-' + $(this).val());
+            $active.removeClass('col-xs-' + cw).addClass('col-xs-' + $(this).val());
             $active.find('.grid').text('Grid ' + $(this).val());
         });
 
@@ -57,7 +57,7 @@
 
             if (isNaN(cw) || cw > 12) return;
 
-            $active.removeClass('col-sm-offset-' + cw).addClass('col-sm-offset-' + $(this).val());
+            $active.removeClass('col-xs-offset-' + cw).addClass('col-xs-offset-' + $(this).val());
             $active.find('.offset').text('Offset ' + $(this).val());
         });
 
@@ -79,7 +79,7 @@
             var shortcodes = '[bs_row class="row"]';
             $('#demo_grid > div').each(function() {
                 $(this).removeClass('demo_col active');
-                var clss = $(this).attr('class');
+                var clss = $(this).attr('class').replace(/xs/g, "sm");
                 shortcodes += '<br class="nc"/>[bs_col class="' + clss + '"]Text[/bs_col]';
 
             });
@@ -103,7 +103,7 @@
 
         for (i = 0; i < cols; i++) {
             var cwidth = (extrawidth > 0) ? 1 : 0;
-            $('#demo_grid').append('<div class="col-sm-' + (basewidth + cwidth) + ' demo_col"><span class="grid">Grid ' + (basewidth + cwidth) + '</span> <span class="offset">Offset ' + offset + '</span><h5>Click to edit</h5></div>');
+            $('#demo_grid').append('<div class="col-xs-' + (basewidth + cwidth) + ' demo_col"><span class="grid">Grid ' + (basewidth + cwidth) + '</span> <span class="offset">Offset ' + offset + '</span><h5>Click to edit</h5></div>');
             extrawidth--;
         }
     }
@@ -117,8 +117,8 @@
     <div id="bs-grid">
         <form id="frm_create" class="form-horizontal">
             <div class="form-group">
-                <label for="quantity" class="col-sm-4 control-label">Number of columns</label>
-                <div class="col-sm-8">
+                <label for="quantity" class="col-xs-4 control-label">Number of columns</label>
+                <div class="col-xs-8">
                     <input
                         id="quantity"
                         name="quantity"
@@ -133,8 +133,8 @@
         </form>
         <form id="col-edit" class="form-horizontal" style="display:none;">
             <div class="form-group">
-                <label for="col-width" class="col-sm-4 control-label">Grid</label>
-                <div class="col-sm-8">
+                <label for="col-width" class="col-xs-4 control-label">Grid</label>
+                <div class="col-xs-8">
                     <input
                         id="col-width"
                         name="col-width"
@@ -148,8 +148,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="col-offset" class="col-sm-4 control-label">Offset</label>
-                <div class="col-sm-8">
+                <label for="col-offset" class="col-xs-4 control-label">Offset</label>
+                <div class="col-xs-8">
                     <input
                         id="col-offset"
                         name="col-offset"
