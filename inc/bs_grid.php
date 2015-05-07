@@ -14,7 +14,7 @@ add_shortcode('bs_row', 'bs_row');
 
 function bs_span( $params, $content=null ) {
     extract( shortcode_atts( array(
-        'class' => 'col-xs-1'
+        'class' => 'col-sm-1'
         ), $params ) );
 
     $result = '<div class="' . $class . '">';

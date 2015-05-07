@@ -41,7 +41,7 @@
             if (isNaN(val) || val > 12 || val < 1) return;
             var cw = $active.find('.grid').text().split(' ')[1];
 
-            $active.removeClass('col-xs-' + cw).addClass('col-xs-' + $(this).val());
+            $active.removeClass('col-sm-' + cw).addClass('col-sm-' + $(this).val());
             $active.find('.grid').text('Grid ' + $(this).val());
         });
 
@@ -57,7 +57,7 @@
 
             if (isNaN(cw) || cw > 12) return;
 
-            $active.removeClass('col-xs-offset-' + cw).addClass('col-xs-offset-' + $(this).val());
+            $active.removeClass('col-sm-offset-' + cw).addClass('col-sm-offset-' + $(this).val());
             $active.find('.offset').text('Offset ' + $(this).val());
         });
 
@@ -103,7 +103,7 @@
 
         for (i = 0; i < cols; i++) {
             var cwidth = (extrawidth > 0) ? 1 : 0;
-            $('#demo_grid').append('<div class="col-xs-' + (basewidth + cwidth) + ' demo_col"><span class="grid">Grid ' + (basewidth + cwidth) + '</span> <span class="offset">Offset ' + offset + '</span><h5>Click to edit</h5></div>');
+            $('#demo_grid').append('<div class="col-sm-' + (basewidth + cwidth) + ' demo_col"><span class="grid">Grid ' + (basewidth + cwidth) + '</span> <span class="offset">Offset ' + offset + '</span><h5>Click to edit</h5></div>');
             extrawidth--;
         }
     }
