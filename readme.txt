@@ -90,3 +90,5 @@ You must toggle the Advanced Editor Toolbar to unlock the Bootstrap Shortcodes i
 5. The grid maker tool to help create custom layouts.
 6. The button maker tool to help setting up your buttons.
 7. The available notifications.
+
+Join the chat at https://gitter.im/TheWebShop/bootstrap-shortcodes
