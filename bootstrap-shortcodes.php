@@ -87,12 +87,12 @@ class BootstrapShortcodes{
 
     function register_tinymce_settings( $settings ) {
         $settings['ajaxurl'] = admin_url( 'admin-ajax.php' );
-        $settings['bss_nonce'] = wp_create_nonce( 'bss_ajax_do_sortcode' );
+        $settings['bss_nonce'] = wp_create_nonce( 'bss_ajax_do_shortcode' );
         return $settings;
     }
 
     function bss_do_shortcode() {
-        if( false == check_ajax_referer('bss_ajax_do_sortcode', 'nonce', false) ) {
+        if( false == check_ajax_referer('bss_ajax_do_shortcode', 'nonce', false) ) {
             _e( 'Security Issue - No Preview', 'bsshortcodes');
         } else {
             $shortcode = $_POST['shortcode'];
