@@ -181,6 +181,3 @@ class BootstrapShortcodes{
 }
 
 $bscodes = new BootstrapShortcodes();
-
-
-
