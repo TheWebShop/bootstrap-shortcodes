@@ -17,7 +17,8 @@ function bs_citem( $params, $content=null ){
     extract( shortcode_atts( array(
         'id'=> '',
         'title'=> 'Collapse title',
-        'parent' => ''
+        'parent' => '',
+        'open' => 'false',
          ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
     $result =  '<div class="panel panel-default">';
@@ -28,7 +29,7 @@ function bs_citem( $params, $content=null ){
     $result .= '</a>';
     $result .= '        </h4>';
     $result .= '    </div>';
-    $result .= '    <div id="' . $id . '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_' . $id . '">';
+    $result .= '    <div id="' . $id . '" class="panel-collapse collapse '.($open=='true'? 'in' : '').'" role="tabpanel" aria-labelledby="heading_' . $id . '">';
     $result .= '        <div class="panel-body">';
     $result .= do_shortcode( $content );
     $result .= '        </div>';
