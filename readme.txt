@@ -2,8 +2,8 @@
 Contributors: sinetheta, beaurixon, no3x, Designwall Team
 Tags: shortcode, shortcodes, bootstrap, buttons, grid, well, responsive, widget
 Requires at least: 3.9
-Stable tag: 3.3.0
 Tested up to: 4.3
+Stable tag: 3.4.0
 License: GNU General Public License v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,12 @@ Please report issues directly to our [Github repository](https://github.com/TheW
 4. Add new shortcodes to posts or pages.
 
 == Changelog ==
+
+= 3.4.0 =
+* Updated icons to 3.3.5
+* Added control panel popup for inserting alerts.
+* Added option to hide dismiss button in alerts.
+* Added option to display accordions as initially expanded.
 
 = 3.3.0 =
 * Updated Boostrap from 3.3.1 to 3.3.5
