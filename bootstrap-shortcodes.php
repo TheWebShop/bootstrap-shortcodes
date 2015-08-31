@@ -92,11 +92,10 @@ class BootstrapShortcodes{
     }
 
     function bss_do_shortcode() {
-        if( false == check_ajax_referer('bss_ajax_do_shortcode', 'nonce', false) ) {
+        if( false === check_ajax_referer('bss_ajax_do_shortcode', 'nonce', false) ) {
             _e( 'Security Issue - No Preview', 'bsshortcodes');
         } else {
-            $shortcode = $_POST['shortcode'];
-            echo stripslashes( do_shortcode( $shortcode ) );
+            echo do_shortcode( wp_unslash( $_POST['shortcode'] ) ) ;
         }
         wp_die(); // this is required to terminate immediately and return a proper response
     }
