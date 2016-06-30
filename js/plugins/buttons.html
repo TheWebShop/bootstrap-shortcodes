@@ -14,7 +14,8 @@
         var type = $('select[name=type]').val();
         var value = $('input[name=value]').val();
         var link = $('input[name=link]').val();
-        top.tinymce.activeEditor.insertContent('[bs_button size="'+size.toLowerCase()+'" type="'+type.toLowerCase()+'" value="'+value+'" href="'+link+'"]');
+        var target = $('select[name=target]').val();
+        top.tinymce.activeEditor.insertContent('[bs_button size="'+size.toLowerCase()+'" type="'+type.toLowerCase()+'" value="'+value+'" href="'+link+'" target="'+target+'"]');
         top.tinymce.activeEditor.windowManager.close();
         });
     });
@@ -47,6 +48,11 @@
                 <input type="text" class="form-control" id="value" name="value" placeholder="Value" />
                 <label for="link">Link</label>
                 <input type="text" class="form-control" id="link" name="link" placeholder="#" />
+                <label for="target">Target</label>
+                <select class="form-control" id="target" name="target">
+                    <option value="_self">_self</option>
+                    <option value="_blank">_blank</option>
+                </select>
             </div>
             <button type="submit" id="insert" class="btn btn-primary">Insert</button>
         </form>
