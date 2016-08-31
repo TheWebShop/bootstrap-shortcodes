@@ -90,7 +90,7 @@
             var type = $('input[name=type]:checked').val();
             var mparent = $('#sl_parent').val();
             var content = $('#txt_content').val();
-            var id = 'bs_tab' + guid();
+            var id = 'bs_tab_' + guid();
 
             if (type == 'tab') {
                 if (mparent == '') {
@@ -276,7 +276,7 @@
         <button class="tab-delete btn"><i class="icon-trash"></i> Remove</button>';
 
 
-            var id = 'bs_tab' + guid();
+            var id = 'bs_tab_' + guid();
 
             if (type != 1) {
                 if (mparent == '') {
