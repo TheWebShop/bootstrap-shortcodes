@@ -11,8 +11,7 @@
         $('#insert').click(function() {
             var content = $('body').find('input[name=content]').val();
             var placement = $('body').find('select[name=placement]').val();
-            var trigger = $('body').find('select[name=trigger]').val();
-            var shortcode = '[bs_tooltip placement="' + placement + '" trigger="' + trigger + '"]';
+            var shortcode = '[bs_tooltip placement="' + placement + '"]';
             shortcode += content;
             shortcode += '[/bs_tooltip]';
 
@@ -35,12 +34,6 @@
                     <option value="right">Right</option>
                     <option value="bottom">Bottom</option>
                     <option value="left">Left</option>
-                </select>
-                <label for="trigger">Trigger</label>
-                <select class="form-control" id="trigger" name="trigger">
-                    <option value="click">Click</option>
-                    <option value="hover" selected>Hover</option>
-                    <option value="focus">Focus</option>
                 </select>
             </div>
             <button type="submit" id="insert" class="btn btn-primary">Insert</button>

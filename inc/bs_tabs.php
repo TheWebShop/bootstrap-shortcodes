@@ -16,7 +16,7 @@
 
 function bs_tabs( $params, $content=null ){
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result = '<div class="tab_wrap">';
+    $result = '<div class="card">';
     $result .= do_shortcode( $content );
     $result .= '</div>';
     return force_balance_tags( $result );
@@ -25,7 +25,7 @@ add_shortcode( 'bs_tabs', 'bs_tabs' );
 
 function bs_thead( $params, $content=null) {
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result = '<ul class="nav nav-tabs">';
+    $result = '<ul class="nav nav-tabs" role="tablist">';
     $result .= do_shortcode( $content );
     $result .= '</ul>';
     return force_balance_tags( $result );
@@ -40,12 +40,13 @@ function bs_tab( $params, $content=null ) {
         ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
 
-    $result = '<li class="' . $class . '">';
-    $result .= '<a data-toggle="tab" href="' . $href . '">' . $title . '</a>';
+    $result = '<li class="nav-item ' . $class . '">';
+    $result .= '<a class="nav-link active" data-toggle="tab" role="tab" href="' . $href . '">' . $title . '</a>';
     $result .= '</li>';
     return force_balance_tags( $result );
 }
 add_shortcode( 'bs_tab', 'bs_tab' );
+
 
 function bs_dropdown( $params, $content=null ) {
     global $bs_timestamp;
@@ -55,8 +56,9 @@ function bs_dropdown( $params, $content=null ) {
         'class' => '',
         ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result = '<li class="dropdown">';
-    $result .= '<a class="' . $class . '" id="' . $id . '" class="dropdown-toggle" data-toggle="dropdown">' . $title . '<b class="caret"></b></a>';
+    $result = '<li class="nav-item dropdown">';
+    $result .= '
+    <a class="nav-link dropdown-toggle ' . $class . '" id="' . $id . '" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">' . $title . '</a>';
     $result .= '<ul class="dropdown-menu">';
     $result .= do_shortcode( $content );
     $result .= '</ul></li>';
@@ -80,7 +82,7 @@ function bs_tcontent( $params, $content=null ) {
         ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
     $class = ($class=='active')? 'active in': '';
-    $result = '<div class="tab-pane fade ' . $class . '" id=' . $id . '>';
+    $result = '<div role="tabpanel" class="tab-pane ' . $class . '" id=' . $id . '>';
     $result .= do_shortcode( $content );
     $result .= '</div>';
     return force_balance_tags( $result );

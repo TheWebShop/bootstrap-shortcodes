@@ -300,22 +300,24 @@
 <body>
     <div id="bs-wrapper">
         <ul id="myTab" class="nav nav-tabs">
-            <li class="active"><a href="#bs_first_tab" data-toggle="tab">Tab title</a>
-            </li>
-            <li class="dropdown">
-                <a id="bs_dropdown" href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#bs_dropdown1" data-toggle="tab">@fat</a>
-                    </li>
-                    <li><a href="#bs_dropdown2" data-toggle="tab">@mdo</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="add-new"><a href="#bs_new_tab" data-toggle="tab"><i class="glyphicon glyphicon-plus-sign" title="Add new tab"></i></a>
-            </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#bs_first_tab">Active</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a id="bs_dropdown" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#bs_dropdown1">@fat</a>
+              <a class="dropdown-item" href="#bs_dropdown2">@mdo</a>
+            </div>
+          </li>
+          <li class="nav-item add-new">
+              <a class="nav-link" href="#bs_new_tab">
+                <i class="glyphicon glyphicon-plus-sign" title="Add new tab"></i> Add new tab
+              </a>
+          </li>
         </ul>
         <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade active in" id="bs_first_tab">
+            <div class="tab-pane active" id="bs_first_tab" role="tabpanel">
                 <input type="text" class="tab_title" value="Tab title" />
                 <select class="tab_parent">
                     <option value="">- Select tab parent -</option>
@@ -324,12 +326,11 @@
                 <textarea class="tab_content">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</textarea>
                 <button class="tab-delete btn"><i class="icon-trash"></i> Remove</button>
             </div>
-
-            <div class="tab-pane fade" id="bs_container">
+            <div class="tab-pane" id="bs_container" role="tabpanel">
                 <input type="text" class="tab_title" value="Tab title" />
                 <button class="cnt-delte btn" style="display:block"><i class="icon-trash"></i> Remove</button>
             </div>
-            <div class="tab-pane fade" id="bs_dropdown1">
+            <div class="tab-pane" id="bs_dropdown1" role="tabpanel">
                 <input type="text" class="tab_title" value="@fat" />
                 <select class="tab_parent">
                     <option value="">- Select tab parent -</option>
@@ -338,7 +339,7 @@
                 <textarea class="tab_content">Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone.</textarea>
                 <button class="tab-delete btn"><i class="icon-trash"></i> Remove</button>
             </div>
-            <div class="tab-pane fade" id="bs_dropdown2">
+            <div class="tab-pane" id="bs_dropdown2" role="tabpanel">
                 <input type="text" class="tab_title" value="@mdo" />
                 <select class="tab_parent">
                     <option value="">- Select tab parent -</option>
@@ -347,7 +348,8 @@
                 <textarea class="tab_content">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica.</textarea>
                 <button class="tab-delete btn"><i class="icon-trash"></i> Remove</button>
             </div>
-            <div class="tab-pane fade" id="bs_new_tab">
+            <div class="tab-pane" id="bs_new_tab" role="tabpanel">
+            <div class="tab-pane fade" >
                 <input id="new_title" type="text" onfocus="this.select()" placeholder="Tab title" value="Tab Title" />
                 <select id="new_type">
                     <option value="">- Select tab type -</option>

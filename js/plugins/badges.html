@@ -11,7 +11,7 @@
         $('#insert').click(function() {
             var type = $('select[name=type]').val();
             var text = $('input[name=text]').val();
-            top.tinymce.activeEditor.insertContent('[bs_label type="' + type.toLowerCase() + '"]' + text + '[/bs_label]');
+            top.tinymce.activeEditor.insertContent('[bs_badge type="' + type.toLowerCase() + '"]' + text + '[/bs_badge]');
             top.tinymce.activeEditor.windowManager.close();
         });
     });

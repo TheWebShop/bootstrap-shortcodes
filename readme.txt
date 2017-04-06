@@ -29,7 +29,7 @@ We add a row of buttons to the bottom of your post editor Visual mode, each of w
 * Buttons
 * Grid (container, row, columns, fully responsive)
 * Icons
-* Labels
+* Badges
 * Lead Text
 * Wells
 
@@ -51,6 +51,9 @@ Please report issues directly to our [Github repository](https://github.com/TheW
 4. Add new shortcodes to posts or pages.
 
 == Changelog ==
+
+= 4.0.0 =
+* Upgrade to Bootstrap 4.0.0.alpha6
 
 = 3.4.0 =
 * Updated icons to 3.3.5
