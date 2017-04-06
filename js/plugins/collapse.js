@@ -30,7 +30,7 @@
                             shortcode += ' title="' + title + '"';
                             shortcode += ' id="citem_' + id + '"';
                             shortcode += ' parent="collapse_' + uID + '"';
-                            shortcode += (e.data.isopen? ' open="true"': '');
+                            shortcode += (e.data.isopen? ((i == 0) ? ' open="true"': ''): '');
                             shortcode += ']<br class="nc"/>';
                             shortcode += 'Collapse content goes here....<br class="nc"/>';
                             shortcode += '[/bs_citem]<br class="nc"/>';
