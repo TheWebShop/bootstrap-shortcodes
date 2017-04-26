@@ -1,5 +1,5 @@
 === Bootstrap Shortcodes ===
-Contributors: sinetheta, beaurixon, no3x, Designwall Team
+Contributors: sinetheta, beaurixon, no3x, Designwall Team, Washaweb
 Tags: shortcode, shortcodes, bootstrap, buttons, grid, well, responsive, widget
 Requires at least: 3.9
 Tested up to: 4.7.3
@@ -7,7 +7,7 @@ Stable tag: 3.4.0
 License: GNU General Public License v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Wordpress plugin to add shortcodes for Twitter Bootstrap 3.3
+Wordpress plugin to add shortcodes for Twitter Bootstrap 4.0
 
 == Description ==
 
@@ -31,13 +31,14 @@ We add a row of buttons to the bottom of your post editor Visual mode, each of w
 * Icons
 * Badges
 * Lead Text
-* Wells
+* Blockquotes
+* Cards
+
 
 ### JavaScript
 
 * Collapse
-* Tabs
-* Tooltip
+* Alerts
 
 ## Support
 
@@ -51,6 +52,12 @@ Please report issues directly to our [Github repository](https://github.com/TheW
 4. Add new shortcodes to posts or pages.
 
 == Changelog ==
+
+= 4.0.1 =
+* Added Support for Cards
+* Buttons are now correct with BS4 options (removed xs, added outline option)
+* Fixed CSS in Alert modal
+* Added New Card icon
 
 = 4.0.0 =
 * Upgrade to Bootstrap 4.0.0.alpha6

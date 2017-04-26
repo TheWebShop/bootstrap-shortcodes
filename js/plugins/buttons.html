@@ -11,10 +11,11 @@
     $(document).ready(function() {
         $('#insert').click(function() {
         var size = $('select[name=size]').val();
+        var mode = $('select[name=mode]').val();
         var type = $('select[name=type]').val();
         var value = $('input[name=value]').val();
         var link = $('input[name=link]').val();
-        top.tinymce.activeEditor.insertContent('[bs_button size="'+size.toLowerCase()+'" type="'+type.toLowerCase()+'" value="'+value+'" href="'+link+'"]');
+        top.tinymce.activeEditor.insertContent('[bs_button size="'+size.toLowerCase()+'" mode="'+mode.toLowerCase()+'" type="'+type.toLowerCase()+'" value="'+value+'" href="'+link+'"]');
         top.tinymce.activeEditor.windowManager.close();
         });
     });
@@ -26,22 +27,31 @@
         <form role="form">
             <div class="form-group">
                 <label for="size">Size</label>
-                    <select class="form-control" id="size" name="size">
-                        <option value="xs">Mini</option>
-                        <option value="sm">Small</option>
-                        <option value="md" selected>Normal</option>
-                        <option value="lg">Large</option>
-                        <option value="block">Block</option>
-                    </select>
+                <select class="form-control" id="size" name="size">
+                    <option value="sm">Small</option>
+                    <option value="md" selected>Normal</option>
+                    <option value="lg">Large</option>
+                </select>
+                <label for="mode">Display mode</label>
+                <select class="form-control" id="mode" name="mode">
+                    <option value="default" selected>Normal</option>
+                    <option value="block">Block</option>
+                </select>
                 <label for="type">Types</label>
                 <select class="form-control" id="type" name="type">
-                    <option value="Default"> Default</option>
-                    <option value="Primary"> Primary</option>
-                    <option value="Success"> Success</option>
-                    <option value="Info" selected> Info</option>
-                    <option value="Warning"> Warning</option>
-                    <option value="Danger"> Danger</option>
-                    <option value="Link"> Link</option>
+                    <option value="primary" selected> Primary</option>
+                    <option value="secondary"> Secondary</option>
+                    <option value="success"> Success</option>
+                    <option value="info"> Info</option>
+                    <option value="warning"> Warning</option>
+                    <option value="danger"> Danger</option>
+                    <option value="link"> Link</option>
+                    <option value="outline-primary">Outline Primary</option>
+                    <option value="outline-secondary">Outline Secondary</option>
+                    <option value="outline-success">Outline Success</option>
+                    <option value="outline-info">Outline Info</option>
+                    <option value="outline-warning">Outline Warning</option>
+                    <option value="outline-danger">Outline Danger</option>
                 </select>
                 <label for="value">Value</label>
                 <input type="text" class="form-control" id="value" name="value" placeholder="Value" />

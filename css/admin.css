@@ -8,7 +8,8 @@
 .mce-i-bs-badges,
 .mce-i-bs-tooltip,
 .mce-i-bs-icons,
-.mce-i-bs-lead {
+.mce-i-bs-text-elmts,
+.mce-i-bs-card {
     background: url(../images/dwicons.png) no-repeat !important;
 }
 
@@ -44,8 +45,12 @@
     background-position: -128px -19px !important;
 }
 
-.mce-i-bs-lead {
+.mce-i-bs-text-elmts {
     background-position: -149px -19px !important;
+}
+
+.mce-i-bs-card {
+    background-position: -212px -19px !important;
 }
 
 /* Iframe

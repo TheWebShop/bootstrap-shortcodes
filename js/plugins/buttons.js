@@ -7,7 +7,7 @@ tinymce.PluginManager.add('bs_buttons', function(editor, url) {
                 title: 'Buttons',
                 url: url + '/buttons.html',
                 width: 480,
-                height: 320
+                height: 460
             });
         }
     });
