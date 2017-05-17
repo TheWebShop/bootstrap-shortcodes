@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="../../css/bootstrap.css" />
 <link rel="stylesheet" href="../../css/admin.css" />
 <script type="text/javascript" src="../jquery.js"></script>
+<script type="text/javascript" src="../tether.js"></script>
 <script type="text/javascript" src="../bootstrap.js"></script>
 <script type="text/javascript">
 (function($) {
@@ -13,12 +14,15 @@
         function hasHeader() {
           return $('#has-header-input').is(':checked');
         }
+        function cardInverse() {
+          return $('#card-inverse').is(':checked');
+        }
         $('#insert').click(function() {
         var title = $('input[name=title]').val();
         var footer = $('input[name=footer]').val();
         var type = $('select[name=type]').val();
 
-        top.tinymce.activeEditor.insertContent('[bs_card title="'+ title +'" type="' + type.toLowerCase() + '"'+ (hasHeader() ? ' header="true"': '') + ' footer="' + footer + '"]Type your card text here.[/bs_card]');
+        top.tinymce.activeEditor.insertContent('[bs_card title="'+ title +'" type="' + type.toLowerCase() + '"'+ (hasHeader() ? ' header="true"': '') + ( cardInverse() ? ' inverse="true"' : '') + ' footer="' + footer + '"]Type your card text here.[/bs_card]');
         top.tinymce.activeEditor.windowManager.close();
         });
     });
@@ -26,43 +30,60 @@
 </script>
 </head>
 <body>
-    <div class="container">
+    <div class="container mt-4">
         <form role="form">
+            <div class="form-group row">
+                <label class="col-3 col-form-label" for="title">Card title</label>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Card title"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-3 col-form-label" for="type">Card Type</label>
+                <div class="col-9">
+                    <select class="form-control" id="type" name="type">
+                        <option value="" selected>Default</option>
+                        <option value="inverse" selected>Inverse</option>
+                        <option value="primary">Primary</option>
+                        <option value="secondary">Secondary</option>
+                        <option value="success">Success</option>
+                        <option value="info">Info</option>
+                        <option value="warning">Warning</option>
+                        <option value="danger">Danger</option>
+                        <option value="outline-primary">Outline Primary</option>
+                        <option value="outline-secondary">Outline Secondary</option>
+                        <option value="outline-success">Outline Success</option>
+                        <option value="outline-info">Outline Info</option>
+                        <option value="outline-warning">Outline Warning</option>
+                        <option value="outline-danger">Outline Danger</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-3 col-form-label" for="footer">Footer text (optional)</label>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="footer" name="footer" placeholder="Footer text"/>
+                </div>
+            </div>
             <div class="form-group">
-                
-                <label for="title">Card title</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="Card title"/>
-                
-                <label for="type">Card Type</label>
-                <select class="form-control" id="type" name="type">
-                    <option value="" selected>Default</option>
-                    <option value="inverse" selected>Inverse</option>
-                    <option value="primary">Primary</option>
-                    <option value="secondary">Secondary</option>
-                    <option value="success">Success</option>
-                    <option value="info">Info</option>
-                    <option value="warning">Warning</option>
-                    <option value="danger">Danger</option>
-                    <option value="outline-primary">Outline Primary</option>
-                    <option value="outline-secondary">Outline Secondary</option>
-                    <option value="outline-success">Outline Success</option>
-                    <option value="outline-info">Outline Info</option>
-                    <option value="outline-warning">Outline Warning</option>
-                    <option value="outline-danger">Outline Danger</option>
-                </select>
-                
-                <label for="footer">Footer text (optional)</label>
-                <input type="text" class="form-control" id="footer" name="footer" placeholder="Footer text"/>
-
-                <label>Optional Header style</label>
                 <div class="checkbox">
                     <label>
-                        <input id="has-header-input" type="checkbox" checked> Display Card Header ?
+                        <input id="has-header-input" type="checkbox" checked> Display Card Header
                     </label>
                 </div>
-                
             </div>
-            <button type="submit" id="insert" class="btn btn-primary">Insert</button>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input id="card-inverse" type="checkbox"> Use inverse text color
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-12 text-right">
+                    <button type="submit" id="insert" class="btn btn-primary">Insert</button>
+                </div>
+            </div>
         </form>
     </div>
 </body>

@@ -8,7 +8,7 @@ tinymce.PluginManager.add('bs_badges', function(editor, url) {
                 title: 'Badges',
                 url: url + '/badges.html',
                 width: 480,
-                height: 320
+                height: 210
             });
         }
     });

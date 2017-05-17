@@ -5,18 +5,16 @@ function bs_card( $params, $content=null ){
         'title' => 'Card title',
         'header' => 'false',
         'footer' => '',
-        'type'=> ''
+        'type'=> '',
+        'inverse'=> 'false',
+        'class'=> ''
         ), $params ) );
     
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
     
-    $cardinverse = ( $type == 'primary' or 
-                     $type == 'success' or
-                     $type == 'info' or 
-                     $type == 'warning' or 
-                     $type == 'danger' ) ? ' card-inverse' : '';
+    $cardinverse = ( $inverse == 'true' ) ? ' card-inverse' : '';
 
-    $result =  '<div class="mb-3 card'. (($type !='') ? ' card-' . $type . $cardinverse : '') .'" '.(($type == 'inverse') ? ' style="background-color: #333; border-color: #333;"':'').'>';
+    $result =  '<div class="mb-3'.(($class != '') ? ' '. $class : '').' card'. (($type !='') ? ' card-' . $type . $cardinverse : '') .'" '.(($type == 'inverse') ? ' style="background-color: #333; border-color: #333;"':'').'>';
 
     if($title !==''):
         if($header=='true'):

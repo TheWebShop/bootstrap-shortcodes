@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="../../css/bootstrap.css" />
     <link rel="stylesheet" href="../../css/admin.css" />
     <script type="text/javascript" src="../jquery.js"></script>
+    <script type="text/javascript" src="../tether.js"></script>
     <script type="text/javascript" src="../bootstrap.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
@@ -17,7 +18,7 @@
         }
 
         function alertShortcode() {
-          return '[bs_notification type="' + alertType() + '" dismissible="' + isDismissable() + '"]Your content here.[/bs_notification]';
+          return '[bs_notification class="" type="' + alertType() + '" dismissible="' + isDismissable() + '"]Your content here.[/bs_notification]';
         }
 
         function renderAlertPreview() {

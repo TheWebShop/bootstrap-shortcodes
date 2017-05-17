@@ -21,7 +21,7 @@
                     onsubmit: function(e) {
                         // Insert content when the window form is submitted
                         var uID = guid();
-                        var shortcode = '[bs_collapse id="collapse_' + uID + '"]<br class="nc"/>';
+                        var shortcode = '[bs_collapse class="accordion mb-5" id="collapse_' + uID + '"]<br class="nc"/>';
                         var num = e.data.itemnum;
                         for (i = 0; i < num; i++) {
                             var id = guid();

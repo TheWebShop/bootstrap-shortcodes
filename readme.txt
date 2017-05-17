@@ -53,6 +53,14 @@ Please report issues directly to our [Github repository](https://github.com/TheW
 
 == Changelog ==
 
+= 4.0.2 =
+* Added Support for extra classses in order to add bootstrap 4 custom margin and padding classes (mr-*- and p-*-*) see bootstrap documentation about that
+* Fixed Editor window size on buttons and cards popups
+* Added two column layout in buttons and cards windows
+* Cards types are now seperated with inverse text style in the shortcode options
+* Fixed tether.js was not loaded on admin pages
+* other minor fixes
+
 = 4.0.1 =
 * Added Support for Cards
 * Buttons are now correct with BS4 options (removed xs, added outline option)

@@ -1,9 +1,13 @@
 <?php
 //lead text
 function bs_lead( $params, $content=null ){
-
+    extract( shortcode_atts( array(
+        'class'=> ''
+        ), $params ) );
+    
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result = '<div class="lead">';
+
+    $result = '<div class="lead'.(($class != '') ? ' ' . $class : '').'">';
     $result .= do_shortcode( $content );
     $result .= '</div>';
 

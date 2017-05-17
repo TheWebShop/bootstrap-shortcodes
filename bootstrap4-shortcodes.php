@@ -52,11 +52,11 @@ class Bootstrap4Shortcodes{
                 wp_enqueue_style( 'bs_tether', plugins_url( 'css/tether.css', __FILE__ ) );
                 wp_enqueue_style( 'bs_shortcodes', plugins_url( 'css/shortcodes.css', __FILE__ ) );
             }
-            if( isset( $options[ 'chk_default_options_js' ]) && $options[ 'chk_default_options_js' ] ) {
-                wp_enqueue_script( 'bs_bootstrap', plugins_url( 'js/bootstrap.js', __FILE__ ) , array( 'jquery' ) );
-            }
             if( isset( $options[ 'chk_default_options_tether_js' ]) && $options[ 'chk_default_options_tether_js' ] ) {
                 wp_enqueue_script( 'bs_tether', plugins_url( 'js/tether.js', __FILE__ ) , array( 'jquery' ) );
+            }
+            if( isset( $options[ 'chk_default_options_js' ]) && $options[ 'chk_default_options_js' ] ) {
+                wp_enqueue_script( 'bs_bootstrap', plugins_url( 'js/bootstrap.js', __FILE__ ) , array( 'jquery' ) );
             }
             wp_enqueue_script('bs_init', plugins_url('js/init.js', __FILE__ ) , array('bs_bootstrap'));
         } else {

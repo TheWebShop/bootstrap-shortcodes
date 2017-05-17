@@ -1,10 +1,11 @@
 <?php
 function bs_collapse( $params, $content=null ){
     extract( shortcode_atts( array(
-        'id'=>''
+        'id'=>'',
+        'class'=>''
          ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result = '<div id="' . $id . '" role="tablist" aria-multiselectable="true">';
+    $result = '<div id="' . $id . '" role="tablist" aria-multiselectable="true"'.(($class != '') ? ' class="'.$class.'"' : '' ).'>';
     $result .= do_shortcode( $content );
     $result .= '</div>';
     return force_balance_tags( $result );
@@ -17,9 +18,10 @@ function bs_citem( $params, $content=null ){
         'id'=> '',
         'title'=> 'Collapse title',
         'parent' => '',
-        'open' => 'false',
+        'open' => 'false'
          ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
+    
     $result =  '<div class="card">';
     $result .= '    <div class="card-header" role="tab" id="heading_' . $id . '">';
     $result .= '        <h5 class="mb-0">';
