@@ -12,25 +12,40 @@ function bs_card( $params, $content=null ){
     
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
     
-    $cardinverse = ( $inverse == 'true' ) ? ' card-inverse' : '';
+    $cardinverse = ( $inverse == 'true' ) ? ' text-white' : '';
 
-    $result =  '<div class="mb-3'.(($class != '') ? ' '. $class : '').' card'. (($type !='') ? ' card-' . $type . $cardinverse : '') .'" '.(($type == 'inverse') ? ' style="background-color: #333; border-color: #333;"':'').'>';
+    //backward compatibility
+    if($type === 'inverse') :
+        $type = 'dark';
+    endif;
+
+    if(strpos($type, 'outline-') !== false) :
+        $type = preg_replace('/outline/', '', $type, 1);
+        $cardtype = ' border' . $type;
+        $headerbg = ' border' . $type;
+    else:
+        $cardtype = ($type !='') ? ' bg-' . $type : '';
+        $headerbg = '';
+    endif;
+
+
+    $result =  '<div class="mb-3'.(($class != '') ? ' '. $class : '').' card'. $cardtype . $cardinverse .'">';
 
     if($title !==''):
         if($header=='true'):
-            $result .= '<h4 class="card-header'. (($type !='') ? ' card-' . $type : '') .'">' . $title . '</h4>';
-            $result .= '<div class="card-block">';  
+            $result .= '<h4 class="card-header'.$headerbg.'">' . $title . '</h4>';
+            $result .= '<div class="card-body">';
         else:
-            $result .= '<div class="card-block">';
+            $result .= '<div class="card-body">';
             $result .= '<h4 class="card-title">' . $title . '</h4>';
         endif;
     else:
-        $result .= '<div class="card-block">';
+        $result .= '<div class="card-body">';
     endif;
     $result .= do_shortcode( $content );
     $result .= '    </div>';
     if($footer != ''):
-        $result .= '<footer class="card-footer'. (($type !='') ? ' card-' . $type : '') .'">'. $footer .'</footer>';
+        $result .= '<footer class="card-footer'.$headerbg.'">'. $footer .'</footer>';
     endif;
     $result .= '</div>';
 

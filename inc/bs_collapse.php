@@ -31,7 +31,7 @@ function bs_citem( $params, $content=null ){
     $result .= '        </h5>';
     $result .= '    </div>';
     $result .= '    <div id="' . $id . '" class="collapse '.($open=='true'? 'show' : '').'" role="tabpanel" aria-labelledby="heading_' . $id . '">';
-    $result .= '        <div class="card-block">';
+    $result .= '        <div class="card-body">';
     $result .= do_shortcode( $content );
     $result .= '        </div>';
     $result .= '    </div>';

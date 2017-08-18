@@ -10,9 +10,13 @@
     <script type="text/javascript">
     $(document).ready(function() {
         $('#insert').click(function() {
+            function usePill() {
+              return $('#use-pill').is(':checked');
+            }
             var type = $('select[name=type]').val();
             var text = $('input[name=text]').val();
-            top.tinymce.activeEditor.insertContent('[bs_badge type="' + type.toLowerCase() + '"]' + text + '[/bs_badge]');
+            
+            top.tinymce.activeEditor.insertContent('[bs_badge'+ (usePill() ? ' pill="true"': '') + ' type="' + type.toLowerCase() + '"]' + text + '[/bs_badge]');
             top.tinymce.activeEditor.windowManager.close();
         });
     });
@@ -35,6 +39,13 @@
                 </select>
                 <label for="text">Text</label>
                 <input type="text" class="form-control" id="text" name="text" placeholder="Badge text" onclick="this.select()" />
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input id="use-pill" type="checkbox" checked> Use rounded badges ?
+                    </label>
+                </div>
             </div>
             <button type="submit" id="insert" class="btn btn-primary">Insert</button>
         </form>

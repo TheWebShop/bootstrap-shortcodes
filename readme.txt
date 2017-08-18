@@ -2,12 +2,12 @@
 Contributors: sinetheta, beaurixon, no3x, Designwall Team, Washaweb
 Tags: shortcode, shortcodes, bootstrap, buttons, grid, well, responsive, widget
 Requires at least: 3.9
-Tested up to: 4.7.3
+Tested up to: 4.8.1
 Stable tag: 3.4.0
 License: GNU General Public License v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Wordpress plugin to add shortcodes for Twitter Bootstrap 4.0
+Wordpress plugin to add shortcodes for Twitter Bootstrap 4.0-beta
 
 == Description ==
 
@@ -28,12 +28,11 @@ We add a row of buttons to the bottom of your post editor Visual mode, each of w
 * Alerts
 * Buttons
 * Grid (container, row, columns, fully responsive)
-* Icons
 * Badges
 * Lead Text
 * Blockquotes
 * Cards
-
+* Collapse
 
 ### JavaScript
 
@@ -51,7 +50,18 @@ Please report issues directly to our [Github repository](https://github.com/TheW
 3. Activate the plugin.
 4. Add new shortcodes to posts or pages.
 
+
 == Changelog ==
+
+= 4.1.0 =
+* Updated all supported components to keep compatibility with Bootstrap 4.0-beta (WARNING: May Breaks compatibility if you still use Bootstrap 4.0-alpha components)
+* Updated jQuery to version 3.2.1
+* Added Popper.js in replacement of tether.js
+* Removed tether.js (no longer used by Bootstrap)
+* Added support for badge-pill
+* Added support for btn-light, btn-dark, btn-outline-light, btn-outline-dark
+* Cards and Collapse: changed .card-block to .card-body class as modified in the new Bootstrap 4.0-beta HTML markup
+* Restored support for tooltips
 
 = 4.0.2 =
 * Added Support for extra classses in order to add bootstrap 4 custom margin and padding classes (mr-*- and p-*-*) see bootstrap documentation about that
