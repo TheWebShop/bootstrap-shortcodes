@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="../../css/bootstrap.css" />
     <link rel="stylesheet" href="../../css/admin.css" />
     <script type="text/javascript" src="../jquery.js"></script>
+    <script type="text/javascript" src="../tether.js"></script>
     <script type="text/javascript" src="../bootstrap.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
@@ -17,7 +18,7 @@
         }
 
         function alertShortcode() {
-          return '[bs_notification type="' + alertType() + '" dismissible="' + isDismissable() + '"]Your content here.[/bs_notification]';
+          return '[bs_notification class="" type="' + alertType() + '" dismissible="' + isDismissable() + '"]Your content here.[/bs_notification]';
         }
 
         function renderAlertPreview() {
@@ -54,10 +55,10 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-6">
-                <h4>Options</h4>
+            <div class="col">
+                <h4 class="mt-1">Options</h4>
                 <form id="alert-form">
                     <div class="form-group">
                         <select id="alert-type-input" class="form-control">
@@ -79,11 +80,10 @@
                     </div>
                 </form>
             </div>
-            <div class="col-xs-6">
-                <h4>Preview</h4>
+            <div class="col">
+                <h4 class="mt-1">Preview</h4>
                 <div id="alert-demo"></div>
-                    <button id="reset-button" class="btn btn-warning">Oops, I guess I needed that</button>
-                </div>
+                <button id="reset-button" class="btn btn-warning">Oops, I guess I needed that</button>
             </div>
         </div>
     </div>

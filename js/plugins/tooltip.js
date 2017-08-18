@@ -7,7 +7,7 @@ tinymce.PluginManager.add('bs_tooltip', function(editor, url) {
                 title: 'Tooltip',
                 url: url + '/tooltip.html',
                 width: 480,
-                height: 320
+                height: 220
             });
         }
     });

@@ -4,12 +4,12 @@
 .mce-i-bs-tabs,
 .mce-i-bs-collapse,
 .mce-i-bs-alerts,
-.mce-i-bs-wells,
 .mce-i-bs-buttons,
-.mce-i-bs-labels,
+.mce-i-bs-badges,
 .mce-i-bs-tooltip,
 .mce-i-bs-icons,
-.mce-i-bs-lead {
+.mce-i-bs-text-elmts,
+.mce-i-bs-card {
     background: url(../images/dwicons.png) no-repeat !important;
 }
 
@@ -29,17 +29,14 @@
     background-position: -65px -19px !important;
 }
 
-.mce-i-bs-wells {
-    background-position: -86px -19px !important;
-}
-
 .mce-i-bs-buttons {
     background-position: -107px -19px !important;
 }
 
-.mce-i-bs-labels {
+.mce-i-bs-badges {
     background-position: -191px -19px !important;
 }
+
 .mce-i-bs-tooltip {
     background-position: -170px -19px !important;
 }
@@ -48,8 +45,12 @@
     background-position: -128px -19px !important;
 }
 
-.mce-i-bs-lead {
+.mce-i-bs-text-elmts {
     background-position: -149px -19px !important;
+}
+
+.mce-i-bs-card {
+    background-position: -212px -19px !important;
 }
 
 /* Iframe

@@ -1,38 +1,37 @@
 <?php
 /*
-Plugin Name: Bootstrap Shortcodes
-Plugin URI: https://github.com/TheWebShop/bootstrap-shortcodes
-Description: A simple shortcode generator. Add buttons, columns, toggles and alerts to your theme.
-Version: 3.4.0
-Author: Kevin Attfield
-Author URI: https://github.com/Sinetheta
+Plugin Name: Bootstrap 4 Shortcodes
+Plugin URI: https://github.com/washaweb/bootstrap-shortcodes
+Description: A Bootstrap 4 simple shortcode generator. Add buttons, columns, toggles and alerts to your theme.
+Version: 4.1.0
+Author: Jerome Poslednik
+Author URI: https://github.com/washaweb
 
-Forked from DW Shortcodes Bootstrap http://wordpress.org/plugins/dw-shortcodes-bootstrap/
+Forked from Original Bootstrap Shortcodes https://github.com/TheWebShop/bootstrap-shortcodes
+Witch was Forked from DW Shortcodes Bootstrap http://wordpress.org/plugins/dw-shortcodes-bootstrap/
 */
 
 require_once( 'inc/bs_grid.php' );
-require_once( 'inc/bs_tabs.php' );
+//require_once( 'inc/bs_tabs.php' );
 require_once( 'inc/bs_collapse.php' );
 require_once( 'inc/bs_alert.php' );
-require_once( 'inc/bs_well.php' );
 require_once( 'inc/bs_buttons.php' );
-require_once( 'inc/bs_labels.php' );
-require_once( 'inc/bs_icons.php' );
-require_once( 'inc/bs_lead.php' );
+require_once( 'inc/bs_badges.php' );
+require_once( 'inc/bs_card.php' );
+require_once( 'inc/bs_text_elements.php' );
 require_once( 'inc/bs_tooltip.php' );
 
-class BootstrapShortcodes{
+class Bootstrap4Shortcodes{
 
     public $shortcodes = array(
         'grid',
-        'tabs',
+        //'tabs',
         'collapse',
         'alerts',
-        'wells',
         'buttons',
-        'labels',
-        'icons',
-        'lead',
+        'badges',
+        'text_elements',
+        'card',
         'tooltip'
     );
 
@@ -40,23 +39,11 @@ class BootstrapShortcodes{
         add_action( 'init', array( &$this, 'init' ) );
         register_activation_hook( __FILE__, array( &$this, 'add_options_defaults' ) );
         add_action( 'admin_init', array( &$this, 'register_settings' ) );
+        add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_scripts') );
         add_action( 'admin_menu', array( &$this, 'register_settings_page' ) );
     }
 
     function init() {
-        $options = get_option( 'bs_options' );
-        if( !is_admin() ) {
-            if( isset( $options[ 'chk_default_options_css' ] ) && $options[ 'chk_default_options_css' ] ) {
-                wp_enqueue_style( 'bs_bootstrap', plugins_url( 'css/bootstrap.css', __FILE__ ) );
-                wp_enqueue_style( 'bs_shortcodes', plugins_url( 'css/shortcodes.css', __FILE__ ) );
-            }
-            if( isset( $options[ 'chk_default_options_js' ]) && $options[ 'chk_default_options_js' ] ) {
-                wp_enqueue_script( 'bs_bootstrap', plugins_url( 'js/bootstrap.js', __FILE__ ) , array( 'jquery' ) );
-            }
-            wp_enqueue_script('bs_init', plugins_url('js/init.js', __FILE__ ) , array('bs_bootstrap'));
-        } else {
-            wp_enqueue_style( 'bs_admin_style', plugins_url( 'css/admin.css', __FILE__ ) );
-        }
         if ( !current_user_can( 'edit_posts' ) && !current_user_can( 'edit_pages' ) ) {
             return;
         }
@@ -64,6 +51,25 @@ class BootstrapShortcodes{
             add_filter( 'mce_external_plugins', array( &$this, 'regplugins' ) );
             add_filter( 'mce_buttons_3', array( &$this, 'regbtns' ) );
         }
+        if(is_admin()) {
+            wp_enqueue_style( 'bs_admin_style', plugins_url( 'css/admin.css', __FILE__ ) );
+        }
+    }
+
+    function enqueue_scripts() {
+        $options = get_option( 'bs_options' );
+
+        if( isset( $options[ 'chk_default_options_css' ] ) && $options[ 'chk_default_options_css' ] ) {
+            wp_enqueue_style( 'bs_bootstrap', plugins_url( 'css/bootstrap.css', __FILE__ ) );
+            wp_enqueue_style( 'bs_shortcodes', plugins_url( 'css/shortcodes.css', __FILE__ ) );
+        }
+        if( isset( $options[ 'chk_default_options_popper_js' ]) && $options[ 'chk_default_options_popper_js' ] ) {
+            wp_enqueue_script( 'bs_popper', plugins_url( 'js/popper.js', __FILE__ ) , array( 'jquery' ) );
+        }
+        if( isset( $options[ 'chk_default_options_js' ]) && $options[ 'chk_default_options_js' ] ) {
+            wp_enqueue_script( 'bs_bootstrap', plugins_url( 'js/bootstrap.js', __FILE__ ) , array( 'jquery' ) );
+        }
+        wp_enqueue_script( 'bs_init', plugins_url('js/init.js', __FILE__ ), array('jquery'), '1.11.1', true);
     }
 
     function regbtns( $buttons ) {
@@ -84,22 +90,22 @@ class BootstrapShortcodes{
     }
 
     function register_settings_page() {
-        add_options_page( __( 'BS Shortcodes', 'bsshortcodes' ), __( 'BS Shortcodes', 'bsshortcodes' ), 'manage_options', __FILE__, array( &$this, 'dw_render_form') );
+        add_options_page( __( 'BS4 Shortcodes', 'bsshortcodes' ), __( 'BS4 Shortcodes', 'bsshortcodes' ), 'manage_options', __FILE__, array( &$this, 'dw_render_form') );
     }
 
     function add_options_defaults() {
             $arr = array(
                 'chk_default_options_css'       => '1',
                 'chk_default_options_js'        => '1',
+                'chk_default_options_popper_js' => '1',
                 'chk_default_options_grid'      => '1',
-                'chk_default_options_tabs'      => '1',
+                //'chk_default_options_tabs'      => '1',
                 'chk_default_options_collapse'  => '1',
                 'chk_default_options_alerts'    => '1',
-                'chk_default_options_wells'     => '1',
                 'chk_default_options_buttons'   => '1',
-                'chk_default_options_labels'    => '1',
-                'chk_default_options_icons'     => '1',
-                'chk_default_options_lead'      => '1',
+                'chk_default_options_badges'    => '1',
+                'chk_default_options_text_elements'      => '1',
+                'chk_default_options_card'       => '1',
                 'chk_default_options_tooltip'   => '1'
             );
             update_option( 'bs_options', $arr );
@@ -124,17 +130,23 @@ class BootstrapShortcodes{
                     <tr valign="top" style="border-top:#dddddd 1px solid;">
                         <th scope="row">Twitter Bootstrap CSS</th>
                         <td>
-                            <label><input name="bs_options[chk_default_options_css]" type="checkbox" value="1" <?php if ( isset( $options[ 'chk_default_options_css' ] ) ) { checked( '1', $options[ 'chk_default_options_css' ] ); } ?> /> Load Twitter Bootstrap css file</label><br /><span style="color:#666666;margin-left:2px;">Uncheck this if you already include Bootstrap css on your template</span>
+                            <label><input name="bs_options[chk_default_options_css]" type="checkbox" value="1" <?php if ( isset( $options[ 'chk_default_options_css' ] ) ) { checked( '1', $options[ 'chk_default_options_css' ] ); } ?> /> Load Twitter Bootstrap 4 css file</label><br /><span style="color:#666666;margin-left:2px;">Uncheck this if you already include Bootstrap 4 css on your template</span>
                         </td>
                     </tr>
                     <tr valign="top">
                         <th scope="row">Twitter Bootstrap JS</th>
                         <td>
-                            <label><input name="bs_options[chk_default_options_js]" type="checkbox" value="1" <?php if ( isset( $options[ 'chk_default_options_js' ] ) ) { checked( '1', $options[ 'chk_default_options_js' ] ); } ?> /> Load Twitter Bootstrap javascript file</label><br /><span style="color:#666666;margin-left:2px;">Uncheck this if you already include Bootstrap javascript on your template</span>
+                            <label><input name="bs_options[chk_default_options_js]" type="checkbox" value="1" <?php if ( isset( $options[ 'chk_default_options_js' ] ) ) { checked( '1', $options[ 'chk_default_options_js' ] ); } ?> /> Load Twitter Bootstrap 4 javascript file</label><br /><span style="color:#666666;margin-left:2px;">Uncheck this if you already include Bootstrap 4 javascript on your template</span>
+                        </td>
+                    </tr>
+                     <tr valign="top">
+                        <th scope="row">Popper JS</th>
+                        <td>
+                            <label><input name="bs_options[chk_default_options_popper_js]" type="checkbox" value="1" <?php if ( isset( $options[ 'chk_default_options_popper_js' ] ) ) { checked( '1', $options[ 'chk_default_options_popper_js' ] ); } ?> /> Load popper javascript file (needed for toolTips)</label><br /><span style="color:#666666;margin-left:2px;">Uncheck this if you already include popper javascript on your template</span>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Twitter Bootstrap Shortcodes</th>
+                        <th scope="row">Twitter Bootstrap 4 Shortcodes</th>
                         <td>
 
                             <?php foreach ( $this->shortcodes as &$shortcode ): ?>
@@ -162,4 +174,4 @@ class BootstrapShortcodes{
     }
 }
 
-$bscodes = new BootstrapShortcodes();
+$bscodes = new Bootstrap4Shortcodes();

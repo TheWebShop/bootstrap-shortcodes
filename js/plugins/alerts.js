@@ -7,7 +7,7 @@ tinymce.PluginManager.add('bs_alerts', function(editor, url) {
                 title: 'Add an alert',
                 url: url + '/alerts.html',
                 width: 480,
-                height: 180
+                height: 220
             });
         }
     });
