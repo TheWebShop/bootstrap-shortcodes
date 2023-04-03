@@ -5,7 +5,7 @@ function bs_labels( $params, $content=null ) {
     ), $params ) );
 
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result = '<span class="label label-' . $type . '">' . $content . '</span>';
+    $result = '<span class="label label-' . esc_attr($type) . '">' . $content . '</span>';
     return force_balance_tags( $result );
 }
 add_shortcode( 'bs_label', 'bs_labels' );
