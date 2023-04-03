@@ -5,7 +5,7 @@ function bs_row( $params, $content=null ) {
         'class' => 'row'
     ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result = '<div class="' . $class . '">';
+    $result = '<div class="' . esc_attr($class) . '">';
     $result .= do_shortcode( $content );
     $result .= '</div>';
     return force_balance_tags( $result );
@@ -17,7 +17,7 @@ function bs_span( $params, $content=null ) {
         'class' => 'col-sm-1'
         ), $params ) );
 
-    $result = '<div class="' . $class . '">';
+    $result = '<div class="' . esc_attr($class) . '">';
     $result .= do_shortcode( $content );
     $result .= '</div>';
     return force_balance_tags( $result );

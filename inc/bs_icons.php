@@ -6,7 +6,7 @@ function bs_icons( $params, $content=null ) {
     ), $params));
 
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result = '<i class="' . $name . '"></i>';
+    $result = '<i class="' . esc_attr($name) . '"></i>';
     return force_balance_tags( $result );
 }
 add_shortcode( 'bs_icon', 'bs_icons' );
