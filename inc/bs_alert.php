@@ -5,7 +5,7 @@ function bs_notice( $params, $content=null ) {
         'dismissible' => 'true'
     ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result =  '<div class="alert alert-'.$type.($dismissible=='true'? ' alert-dismissible' : '').'">';
+    $result =  '<div class="alert alert-'.esc_attr($type).($dismissible=='true'? ' alert-dismissible' : '').'">';
     $result .= $dismissible=='true'? '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' : '';
     $result .= do_shortcode( $content );
     $result .= '</div>';

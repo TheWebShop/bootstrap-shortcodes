@@ -5,7 +5,7 @@ function bs_well( $params, $content=null ) {
     ), $params));
 
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result =  '<div class="well well-' . $size . '">';
+    $result =  '<div class="well well-' . esc_attr($size) . '">';
     $result .= do_shortcode( $content );
     $result .= '</div>';
     return force_balance_tags( $result );
