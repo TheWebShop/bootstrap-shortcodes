@@ -9,4 +9,8 @@ When committing changes, you **MUST** follow strict commit hygiene practices:
    - If a task involves multiple distinct logical changes, they must be committed separately.
 2. **Commit Isolation**: Always review `git status` carefully before adding files. Do not use `git add .` unless you are absolutely certain that every modified file belongs in the same logical changeset. Add specific paths instead (`git add path/to/file`).
 3. **Commit Messages**: Use clear, descriptive commit messages that specify the exact component being changed and the reason. Prefix with Conventional Commits tags like `Security:`, `Fix:`, `Chore:`, `Feat:` where appropriate.
-4. **Environment Separation**: Never commit local testing configurations (e.g. `.wp-env.json`), workflow files, or temporary documentation drafts to the plugin release history unless explicitly required.
+4. **Environment Separation & Repository Scope**: ONLY check in files that relate to the development, testing, and operation of this project. **NEVER** check in personal or business documents (like email templates, passwords, or unrelated data).
+5. **Git Flow & Branching**: 
+   - **Never push directly to `master`.**
+   - All development must take place on a dedicated feature or bugfix branch (e.g. `feature/ci-cd-setup`, `fix/xss-tooltip`).
+   - Changes must be pushed up to open a Pull Request against `master`, allowing CI tests to run and pass before merging.
