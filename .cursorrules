@@ -1,0 +1,12 @@
+# Project Rules: Git Commit Hygiene
+
+This project is actively reviewed and scrutinized for security and quality before SVN deployment.
+
+When committing changes, you **MUST** follow strict commit hygiene practices:
+
+1. **Atomic Commits**: Never mix different types of changes into a single commit.
+   - Example: Do not mix a security vulnerability patch with metadata updates or refactoring.
+   - If a task involves multiple distinct logical changes, they must be committed separately.
+2. **Commit Isolation**: Always review `git status` carefully before adding files. Do not use `git add .` unless you are absolutely certain that every modified file belongs in the same logical changeset. Add specific paths instead (`git add path/to/file`).
+3. **Commit Messages**: Use clear, descriptive commit messages that specify the exact component being changed and the reason. Prefix with Conventional Commits tags like `Security:`, `Fix:`, `Chore:`, `Feat:` where appropriate.
+4. **Environment Separation**: Never commit local testing configurations (e.g. `.wp-env.json`), workflow files, or temporary documentation drafts to the plugin release history unless explicitly required.
