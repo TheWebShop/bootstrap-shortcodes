@@ -2,3 +2,4 @@ node_modules/
 vendor/
 artifacts/
 .phpunit.result.cache
+pr_description.md
