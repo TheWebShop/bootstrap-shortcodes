@@ -1,0 +1,4 @@
+node_modules/
+vendor/
+artifacts/
+.phpunit.result.cache

@@ -15,3 +15,25 @@ Only development, testing, and project-related files are permitted in this repos
 
 ## Local QA Testing
 For local testing, we use `@wordpress/env`. See the [detailed workflow](.agents/workflows/local-qa.md) for instructions on spinning up the local test site.
+
+## Automated Testing
+This repository includes automated tests using PHPUnit for PHP logic and Playwright for End-to-End (E2E) testing. Both suites run inside the local `@wordpress/env` Docker environment.
+
+### Setup
+Install dependencies and initiate the test container:
+```bash
+npm install
+composer install
+npx @wordpress/env start
+```
+
+### Running Tests
+To run the PHPUnit test suite:
+```bash
+npm run test:php
+```
+
+To run the Playwright E2E test suite:
+```bash
+npm run test:e2e
+```
