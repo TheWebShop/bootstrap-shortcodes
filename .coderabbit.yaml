@@ -13,10 +13,10 @@ reviews:
   request_changes_workflow: false
   
   # Adds a high-level summary at the top of the PR
-  high_level_summary: true
+  high_level_summary: false
   
   # A short informative poem about the changes
-  poem: true
+  poem: false
   
   # Updates the review status dynamically
   review_status: true
