@@ -5,7 +5,7 @@ class ShortcodeWellsTest extends WP_UnitTestCase {
     public function test_well_default() {
         $content = '[bs_well]Inner Content[/bs_well]';
         $output = do_shortcode($content);
-        $this->assertStringContainsString('<div class="well well-unknown">', $output);
+        $this->assertStringContainsString('<div class="well">', $output);
         $this->assertStringContainsString('Inner Content', $output);
     }
     
