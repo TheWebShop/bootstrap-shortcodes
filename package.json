@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/TheWebShop/bootstrap-shortcodes#readme",
   "devDependencies": {
+    "@release-it/conventional-changelog": "^10.0.5",
     "@wordpress/env": "^10.39.0",
     "@wordpress/scripts": "^31.6.0",
     "release-it": "^19.2.4"
