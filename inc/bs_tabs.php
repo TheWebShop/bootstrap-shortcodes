@@ -56,7 +56,8 @@ function bs_dropdown( $params, $content=null ) {
         ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
     $result = '<li class="dropdown">';
-    $result .= '<a class="' . esc_attr($class) . '" id="' . esc_attr($id) . '" class="dropdown-toggle" data-toggle="dropdown">' . esc_attr($title) . '<b class="caret"></b></a>';
+    $class_attr = trim( esc_attr( $class ) . ' dropdown-toggle' );
+    $result .= '<a class="' . $class_attr . '" id="' . esc_attr($id) . '" data-toggle="dropdown">' . esc_attr($title) . '<b class="caret"></b></a>';
     $result .= '<ul class="dropdown-menu">';
     $result .= do_shortcode( $content );
     $result .= '</ul></li>';
