@@ -10,7 +10,7 @@ class ShortcodeButtonsTest extends WP_UnitTestCase {
 	public function test_default_button() {
 		$output = do_shortcode( '[bs_button]' );
 		
-		$this->assertStringContainsString( '<a class="btn btn-default btn-default" href="#">button</a>', $output );
+		$this->assertStringContainsString( '<a class="btn btn-default" href="#">button</a>', $output );
 	}
 
 	public function test_button_attributes() {
