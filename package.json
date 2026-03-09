@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-shortcodes",
-  "version": "3.4.4",
+  "version": "3.4.5",
   "description": "Welcome to the development repository for the Bootstrap Shortcodes WordPress Plugin.",
   "main": "index.js",
   "scripts": {

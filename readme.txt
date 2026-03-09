@@ -3,7 +3,7 @@ Contributors: sinetheta, beaurixon, no3x
 Tags: shortcode, shortcodes, bootstrap, buttons, grid
 Requires at least: 3.9
 Tested up to: 6.9
-Stable tag: 3.4.4
+Stable tag: 3.4.5
 License: GNU General Public License v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

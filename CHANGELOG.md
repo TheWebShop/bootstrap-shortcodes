@@ -1,5 +1,7 @@
 # Changelog
 
+## [3.4.5](https://github.com/TheWebShop/bootstrap-shortcodes/compare/3.4.4...3.4.5) (2026-03-09)
+
 ## [3.4.4](https://github.com/TheWebShop/bootstrap-shortcodes/compare/3.4.2...3.4.4) (2026-03-09)
 
 
