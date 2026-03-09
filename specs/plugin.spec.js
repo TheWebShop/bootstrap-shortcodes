@@ -17,7 +17,7 @@ test.describe('Plugin Activation', () => {
 		}
 
 		// The row should have the 'active' class (and not 'inactive')
-		await expect(pluginRow).toHaveClass(/active/);
+		await expect(pluginRow).toHaveClass(/\bactive\b/);
 	});
 
 });
