@@ -1,0 +1,45 @@
+# CodeRabbit Configuration File
+# Documentation: https://coderabbit.ai/docs/configuration
+
+language: "en-US"
+early_access: false
+
+reviews:
+  # 'chill' provides a more relaxed review.
+  # Other option: 'assertive' (more strict)
+  profile: "chill"
+  
+  # Set to true to allow CodeRabbit to request changes on PRs instead of just commenting
+  request_changes_workflow: false
+  
+  # Adds a high-level summary at the top of the PR
+  high_level_summary: true
+  
+  # A short informative poem about the changes
+  poem: true
+  
+  # Updates the review status dynamically
+  review_status: true
+  
+  # Whether to collapse the walkthrough table
+  collapse_walkthrough: false
+  
+  # Paths to exclude from reviews. The '!' prefix means "ignore".
+  path_filters:
+    - "!**/*.min.css"
+    - "!**/*.min.js"
+    - "!vendor/**"
+    - "!node_modules/**"
+    - "!tags/**"
+    - "!assets/**"
+
+  # Example of how to add custom instructions for specific files:
+  # path_instructions:
+  #   - path: "**/*.php"
+  #     instructions: |
+  #       Please ensure WordPress coding standards are followed.
+  #       Pay special attention to security and input sanitization (e.g., escaping output).
+
+chat:
+  # Allow CodeRabbit to automatically reply to comments on lines of code
+  auto_reply: true
