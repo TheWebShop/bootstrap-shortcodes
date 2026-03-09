@@ -1,11 +1,12 @@
 <?php
 function bs_well( $params, $content=null ) {
     extract( shortcode_atts( array(
-        'size' => 'unknown'
+        'size' => ''
     ), $params));
 
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result =  '<div class="well well-' . esc_attr($size) . '">';
+    $size_class = $size ? ' well-' . esc_attr($size) : '';
+    $result =  '<div class="well' . $size_class . '">';
     $result .= do_shortcode( $content );
     $result .= '</div>';
     return force_balance_tags( $result );
