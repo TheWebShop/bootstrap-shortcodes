@@ -23,8 +23,10 @@ This repository includes automated tests using PHPUnit for PHP logic and Playwri
 Install dependencies and initiate the test container:
 ```bash
 npm install
-composer install
-npx @wordpress/env start
+npx wp-env start
+npx wp-env run tests-cli \
+  --env-cwd=wp-content/plugins/bootstrap-shortcodes \
+  composer install
 ```
 
 ### Running Tests
