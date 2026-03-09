@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:php": "wp-env run tests-cli --env-cwd=wp-content/plugins/bootstrap-shortcodes vendor/bin/phpunit",
-    "test:e2e": "wp-scripts test-playwright"
+    "test:e2e": "wp-env run tests-cli wp plugin activate bootstrap-shortcodes classic-editor.latest-stable && wp-scripts test-playwright"
   },
   "repository": {
     "type": "git",
