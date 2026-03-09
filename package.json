@@ -1,11 +1,12 @@
 {
   "name": "bootstrap-shortcodes",
-  "version": "1.0.0",
+  "version": "3.4.2",
   "description": "Welcome to the development repository for the Bootstrap Shortcodes WordPress Plugin.",
   "main": "index.js",
   "scripts": {
     "test:php": "wp-env run tests-cli --env-cwd=wp-content/plugins/bootstrap-shortcodes vendor/bin/phpunit",
-    "test:e2e": "wp-env run tests-cli wp plugin activate bootstrap-shortcodes classic-editor.latest-stable && wp-scripts test-playwright"
+    "test:e2e": "wp-env run tests-cli wp plugin activate bootstrap-shortcodes classic-editor.latest-stable && wp-scripts test-playwright",
+    "release": "release-it"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,8 @@
   "homepage": "https://github.com/TheWebShop/bootstrap-shortcodes#readme",
   "devDependencies": {
     "@wordpress/env": "^10.39.0",
-    "@wordpress/scripts": "^31.6.0"
+    "@wordpress/scripts": "^31.6.0",
+    "release-it": "^19.2.4"
   },
   "volta": {
     "node": "20.20.1"

@@ -1,0 +1,21 @@
+{
+    "git": {
+        "requireUpstream": false,
+        "commitMessage": "chore: release v${version}",
+        "tagName": "${version}"
+    },
+    "github": {
+        "release": false
+    },
+    "npm": {
+        "publish": false
+    },
+    "hooks": {
+        "after:bump": [
+            "sed -i.bak -e \"s/Stable tag: .*/Stable tag: ${version}/\" readme.txt",
+            "sed -i.bak -e \"s/Version: .*/Version: ${version}/\" bootstrap-shortcodes.php",
+            "rm -f readme.txt.bak bootstrap-shortcodes.php.bak",
+            "git add readme.txt bootstrap-shortcodes.php"
+        ]
+    }
+}
