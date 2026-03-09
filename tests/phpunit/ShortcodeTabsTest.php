@@ -27,7 +27,7 @@ class ShortcodeTabsTest extends WP_UnitTestCase {
         $content = '[bs_dropdown title="Options" id="opts" class="my-drop"][bs_tab href="#opt1" title="Opt 1"][/bs_dropdown]';
         $output = do_shortcode($content);
         $this->assertStringContainsString('<li class="dropdown">', $output);
-        $this->assertStringContainsString('<a class="my-drop" id="opts" class="dropdown-toggle" data-toggle="dropdown">Options<b class="caret"></b></a>', $output);
+        $this->assertStringContainsString('<a class="my-drop dropdown-toggle" id="opts" data-toggle="dropdown">Options<b class="caret"></b></a>', $output);
         $this->assertStringContainsString('<ul class="dropdown-menu">', $output);
         $this->assertStringContainsString('<a data-toggle="tab" href="#opt1">Opt 1</a>', $output);
     }
