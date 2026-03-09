@@ -38,6 +38,6 @@ class ShortcodeGridTest extends WP_UnitTestCase {
 		$output = do_shortcode( '[bs_row][bs_col class="col-xs-6"]Left[/bs_col][bs_col class="col-xs-6"]Right[/bs_col][/bs_row]' );
 		
 		// Checking structure roughly
-		$this->assertMatchesRegularExpression( '/<div class="row">.*?<div class="col-xs-6">Left<\/div>.*?<div class="col-xs-6">Right<\/div>.*?<\/div>/', $output );
+		$this->assertMatchesRegularExpression( '/<div class="row">.*?<div class="col-xs-6">Left<\/div>.*?<div class="col-xs-6">Right<\/div>.*?<\/div>/s', $output );
 	}
 }
