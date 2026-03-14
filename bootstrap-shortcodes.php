@@ -41,6 +41,7 @@ class BootstrapShortcodes{
         register_activation_hook( __FILE__, array( &$this, 'add_options_defaults' ) );
         add_action( 'admin_init', array( &$this, 'register_settings' ) );
         add_action( 'admin_menu', array( &$this, 'register_settings_page' ) );
+        add_action( 'wp_ajax_bss_do_shortcode', array( &$this, 'bss_do_shortcode') );
     }
 
     function init() {
@@ -63,6 +64,7 @@ class BootstrapShortcodes{
         if ( get_user_option( 'rich_editing' ) == 'true' ) {
             add_filter( 'mce_external_plugins', array( &$this, 'regplugins' ) );
             add_filter( 'mce_buttons_3', array( &$this, 'regbtns' ) );
+            add_filter( 'tiny_mce_before_init', array( &$this ,'register_tinymce_settings') );
         }
     }
 
@@ -81,6 +83,21 @@ class BootstrapShortcodes{
             $plgs[ 'bs_' . $shortcode ] = plugins_url( 'js/plugins/' . $shortcode . '.js', __FILE__ );
         }
         return $plgs;
+    }
+
+    function register_tinymce_settings( $settings ) {
+        $settings['ajaxurl'] = admin_url( 'admin-ajax.php' );
+        $settings['bss_nonce'] = wp_create_nonce( 'bss_ajax_do_shortcode' );
+        return $settings;
+    }
+
+    function bss_do_shortcode() {
+        if( false === check_ajax_referer('bss_ajax_do_shortcode', 'nonce', false) ) {
+            _e( 'Security Issue - No Preview', 'bsshortcodes');
+        } else {
+            echo do_shortcode( wp_unslash( $_POST['shortcode'] ) ) ;
+        }
+        wp_die(); // this is required to terminate immediately and return a proper response
     }
 
     function register_settings_page() {

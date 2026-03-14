@@ -21,9 +21,13 @@
         }
 
         function renderAlertPreview() {
-          var closebutton = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-          var template = '<div class="alert alert-' + alertType() + '" role="alert">Your content here.' + (isDismissable()? closebutton: '') + '</div>'
-          $('#alert-demo').html(template);
+          jQuery.post(top.tinymce.settings.ajaxurl, {
+              'action': 'bss_do_shortcode',
+              'nonce': top.tinymce.settings.bss_nonce,
+              'shortcode': alertShortcode()
+          }, function(response) {
+              $('#alert-demo').html( response );
+          });
         }
 
         function insertShortcode(event) {
