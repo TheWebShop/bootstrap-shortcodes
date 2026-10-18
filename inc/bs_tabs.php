@@ -48,7 +48,6 @@ function bs_tab( $params, $content=null ) {
 add_shortcode( 'bs_tab', 'bs_tab' );
 
 function bs_dropdown( $params, $content=null ) {
-    global $bs_timestamp;
     extract( shortcode_atts( array(
         'title' => '',
         'id' => '',
@@ -81,7 +80,7 @@ function bs_tcontent( $params, $content=null ) {
         ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
     $class = ($class=='active')? 'active in': '';
-    $result = '<div class="tab-pane fade ' . esc_attr($class) . '" id=' . esc_attr($id) . '>';
+    $result = '<div class="tab-pane fade ' . esc_attr($class) . '" id="' . esc_attr($id) . '">';
     $result .= do_shortcode( $content );
     $result .= '</div>';
     return force_balance_tags( $result );
