@@ -15,7 +15,6 @@ INCLUDES=(
   "images/"
   "inc/"
   "js/"
-  "assets/"
 )
 
 echo "🚀 Starting deployment to SVN..."
