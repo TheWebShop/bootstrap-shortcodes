@@ -6,7 +6,7 @@
 ### Bug Fixes
 
 * **tabs:** generate editor tab ids without dots ([16cade8](https://github.com/TheWebShop/bootstrap-shortcodes/commit/16cade8dab7de75f946ed602d0c2ce7f6f3b4138))
-* **tabs:** quote bs_tcontent id attribute ([c26659c](https://github.com/TheWebShop/bootstrap-shortcodes/commit/c26659ccb6ddb871c7dee1b77cb81cad63e7a75b))
+* **tabs:** quote bs_tcontent id attribute ([c26659c](https://github.com/TheWebShop/bootstrap-shortcodes/commit/c26659ccb6ddb871c7dee1b77cb81cad63e7a75b)), reported by Andrew Herd
 * update bundled Bootstrap from 3.3.5 to 3.4.1 ([b8f3df4](https://github.com/TheWebShop/bootstrap-shortcodes/commit/b8f3df43ea6d46c466f3bf3b00e14620d5327e3b))
 
 ## [3.4.4](https://github.com/TheWebShop/bootstrap-shortcodes/compare/3.4.2...3.4.4) (2026-03-09)
