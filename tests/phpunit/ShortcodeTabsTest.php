@@ -45,7 +45,19 @@ class ShortcodeTabsTest extends WP_UnitTestCase {
     public function test_tcontent_item() {
         $content = '[bs_tcontent id="home" class="active"]Content[/bs_tcontent]';
         $output = do_shortcode($content);
-        $this->assertStringContainsString('<div class="tab-pane fade active in" id=home>', $output);
+        $this->assertStringContainsString('<div class="tab-pane fade active in" id="home">', $output);
         $this->assertStringContainsString('Content', $output);
+    }
+
+    public function test_tcontent_id_cannot_inject_attributes() {
+        $content = '[bs_tcontent id="xss onmouseover=alert(1) style=padding:50px" class="active"]Content[/bs_tcontent]';
+        $output = do_shortcode($content);
+
+        $doc = new DOMDocument();
+        $doc->loadHTML($output, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $pane = $doc->getElementsByTagName('div')->item(0);
+        $this->assertFalse($pane->hasAttribute('onmouseover'));
+        $this->assertFalse($pane->hasAttribute('style'));
+        $this->assertSame('xss onmouseover=alert(1) style=padding:50px', $pane->getAttribute('id'));
     }
 }
