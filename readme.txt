@@ -15,6 +15,11 @@ Wordpress plugin to add shortcodes for Twitter Bootstrap 3.3
 
 Bootstrap Shortcodes allow quick and easy implementation of Twitter Bootstrap components through the TinyMCE rich-editor.
 
+## Requirements
+
+The plugin works out of the box: it loads Bootstrap's CSS and JavaScript for you.
+If your theme already includes Bootstrap, uncheck "Load Twitter Bootstrap css file" and "Load Twitter Bootstrap javascript file" under Settings > BS Shortcodes so it isn't loaded twice.
+
 ## Supported Shortcodes
 
 We add a row of buttons to the bottom of your post editor Visual mode, each of which gives options for inserting Bootstrap's most popular components.

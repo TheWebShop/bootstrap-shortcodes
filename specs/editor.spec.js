@@ -80,6 +80,44 @@ test.describe('Classic Editor Integration', () => {
         expect(content).toContain('[bs_button size="lg" type="danger" value="E2E Dialog Button" href=""]');
     });
 
+    test('Should insert a Button shortcode with a new tab target', async ({ admin, page, editor }) => {
+        // Switch to Visual mode if not already there, since WP remembers mode per user
+        const htmlMode = await page.locator('#wp-content-wrap.html-active').count();
+        if (htmlMode > 0) {
+            await page.locator('#content-tmce').click();
+        }
+
+        await page.waitForSelector('#wp-content-wrap.tmce-active');
+
+        const isKitchenSinkActive = await page.locator('.mce-active:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"])').count();
+        if (isKitchenSinkActive === 0) {
+            const toggleButton = page.locator('div:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"]) button').first();
+            if (await toggleButton.isVisible()) {
+                await toggleButton.click();
+            }
+        }
+
+        const bsButtonBtn = page.locator('div[aria-label="Buttons"] button');
+        await expect(bsButtonBtn).toBeVisible();
+        await bsButtonBtn.click();
+
+        const modalFrame = page.frameLocator('.mce-window iframe');
+
+        // Same window is the default, so the shortcode only gains a target when opted in
+        await expect(modalFrame.locator('select[name="target"]')).toHaveValue('');
+
+        await modalFrame.locator('input[name="value"]').fill('E2E Target Button');
+        await modalFrame.locator('input[name="link"]').fill('https://example.com');
+        await modalFrame.locator('select[name="target"]').selectOption('_blank');
+
+        await modalFrame.locator('#insert').click();
+
+        await page.locator('#content-html').click();
+
+        const content = await page.locator('#content').inputValue();
+        expect(content).toContain('[bs_button size="md" type="info" value="E2E Target Button" href="https://example.com" target="_blank"]');
+    });
+
     test('Should insert a Tabs shortcode using the modal', async ({ admin, page, editor }) => {
         // Switch to Visual mode if not already there, since WP remembers mode per user
         const htmlMode = await page.locator('#wp-content-wrap.html-active').count();
