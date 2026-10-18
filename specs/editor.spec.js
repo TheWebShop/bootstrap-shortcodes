@@ -12,30 +12,21 @@ test.describe('Classic Editor Integration', () => {
 
     test('Should render Bootstrap Shortcodes buttons in the toolbar', async ({ admin, page, editor }) => {
 
-        // Dump HTML for debugging
-        const html = await page.content();
-        const fs = require('fs');
-        fs.writeFileSync('dom-debug.html', html);
-
         // Switch to Visual mode if not already there, since WP remembers mode per user
         const htmlMode = await page.locator('#wp-content-wrap.html-active').count();
         if (htmlMode > 0) {
             await page.locator('#content-tmce').click();
         }
 
-        // Dump HTML for debugging AFTER click
-        const html2 = await page.content();
-        fs.writeFileSync('dom-debug-after.html', html2);
-
         // Wait for the TinyMCE editor to be ready
         await page.waitForSelector('#wp-content-wrap.tmce-active');
 
         // The Toolbar Toggle (kitchen sink) might be required to see the row of bootstrap buttons.
-        // It uses aria-label="Toolbar Toggle (Shift+Alt+Z)"
-        const isKitchenSinkActive = await page.locator('.mce-active[aria-label^="Toolbar Toggle"]').count();
+        // It uses aria-label="Toolbar Toggle (Shift+Alt+Z)", renamed to "Extended Toolbar" in newer WordPress.
+        const isKitchenSinkActive = await page.locator('.mce-active:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"])').count();
 
         if (isKitchenSinkActive === 0) {
-            const toggleButton = page.locator('div[aria-label^="Toolbar Toggle"] button').first();
+            const toggleButton = page.locator('div:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"]) button').first();
             if (await toggleButton.isVisible()) {
                 await toggleButton.click();
             }
@@ -57,9 +48,9 @@ test.describe('Classic Editor Integration', () => {
         await page.waitForSelector('#wp-content-wrap.tmce-active');
 
         // Ensure kitchen sink is open
-        const isKitchenSinkActive = await page.locator('.mce-active[aria-label^="Toolbar Toggle"]').count();
+        const isKitchenSinkActive = await page.locator('.mce-active:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"])').count();
         if (isKitchenSinkActive === 0) {
-            const toggleButton = page.locator('div[aria-label^="Toolbar Toggle"] button').first();
+            const toggleButton = page.locator('div:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"]) button').first();
             if (await toggleButton.isVisible()) {
                 await toggleButton.click();
             }
@@ -100,9 +91,9 @@ test.describe('Classic Editor Integration', () => {
         await page.waitForSelector('#wp-content-wrap.tmce-active');
 
         // Ensure kitchen sink is open
-        const isKitchenSinkActive = await page.locator('.mce-active[aria-label^="Toolbar Toggle"]').count();
+        const isKitchenSinkActive = await page.locator('.mce-active:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"])').count();
         if (isKitchenSinkActive === 0) {
-            const toggleButton = page.locator('div[aria-label^="Toolbar Toggle"] button').first();
+            const toggleButton = page.locator('div:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"]) button').first();
             if (await toggleButton.isVisible()) {
                 await toggleButton.click();
             }
@@ -132,9 +123,9 @@ test.describe('Classic Editor Integration', () => {
         const htmlMode = await page.locator('#wp-content-wrap.html-active').count();
         if (htmlMode > 0) { await page.locator('#content-tmce').click(); }
         await page.waitForSelector('#wp-content-wrap.tmce-active');
-        const isKitchenSinkActive = await page.locator('.mce-active[aria-label^="Toolbar Toggle"]').count();
+        const isKitchenSinkActive = await page.locator('.mce-active:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"])').count();
         if (isKitchenSinkActive === 0) {
-            const toggleButton = page.locator('div[aria-label^="Toolbar Toggle"] button').first();
+            const toggleButton = page.locator('div:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"]) button').first();
             if (await toggleButton.isVisible()) { await toggleButton.click(); }
         }
 
@@ -158,9 +149,9 @@ test.describe('Classic Editor Integration', () => {
         const htmlMode = await page.locator('#wp-content-wrap.html-active').count();
         if (htmlMode > 0) { await page.locator('#content-tmce').click(); }
         await page.waitForSelector('#wp-content-wrap.tmce-active');
-        const isKitchenSinkActive = await page.locator('.mce-active[aria-label^="Toolbar Toggle"]').count();
+        const isKitchenSinkActive = await page.locator('.mce-active:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"])').count();
         if (isKitchenSinkActive === 0) {
-            const toggleButton = page.locator('div[aria-label^="Toolbar Toggle"] button').first();
+            const toggleButton = page.locator('div:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"]) button').first();
             if (await toggleButton.isVisible()) { await toggleButton.click(); }
         }
 
@@ -177,9 +168,9 @@ test.describe('Classic Editor Integration', () => {
         const htmlMode = await page.locator('#wp-content-wrap.html-active').count();
         if (htmlMode > 0) { await page.locator('#content-tmce').click(); }
         await page.waitForSelector('#wp-content-wrap.tmce-active');
-        const isKitchenSinkActive = await page.locator('.mce-active[aria-label^="Toolbar Toggle"]').count();
+        const isKitchenSinkActive = await page.locator('.mce-active:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"])').count();
         if (isKitchenSinkActive === 0) {
-            const toggleButton = page.locator('div[aria-label^="Toolbar Toggle"] button').first();
+            const toggleButton = page.locator('div:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"]) button').first();
             if (await toggleButton.isVisible()) { await toggleButton.click(); }
         }
 
@@ -198,9 +189,9 @@ test.describe('Classic Editor Integration', () => {
         const htmlMode = await page.locator('#wp-content-wrap.html-active').count();
         if (htmlMode > 0) { await page.locator('#content-tmce').click(); }
         await page.waitForSelector('#wp-content-wrap.tmce-active');
-        const isKitchenSinkActive = await page.locator('.mce-active[aria-label^="Toolbar Toggle"]').count();
+        const isKitchenSinkActive = await page.locator('.mce-active:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"])').count();
         if (isKitchenSinkActive === 0) {
-            const toggleButton = page.locator('div[aria-label^="Toolbar Toggle"] button').first();
+            const toggleButton = page.locator('div:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"]) button').first();
             if (await toggleButton.isVisible()) { await toggleButton.click(); }
         }
 
@@ -222,9 +213,9 @@ test.describe('Classic Editor Integration', () => {
         const htmlMode = await page.locator('#wp-content-wrap.html-active').count();
         if (htmlMode > 0) { await page.locator('#content-tmce').click(); }
         await page.waitForSelector('#wp-content-wrap.tmce-active');
-        const isKitchenSinkActive = await page.locator('.mce-active[aria-label^="Toolbar Toggle"]').count();
+        const isKitchenSinkActive = await page.locator('.mce-active:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"])').count();
         if (isKitchenSinkActive === 0) {
-            const toggleButton = page.locator('div[aria-label^="Toolbar Toggle"] button').first();
+            const toggleButton = page.locator('div:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"]) button').first();
             if (await toggleButton.isVisible()) { await toggleButton.click(); }
         }
 
@@ -244,9 +235,9 @@ test.describe('Classic Editor Integration', () => {
         const htmlMode = await page.locator('#wp-content-wrap.html-active').count();
         if (htmlMode > 0) { await page.locator('#content-tmce').click(); }
         await page.waitForSelector('#wp-content-wrap.tmce-active');
-        const isKitchenSinkActive = await page.locator('.mce-active[aria-label^="Toolbar Toggle"]').count();
+        const isKitchenSinkActive = await page.locator('.mce-active:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"])').count();
         if (isKitchenSinkActive === 0) {
-            const toggleButton = page.locator('div[aria-label^="Toolbar Toggle"] button').first();
+            const toggleButton = page.locator('div:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"]) button').first();
             if (await toggleButton.isVisible()) { await toggleButton.click(); }
         }
 
@@ -267,9 +258,9 @@ test.describe('Classic Editor Integration', () => {
         const htmlMode = await page.locator('#wp-content-wrap.html-active').count();
         if (htmlMode > 0) { await page.locator('#content-tmce').click(); }
         await page.waitForSelector('#wp-content-wrap.tmce-active');
-        const isKitchenSinkActive = await page.locator('.mce-active[aria-label^="Toolbar Toggle"]').count();
+        const isKitchenSinkActive = await page.locator('.mce-active:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"])').count();
         if (isKitchenSinkActive === 0) {
-            const toggleButton = page.locator('div[aria-label^="Toolbar Toggle"] button').first();
+            const toggleButton = page.locator('div:is([aria-label^="Toolbar Toggle"], [aria-label^="Extended Toolbar"]) button').first();
             if (await toggleButton.isVisible()) { await toggleButton.click(); }
         }
 
