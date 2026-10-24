@@ -1,5 +1,11 @@
 # Changelog
 
+# [3.5.0](https://github.com/TheWebShop/bootstrap-shortcodes/compare/3.4.6...3.5.0) (2026-10-24)
+
+### Features
+
+* **buttons:** add optional target attribute to bs_button ([fb1c87c](https://github.com/TheWebShop/bootstrap-shortcodes/commit/fb1c87c08d7c372a1bc5ff8fb43f6abd7391c245)), closes [#72](https://github.com/TheWebShop/bootstrap-shortcodes/issues/72)
+
 ## [3.4.6](https://github.com/TheWebShop/bootstrap-shortcodes/compare/3.4.4...3.4.6) (2026-10-18)
 
 
