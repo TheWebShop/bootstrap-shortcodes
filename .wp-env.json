@@ -5,5 +5,8 @@
   ],
   "themes": [
     "https://downloads.wordpress.org/theme/twentytwentyone.latest-stable.zip"
-  ]
+  ],
+  "mappings": {
+    "wp-content/mu-plugins/bs-e2e-theme-bootstrap.php": "./tests/e2e-support/theme-bootstrap.php"
+  }
 }
