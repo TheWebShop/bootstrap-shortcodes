@@ -13,4 +13,9 @@ class ShortcodeLabelsTest extends WP_UnitTestCase {
         $output = do_shortcode($content);
         $this->assertStringContainsString('<span class="label label-success">Success Text</span>', $output);
     }
+
+    public function test_label_renders_nested_shortcodes() {
+        $output = do_shortcode('[bs_label type="info"][bs_icon name="glyphicon glyphicon-star"] New[/bs_label]');
+        $this->assertStringContainsString('<span class="label label-info"><i class="glyphicon glyphicon-star" aria-hidden="true"></i> New</span>', $output);
+    }
 }
