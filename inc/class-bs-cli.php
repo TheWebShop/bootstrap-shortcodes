@@ -24,7 +24,7 @@ class BS_CLI_Command extends WP_CLI_Command {
 	 * : Posts per batch. Default 200.
 	 *
 	 * [--posts]
-	 * : With table format, also list every affected post.
+	 * : With table format, also list the affected posts (the report keeps the first 2000).
 	 *
 	 * ## EXAMPLES
 	 *

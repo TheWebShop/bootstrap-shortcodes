@@ -354,9 +354,14 @@ class BS_Scanner {
 			return; // LIKE matched but nothing real: escaped or foreign bs_ text
 		}
 		$published = ( 'publish' === $row->post_status );
-		$results['totals']['posts_affected']++;
-		if ( $published ) {
-			$results['totals']['published_affected']++;
+		// Only posts with shortcodes this plugin renders count as dependent; a post
+		// holding nothing but an unrecognised bs_ tag is listed (the typo is worth
+		// seeing) but changes nothing when the plugin goes.
+		if ( $scan['counts'] ) {
+			$results['totals']['posts_affected']++;
+			if ( $published ) {
+				$results['totals']['published_affected']++;
+			}
 		}
 		foreach ( $scan['counts'] as $tag => $n ) {
 			if ( ! isset( $results['components'][ $tag ] ) ) {
