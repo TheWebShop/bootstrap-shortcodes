@@ -103,9 +103,9 @@ in the PR description.
 
 | Decision | Default applied | Why |
 | --- | --- | --- |
-| Support policy | Declare `Requires at least: 5.0`, `Requires PHP: 7.4`, `Tested up to: 7.1`; test on WP 6.4/PHP 7.4 and WP 7.1/PHP 8.3 | Plugin policy aligned with WordPress 7.0+, which requires PHP 7.4 (6.6 to 6.9 still accept 7.2.24); sites below the floor keep 3.5.0 (WordPress will not offer them the update) |
-| Reporting receiver | None yet. v1 = local export + copy; payload format designed for a future endpoint | No receiver exists; inventing one is an infrastructure/privacy decision |
-| Companion plugin distribution | Source in this repo, zip built in-admin, installed through core's upgrader with consent; no WordPress.org listing yet | A listing is a directory decision |
+| Support policy | **Confirmed 2026-10-31.** Declare `Requires at least: 5.0`, `Requires PHP: 7.4`, `Tested up to: 7.1`; test on WP 6.4/PHP 7.4 and WP 7.1/PHP 8.3 | Plugin policy aligned with WordPress 7.0+, which requires PHP 7.4 (6.6 to 6.9 still accept 7.2.24); sites below the floor keep 3.5.0 (WordPress will not offer them the update) |
+| Reporting receiver | None yet. v1 = local export + copy; payload format designed for a future endpoint. **Confirmed 2026-10-31**: keep manual for now, plan a tiny receiver as a follow-up (`docs/reporting-receiver.md`) | No receiver exists; inventing one is an infrastructure/privacy decision |
+| Companion plugin distribution | **Confirmed 2026-10-31.** Source in this repo, zip built in-admin, installed through core's upgrader with consent; no WordPress.org listing | A listing is a directory decision |
 | Plugin description | State maintenance mode and point to the migration page | Honest expectation setting; wording is Kevin's call |
 
 ## Out of scope
