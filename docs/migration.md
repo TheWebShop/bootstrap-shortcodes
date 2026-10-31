@@ -38,9 +38,12 @@ Then deactivate the plugin, check the pages the report listed, and delete it.
 | Output | auto / blocks / HTML | `blocks` writes core block markup (Columns, Buttons, Details, Paragraph, Group, Custom HTML, Classic). `HTML` writes plain markup with no block comments, for classic-editor sites. `auto` picks blocks for posts that already contain blocks, otherwise HTML. |
 | Styling | self-contained / Bootstrap classes | `self-contained` adds inline styles (wells, alerts, labels, lead, tooltips) and inline SVG icons so nothing needs Bootstrap CSS. `Bootstrap classes` keeps only the original class names, for sites that keep Bootstrap 3 via the theme or the companion. |
 
-Block output is checked to round-trip through core's block parser/serializer
-losslessly (`MigratorConvertTest::test_block_mode_output_is_what_the_editor_would_save`),
-so the editor opens migrated posts without "invalid block" prompts.
+Block output is checked two ways: it round-trips through core's PHP block
+parser/serializer losslessly (`MigratorConvertTest::test_block_mode_output_is_what_the_editor_would_save`,
+which proves the delimiters and attributes are well formed), and the Playwright
+run opens migrated posts in the block editor and asserts that no block shows the
+"unexpected or invalid content" warning (`specs/migration.spec.js`), which is the
+editor's own JavaScript validation of each block's saved HTML.
 
 ## Component matrix
 

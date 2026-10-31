@@ -28,7 +28,7 @@ session can build it without re-deriving the constraints.
 ## Smallest viable receiver
 
 One HTTPS endpoint, `POST /v1/summary`, accepting `application/json` bodies up to
-8 KB with `schema === 1`, validating field names and types against an allowlist,
+2 KB with `schema === 1`, validating field names and types against an allowlist,
 and appending the record to a store with a server-generated random id. Replies
 `202` with nothing but the id, which the plugin shows so the user can quote it
 when asking for deletion.
@@ -49,7 +49,7 @@ Cloudflare's own request logs exist and are retained per their policy.
 
 - **Stored:** the payload, the server-generated id, and the received date (day).
 - **Not stored:** IP, user agent, headers, referrer.
-- **Retention:** 24 months, then deleted; or sooner on request quoting the id.
+- **Retention:** 12 months (KV TTL), then deleted; or sooner on request quoting the id.
 - **Access:** the maintainer only; used to decide which components the migration
   tools must cover; aggregate counts may be published in the repository.
 - **Deletion:** the id shown after sending is the only key; an email or GitHub
@@ -61,13 +61,14 @@ Cloudflare's own request logs exist and are retained per their policy.
 
 | Control | Mechanism | Free-plan ceiling it relies on |
 | --- | --- | --- |
-| Global daily cap | Workers Free: 100,000 requests/day, then requests error; KV Free: 1,000 writes/day, then writes fail | the cap is the bill: there is none |
-| Per-IP rate limit | Workers Rate Limiting binding (e.g. 5 requests / 10 min per IP) and one WAF rate-limiting rule (free plan allows one) | no cost |
+| Account daily cap (shared) | Workers Free: 100,000 requests/day **per account**, then requests error; KV Free: 1,000 writes/day **per account**, then writes fail. Other Workers on the same account eat into these, so the receiver gets its own Cloudflare account (free) or the shared-quota risk is accepted knowingly | the cap is the bill: there is none |
+| Per-IP rate limit | Workers Rate Limiting binding with a supported period (60 s; e.g. 3 requests / 60 s per IP). Counters are approximate and per Cloudflare location, so this is a brake, not a guarantee; one WAF rate-limiting rule (free plan allows one) backs it up at the edge | no cost |
 | Kill switch | KV key `paused`; checked first; set from the dashboard or `wrangler kv` | one KV read per request (100,000/day free) |
-| Payload cap | reject bodies > 8 KB, non-JSON, `schema !== 1`, unknown keys, non-integer counts, counts > 10^7 | Worker CPU only |
-| Method/path allowlist | only `POST /v1/summary`; everything else 404 with no body | – |
+| Payload cap | reject bodies > 2 KB (a full payload with every component is about 1 KB), non-JSON, `schema !== 1`, unknown keys, non-integer counts, counts > 10^7 | Worker CPU only |
+| Ingestion cap | at most 300 accepted records per UTC day (a KV counter `count:YYYY-MM-DD`); beyond that reply `429` without storing | KV Free writes 1,000/day |
+| Method/path allowlist | `POST /v1/summary` (public) and `GET /v1/stats` (bearer secret, see Monitoring); everything else 404 with no body | – |
 | No egress | the Worker calls nothing (no email, no third parties) | – |
-| Storage growth | one KV value per record, TTL 24 months, key = random id; a daily cron summarises counts into one `stats:YYYY-MM-DD` key | KV Free 1 GB |
+| Storage growth | one KV value per record, TTL 12 months, key = random id; a daily cron summarises counts into one `stats:YYYY-MM-DD` key. Worst case 300 × 2 KB × 365 ≈ 220 MB, inside the 1 GB KV Free limit | KV Free 1 GB |
 | Monitoring | `GET /v1/stats` behind a bearer secret (wrangler secret) returning per-day counts; Cloudflare dashboard Workers metrics; `wrangler tail` for live logs; Cloudflare Notifications for Worker error rate | no cost |
 | Upgrade path | if the trial outgrows Free, move to Workers Paid only after adding a hard spend ceiling in the dashboard and re-reviewing this table | – |
 

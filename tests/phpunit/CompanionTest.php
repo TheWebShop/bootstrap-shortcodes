@@ -83,7 +83,7 @@ class CompanionTest extends WP_UnitTestCase {
 			$this->assertFileExists( $dir . '/css/bootstrap.css' );
 			$this->assertFileExists( $dir . '/fonts/glyphicons-halflings-regular.woff2' );
 			$this->assertTrue( BS_Companion::is_active() );
-			$this->assertSame( array( 'css' => '1' ), get_option( 'bs_legacy_assets' ) );
+			$this->assertSame( array( 'css' => '1', 'tooltips' => '1' ), get_option( 'bs_legacy_assets' ) );
 			$this->assertSame( file_get_contents( dirname( dirname( __DIR__ ) ) . '/css/bootstrap.css' ), file_get_contents( $dir . '/css/bootstrap.css' ) );
 		} finally {
 			deactivate_plugins( BS_Companion::FILE );

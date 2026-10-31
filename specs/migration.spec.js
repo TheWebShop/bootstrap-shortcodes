@@ -157,6 +157,33 @@ test.describe('Migration end to end', () => {
         await scan(admin, page);
         await expect(page.locator('.bs-impact')).toContainText('No post content uses the shortcodes');
 
+        // The block editor's own validation: open both migrated posts with the
+        // block editor and make sure no block reports invalid content.
+        await admin.visitAdminPage('options-writing.php');
+        await page.locator('input[name="classic-editor-replace"][value="block"]').check();
+        await page.locator('input[name="classic-editor-allow-users"][value="allow"]').check();
+        await page.locator('#submit').click();
+        for (const id of [blocks.id, classic.id]) {
+            // classic-editor__forget is what the plugin's own "Edit (Block editor)" link
+            // uses; without it a post with no blocks opens in TinyMCE.
+            await admin.visitAdminPage('post.php', `post=${id}&action=edit&classic-editor__forget`);
+            await expect(page.getByRole('heading', { name: 'Edit Post', level: 1 })).toBeVisible();
+            await page.locator('iframe[name="editor-canvas"], .block-editor-writing-flow').first().waitFor({ timeout: 20000 });
+            // The block list lives in an iframe only when every block supports it; a
+            // Classic block (HTML-mode output) keeps the editor inline. Look in both.
+            const iframed = (await page.locator('iframe[name="editor-canvas"]').count()) > 0;
+            const root = iframed ? page.frameLocator('iframe[name="editor-canvas"]') : page;
+            await expect(root.locator('.is-root-container')).toBeVisible();
+            await expect(root.locator('.wp-block').first()).toBeVisible();
+            await expect(root.locator('.block-editor-warning')).toHaveCount(0);
+            await expect(page.locator('.block-editor-warning')).toHaveCount(0);
+            await expect(root.locator('body')).not.toContainText('unexpected or invalid content');
+        }
+        await admin.visitAdminPage('options-writing.php');
+        await page.locator('input[name="classic-editor-replace"][value="classic"]').check();
+        await page.locator('#submit').click();
+        await admin.visitAdminPage(TOOLS.path, TOOLS.query);
+
         // Hand off the assets: consent is required, then install + activate.
         await page.getByRole('button', { name: 'Install and activate the companion' }).click();
         await expect(page.locator('.notice.is-dismissible.notice-error')).toContainText('Tick the confirmation box');

@@ -142,4 +142,37 @@ class MigrationApplyTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( '<svg class="bs-icon bs-icon-ok"', $rendered );
 		$this->assertStringNotContainsString( '[bs_', $rendered );
 	}
+
+	public function test_backslashes_survive_migration_and_rollback() {
+		$original = "Path C:\\Users\\kev and a regex \\d+\n\n[bs_well]keep \\ this[/bs_well]\n\n<!-- wp:paragraph {\"placeholder\":\"\\u002d\\u002d\\u003c\"} -->\n<p>p</p>\n<!-- /wp:paragraph -->";
+		// wp_insert_post() expects slashed input (the factory passes args straight through).
+		$id       = self::factory()->post->create( array( 'post_content' => wp_slash( $original ) ) );
+		$this->assertSame( $original, get_post( $id )->post_content );
+
+		$r = BS_Migration::apply( $id, array( 'mode' => 'blocks', 'style' => 'inline' ) );
+
+		$this->assertNotWPError( $r );
+		$migrated = get_post( $id )->post_content;
+		$this->assertStringContainsString( 'C:\\Users\\kev', $migrated );
+		$this->assertStringContainsString( '\\u002d\\u002d\\u003c', $migrated );
+		$this->assertStringContainsString( 'keep \\ this', $migrated );
+		$this->assertSame( $original, get_post_meta( $id, BS_Migration::META_ORIGINAL, true )['content'] );
+		$this->assertTrue( BS_Migration::rollback( $id ) );
+		$this->assertSame( $original, get_post( $id )->post_content );
+	}
+
+	public function test_users_whose_markup_would_be_filtered_are_refused_and_nothing_changes() {
+		$author   = self::factory()->user->create( array( 'role' => 'author' ) );
+		$original = '[bs_icon name="glyphicon glyphicon-ok"] done [bs_collapse id="g"][bs_citem id="a" parent="g" title="Q"]A[/bs_citem][/bs_collapse]';
+		$id       = self::factory()->post->create( array( 'post_content' => $original, 'post_author' => $author ) );
+		wp_set_current_user( $author );
+		$this->assertFalse( current_user_can( 'unfiltered_html' ) );
+
+		$r = BS_Migration::apply( $id, array( 'mode' => 'html', 'style' => 'inline' ) );
+
+		$this->assertWPError( $r );
+		$this->assertSame( 'bs_filtered', $r->get_error_code() );
+		$this->assertSame( $original, get_post( $id )->post_content );
+		$this->assertFalse( BS_Migration::is_migrated( $id ) );
+	}
 }

@@ -115,7 +115,7 @@ class BS_Companion {
 		update_option( 'bs_legacy_assets', array_filter( array(
 			'css'      => empty( $o['chk_default_options_css'] ) ? '' : '1',
 			'js'       => empty( $o['chk_default_options_js'] ) ? '' : '1',
-			'tooltips' => empty( $o['chk_default_options_js'] ) ? '' : '1',
+			'tooltips' => '1', // the original always loads init.js, whatever the JS setting
 		) ) );
 		$activated = activate_plugin( self::FILE );
 		if ( is_wp_error( $activated ) ) {

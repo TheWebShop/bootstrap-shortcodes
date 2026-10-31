@@ -57,20 +57,39 @@ class BS_Migration {
 		if ( 0 === $result['converted'] ) {
 			return new WP_Error( 'bs_nothing', $result['skipped'] ? __( 'Nothing could be converted automatically; see the skipped list.', 'bsshortcodes' ) : __( 'No shortcodes to convert in this post.', 'bsshortcodes' ) );
 		}
+		$backup_created = false;
 		if ( ! $preview['already'] ) {
-			$kept = add_post_meta( $post_id, self::META_ORIGINAL, array(
+			// add_post_meta() and wp_update_post() both wp_unslash() their input, so
+			// slash first or every backslash in the content is lost.
+			$kept = add_post_meta( $post_id, self::META_ORIGINAL, wp_slash( array(
 				'content'      => $preview['original'],
 				'modified_gmt' => $preview['modified_gmt'],
 				'migrated_at'  => time(),
 				'version'      => BS_Migrator::VERSION,
-			), true );
+			) ), true );
 			if ( ! $kept ) {
 				return new WP_Error( 'bs_backup', __( 'Could not store the original content; nothing was changed.', 'bsshortcodes' ) );
 			}
+			$backup_created = true;
 		}
-		$updated = wp_update_post( array( 'ID' => $post_id, 'post_content' => $preview['converted'] ), true );
+		$updated = wp_update_post( wp_slash( array( 'ID' => $post_id, 'post_content' => $preview['converted'] ) ), true );
 		if ( is_wp_error( $updated ) ) {
+			if ( $backup_created ) {
+				delete_post_meta( $post_id, self::META_ORIGINAL );
+			}
 			return $updated;
+		}
+		// Users without unfiltered_html get their content passed through kses on
+		// save, which can strip the inline SVG icons or the <details name> grouping.
+		// The preview showed the unfiltered markup, so never leave a silently
+		// different version behind: put the original back and say why.
+		$saved = get_post_field( 'post_content', $post_id, 'raw' );
+		if ( $saved !== $preview['converted'] ) {
+			wp_update_post( wp_slash( array( 'ID' => $post_id, 'post_content' => $preview['original'] ) ) );
+			if ( $backup_created ) {
+				delete_post_meta( $post_id, self::META_ORIGINAL );
+			}
+			return new WP_Error( 'bs_filtered', __( 'WordPress filtered the converted markup on save because your account cannot publish unfiltered HTML, so the post would not match the preview. Nothing was changed; ask an administrator with that capability to run the migration.', 'bsshortcodes' ) );
 		}
 		update_post_meta( $post_id, self::META_RESULT, array(
 			'converted'    => $result['converted'],
@@ -103,7 +122,7 @@ class BS_Migration {
 		if ( ! is_array( $backup ) || ! isset( $backup['content'] ) ) {
 			return new WP_Error( 'bs_no_backup', __( 'No stored original for this post.', 'bsshortcodes' ) );
 		}
-		$updated = wp_update_post( array( 'ID' => $post->ID, 'post_content' => $backup['content'] ), true );
+		$updated = wp_update_post( wp_slash( array( 'ID' => $post->ID, 'post_content' => $backup['content'] ) ), true );
 		if ( is_wp_error( $updated ) ) {
 			return $updated;
 		}
