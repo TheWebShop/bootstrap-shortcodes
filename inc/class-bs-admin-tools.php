@@ -415,7 +415,7 @@ class BS_Admin_Tools {
 				<?php
 				printf(
 					/* translators: %d: count */
-					esc_html__( '%d more affected posts are not listed here (counts above include them). Use the WP-CLI command for the full list.', 'bsshortcodes' ),
+					esc_html__( '%d more affected posts are not listed here; the counts above include them. Narrow it down by migrating or editing the listed posts and scanning again.', 'bsshortcodes' ),
 					(int) $results['posts_overflow']
 				);
 				?>

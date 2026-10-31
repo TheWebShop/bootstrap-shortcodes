@@ -135,4 +135,31 @@ class ScannerSiteTest extends WP_UnitTestCase {
 		$this->assertSame( array( 'schema', 'generated', 'plugin_version', 'environment', 'settings', 'totals', 'components', 'flags', 'surfaces' ), array_keys( $payload ) );
 		$this->assertMatchesRegularExpression( '/^\d{4}-\d{2}$/', $payload['generated'], 'month granularity only' );
 	}
+
+	public function test_posts_with_only_unrecognised_tags_are_listed_but_not_counted_as_dependent() {
+		$typo = self::factory()->post->create( array( 'post_status' => 'publish', 'post_content' => 'Only [bs_oops] here' ) );
+		self::factory()->post->create( array( 'post_status' => 'publish', 'post_content' => '[bs_well]real[/bs_well]' ) );
+
+		$results = $this->run_to_completion();
+
+		$this->assertSame( 1, $results['totals']['posts_affected'] );
+		$this->assertSame( 1, $results['totals']['published_affected'] );
+		$this->assertContains( $typo, wp_list_pluck( $results['posts'], 'id' ) );
+		$this->assertSame( 1, $results['flags']['unknown_tag'] );
+		$this->assertSame( 1, BS_Scanner::share_payload()['totals']['posts_affected'] );
+	}
+
+	public function test_uninstall_removes_the_scan_options() {
+		$this->run_to_completion();
+		$this->assertNotNull( BS_Scanner::results() );
+
+		if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+			define( 'WP_UNINSTALL_PLUGIN', 'bootstrap-shortcodes/bootstrap-shortcodes.php' );
+		}
+		include dirname( dirname( __DIR__ ) ) . '/uninstall.php';
+
+		$this->assertNull( BS_Scanner::results() );
+		$this->assertNull( BS_Scanner::state() );
+		$this->assertFalse( get_option( 'bs_options' ) );
+	}
 }

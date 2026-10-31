@@ -65,7 +65,7 @@ Branch `fix/stability-baseline`. Acceptance criteria:
 - [x] Bundled jQuery for the editor dialogs updated from 1.11.1 to 3.7.1 (admin-only, Bootstrap 3.4.1 supports it); e2e dialogs still pass.
 - [x] Support policy decided and declared in `readme.txt` (see Decisions), with the tested matrix recorded in `docs/compatibility.md`.
 - [x] Bundled dependency advisories assessed separately from shortcode-renderer issues (`docs/security.md`).
-- [x] PHPUnit and Playwright green locally; CI pending the push.
+- [x] PHPUnit and Playwright green locally and in CI (PR #87, merged 2026-10-31).
 
 Risks: changing the enqueue hook could reorder scripts relative to a theme that also
 enqueues on `init` (very rare); conditional loading can miss shortcodes rendered
@@ -75,9 +75,9 @@ outside the main query (mitigated by the render-time fallback and by being opt-i
 
 Branch `feat/dependency-scanner`. Acceptance criteria:
 
-- [x] Tools > Bootstrap Shortcodes page with a bounded, resumable scan over posts of all public and private post types (all statuses), reporting per component: occurrences, affected posts, published vs draft/other, with edit links.
+- [x] Tools > Bootstrap Shortcodes page with a bounded, resumable scan over posts of every content post type (all statuses except `auto-draft`; revisions counted separately), reporting per component: occurrences, affected posts, published vs draft/other, with edit links.
 - [x] Flags per occurrence: nesting, custom classes, unknown attributes, malformed or unclosed syntax, duplicate ids.
-- [x] Also scans widgets (`text`, `custom_html`, `block`), the Customizer/theme mods and options that hold content (bounded list), post meta values that are strings, and reports the template/PHP surfaces it cannot inspect (theme files, `do_shortcode()` calls, page builders' own storage).
+- [x] Also scans widgets (`text`, `custom_html`, `block`), the Customizer/theme mods and options that hold content (bounded list), post meta values that are strings, term descriptions, and the active and parent theme's PHP files (for `do_shortcode()` calls and literal `[bs_`); lists what it cannot inspect (plugin and mu-plugin PHP, page builders' own storage, content held outside the database).
 - [x] Never writes content; never executes shortcodes during discovery (text scan only, documented as candidates, not proof).
 - [x] WP-CLI command for large sites.
 - [x] "Share this report with the author": off by default, shows destination, exact fields, one-time vs recurring, payload preview, no identifiers by default. v1 is an **export/copy** flow (no endpoint exists; see Decisions).

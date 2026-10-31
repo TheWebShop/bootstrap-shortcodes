@@ -23,7 +23,7 @@ Bootstrap Shortcodes allow quick and easy implementation of Bootstrap 3 componen
 The plugin works out of the box: it loads Bootstrap 3.4.1's CSS and JavaScript on every page.
 If your theme already includes Bootstrap 3, uncheck "Load Twitter Bootstrap css file" and "Load Twitter Bootstrap javascript file" under Settings > BS Shortcodes so it isn't loaded twice. The "Conditional loading" setting (off by default) loads the files only on pages whose content uses the shortcodes; leave it off if other parts of your site rely on the plugin's Bootstrap.
 
-The plugin makes no external requests and collects nothing.
+The plugin makes no external requests and does not track users. Dependency scan state and results stay in your own database until you discard them or uninstall the plugin.
 
 ## Supported Shortcodes
 

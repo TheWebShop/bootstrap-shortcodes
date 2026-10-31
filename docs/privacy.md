@@ -12,8 +12,12 @@ The dependency scan (Tools > Bootstrap Shortcodes) reads post content, widget
 settings, options, post meta, term descriptions and the active theme's PHP files
 *on your server*, and stores its results in two options in your own database
 (`bs_scan_state`, `bs_scan_results`). "Discard results" deletes them; so does
-uninstalling the plugin. The results contain post ids and titles, widget ids, option
-names and meta keys, never option or meta values.
+uninstalling the plugin (`uninstall.php`). The results contain, and only contain,
+these identifiers from your own site: post ids, titles, types and statuses; widget
+ids and sidebar names; Customizer setting paths; option names; post meta keys; term
+ids, names and taxonomies; the active and parent theme directory names and the
+paths of theme PHP files that call `do_shortcode()` or contain `[bs_`. Never option,
+meta, Customizer or term description values, and never post content.
 
 ## Sharing a summary with the author (optional, manual)
 
@@ -72,8 +76,9 @@ shared summaries answer well enough. If that changes, it will be a separate,
 documented decision, with the same "off by default, inspect before sending" rules,
 and never enabled by an update.
 
-## Migration (phase 3)
+## Migration (planned, phase 3)
 
-Migrating content rewrites your own posts in your own database after explicit
-confirmation, and keeps the original in post meta (`_bs_migration_original`) for
-rollback. Nothing is sent anywhere. See `docs/migration.md`.
+Not part of this release. When it ships, migrating content will rewrite your own
+posts in your own database after explicit confirmation, keep the original in post
+meta (`_bs_migration_original`) for rollback, and send nothing anywhere. Its
+documentation (`docs/migration.md`) arrives with it.
