@@ -30,8 +30,16 @@ class ShortcodeAccessibilityTest extends WP_UnitTestCase {
 		$output = do_shortcode( '[bs_tabs][bs_thead][bs_tab class="active" href="#home" title="Home"][/bs_thead][bs_tcontents][bs_tcontent class="active" id="home"]Body[/bs_tcontent][/bs_tcontents][/bs_tabs]' );
 
 		$this->assertStringContainsString( '<ul class="nav nav-tabs" role="tablist">', $output );
-		$this->assertStringContainsString( '<li class="active" role="presentation"><a data-toggle="tab" href="#home" role="tab">Home</a></li>', $output );
-		$this->assertStringContainsString( '<div class="tab-pane fade active in" id="home" role="tabpanel">', $output );
+		$this->assertStringContainsString( '<li class="active" role="presentation"><a data-toggle="tab" href="#home" role="tab" id="tab-home" aria-controls="home" aria-selected="true">Home</a></li>', $output );
+		$this->assertStringContainsString( '<div class="tab-pane fade active in" id="home" role="tabpanel" aria-labelledby="tab-home">', $output );
+	}
+
+	public function test_inactive_tab_and_external_href_get_sane_aria() {
+		$output = do_shortcode( '[bs_tab href="#two" title="Two"][bs_tab href="https://x.test/page" title="Away"][bs_tab href="#bad id" title="Odd"]' );
+
+		$this->assertStringContainsString( '<a data-toggle="tab" href="#two" role="tab" id="tab-two" aria-controls="two" aria-selected="false">Two</a>', $output );
+		$this->assertStringContainsString( '<a data-toggle="tab" href="https://x.test/page" role="tab" aria-selected="false">Away</a>', $output );
+		$this->assertStringNotContainsString( 'aria-controls="bad', $output );
 	}
 
 	public function test_icon_is_hidden_from_assistive_tech() {

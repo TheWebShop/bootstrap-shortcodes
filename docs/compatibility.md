@@ -8,7 +8,7 @@ the floor. Updated 2026-10-31.
 | Header | Value | Reason |
 | --- | --- | --- |
 | Requires at least | 5.0 | First WordPress with the block editor; every admin API the plugin uses (Settings API with `sanitize_callback`, `pre_do_shortcode_tag`, `has_shortcode`) exists from 4.7 |
-| Requires PHP | 7.4 | WordPress's own floor for current releases; PHP below 7.4 runs about 6 % of WordPress sites (api.wordpress.org/stats/php) and has been end-of-life since 2022 |
+| Requires PHP | 7.4 | This plugin's own policy, aligned with WordPress 7.0+ (which requires PHP 7.4; WordPress 6.6 to 6.9 still accept PHP 7.2.24). PHP below 7.4 runs about 6 % of WordPress sites (api.wordpress.org/stats/php) and has been end-of-life since 2022 |
 | Tested up to | 7.1 | Current release line, tested below |
 
 A site below the floor does not break: WordPress will simply not offer it this

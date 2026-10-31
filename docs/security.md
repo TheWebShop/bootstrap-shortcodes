@@ -13,9 +13,14 @@ attribute of every handler and checks the parsed DOM for injected attributes, `s
 attributes, script URLs and `<script>` elements.
 
 Shortcode *content* (the text between the opening and closing tag) is output as-is,
-like any other shortcode in WordPress: it is already post content, filtered by
-`wp_kses` for users without `unfiltered_html`. The plugin does not grant anyone more
-than they could write directly into a post.
+like any other shortcode in WordPress. In **post content** that is safe by
+construction: the text was already filtered by `wp_kses` for users without
+`unfiltered_html`, so the plugin grants nobody more than they could write directly
+into a post. The same handlers also run wherever a site calls `do_shortcode()`
+itself (widgets, theme templates, custom fields, page builders). Those callers
+choose what text they feed in, and the plugin applies no filtering of its own to
+it: content from those sources must be trusted or sanitised by whoever renders it,
+exactly as for any other shortcode.
 
 History:
 
@@ -63,7 +68,7 @@ keeps that status too.** See `docs/migration.md` for the asset handoff.
 
 ### jQuery (dialogs only)
 
-Updated from 1.11.1 to 3.7.1 in 3.6. It is loaded only inside the editor dialog
+Updated from 1.11.1 to 3.7.1 (unreleased, after 3.5.0). It is loaded only inside the editor dialog
 iframes, where the only inputs are the current user's own form fields; the old
 version's advisories (CVE-2015-9251, CVE-2019-11358, CVE-2020-11022, CVE-2020-11023)
 were not reachable with site-visitor input, but there was no reason to keep shipping

@@ -20,7 +20,7 @@ class ShortcodeTabsTest extends WP_UnitTestCase {
         $content = '[bs_tab href="#home" title="Home" class="active"]';
         $output = do_shortcode($content);
         $this->assertStringContainsString('<li class="active" role="presentation">', $output);
-        $this->assertStringContainsString('<a data-toggle="tab" href="#home" role="tab">Home</a>', $output);
+        $this->assertStringContainsString('<a data-toggle="tab" href="#home" role="tab" id="tab-home" aria-controls="home" aria-selected="true">Home</a>', $output);
     }
 
     public function test_dropdown_item() {
@@ -32,7 +32,7 @@ class ShortcodeTabsTest extends WP_UnitTestCase {
         $this->assertStringContainsString('data-toggle="dropdown"', $output);
         $this->assertStringContainsString('>Options<b class="caret"></b></a>', $output);
         $this->assertStringContainsString('<ul class="dropdown-menu">', $output);
-        $this->assertStringContainsString('<a data-toggle="tab" href="#opt1" role="tab">Opt 1</a>', $output);
+        $this->assertStringContainsString('<a data-toggle="tab" href="#opt1" role="tab" id="tab-opt1" aria-controls="opt1" aria-selected="false">Opt 1</a>', $output);
     }
 
     public function test_tcontents_wrapper() {
@@ -45,7 +45,7 @@ class ShortcodeTabsTest extends WP_UnitTestCase {
     public function test_tcontent_item() {
         $content = '[bs_tcontent id="home" class="active"]Content[/bs_tcontent]';
         $output = do_shortcode($content);
-        $this->assertStringContainsString('<div class="tab-pane fade active in" id="home" role="tabpanel">', $output);
+        $this->assertStringContainsString('<div class="tab-pane fade active in" id="home" role="tabpanel" aria-labelledby="tab-home">', $output);
         $this->assertStringContainsString('Content', $output);
     }
 

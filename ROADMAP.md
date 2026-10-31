@@ -18,10 +18,10 @@ component suite. The three outcomes below are the whole plan.
 | --- | --- |
 | 4,000+ active installs; versions in use: 3.4.x 75 %, 3.5 22 %, other 3 % | api.wordpress.org plugin info and stats endpoints |
 | ~4,300 downloads over the last 29 days (includes automatic updates after 3.5.0) | api.wordpress.org downloads endpoint |
-| Readme says `Requires at least: 3.9`, `Tested up to: 6.9`, no `Requires PHP` | `readme.txt` |
+| Before this work the readme said `Requires at least: 3.9`, `Tested up to: 6.9`, with no `Requires PHP` | `readme.txt` at 3.5.0 |
 | Current WordPress is 7.1.4; 7.1 runs ~65 % of sites, 6.x ~24 %, below 5.0 ~3 % | api.wordpress.org core and stats endpoints |
 | PHP below 7.4 is ~5.7 % of WordPress sites; 7.4 is ~15 %; 8.x is ~79 % | api.wordpress.org php stats |
-| Bundled Bootstrap is 3.4.1 (last Bootstrap 3 release, EOL). Bundled jQuery is 1.11.1, used only inside the TinyMCE dialog iframes | `css/bootstrap.css`, `js/bootstrap.js`, `js/jquery.js`, `js/plugins/*.html` |
+| Bundled Bootstrap is 3.4.1 (last Bootstrap 3 release, EOL). Before this work the bundled jQuery was 1.11.1 (now 3.7.1), used only inside the TinyMCE dialog iframes | `css/bootstrap.css`, `js/bootstrap.js`, `js/jquery.js`, `js/plugins/*.html` |
 | Core Details block: WP 6.3. Accordion block: WP 6.9. Tabs block: WP 7.1. Columns/Buttons/Group/Custom HTML/Shortcode blocks: WP 5.x | wordpress.org blocks list and block articles |
 | WordPress.org guideline 7: no contact with external servers without explicit, authorized consent; guideline 8: no third-party CDNs or external code | developer.wordpress.org detailed plugin guidelines |
 | The one documented migration request (support forum, Jan 2017) came from an agency with ~100 sites and got no reply | wordpress.org support topic |
@@ -103,7 +103,7 @@ in the PR description.
 
 | Decision | Default applied | Why |
 | --- | --- | --- |
-| Support policy | Declare `Requires at least: 5.0`, `Requires PHP: 7.4`, `Tested up to: 7.1`; test on WP 6.4/PHP 7.4 and WP 7.1/PHP 8.3 | WordPress itself requires PHP 7.4+ since 6.6/7.x; sites below the floor keep 3.5.0 (WordPress will not offer them the update) |
+| Support policy | Declare `Requires at least: 5.0`, `Requires PHP: 7.4`, `Tested up to: 7.1`; test on WP 6.4/PHP 7.4 and WP 7.1/PHP 8.3 | Plugin policy aligned with WordPress 7.0+, which requires PHP 7.4 (6.6 to 6.9 still accept 7.2.24); sites below the floor keep 3.5.0 (WordPress will not offer them the update) |
 | Reporting receiver | None yet. v1 = local export + copy; payload format designed for a future endpoint | No receiver exists; inventing one is an infrastructure/privacy decision |
 | Companion plugin distribution | Source in this repo, zip built in-admin, installed through core's upgrader with consent; no WordPress.org listing yet | A listing is a directory decision |
 | Plugin description | State maintenance mode and point to the migration page | Honest expectation setting; wording is Kevin's call |

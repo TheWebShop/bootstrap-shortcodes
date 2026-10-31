@@ -46,6 +46,8 @@ async function expectInteractionsWork(page) {
     await page.locator('a[href="#t2"]').click();
     await expect(page.locator('#t2')).toBeVisible();
     await expect(page.locator('#t1')).toBeHidden();
+    await expect(page.locator('a[href="#t2"]')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('a[href="#t1"]')).toHaveAttribute('aria-selected', 'false');
     // Collapse: second item starts open, first toggles open on click
     await expect(page.locator('#c2')).toHaveClass(/\bin\b/);
     await page.locator('a[href="#c1"]').click();
