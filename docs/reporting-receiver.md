@@ -1,9 +1,21 @@
 # Follow-up: a receiver for shared usage summaries
 
-Status: **decision recorded 2026-10-31, not built, not deployed.** Today the only
-channel is the manual export on the Tools page (`docs/privacy.md`). This note is
-the smallest design that would let a user send that same payload with one click,
-so the deployment decision can be made in one sitting when it is wanted.
+Status: **approved to build 2026-10-31 as a trial; not built, not deployed.** Today
+the only channel is the manual export on the Tools page (`docs/privacy.md`). This
+note is the design for a one-click send to a Cloudflare Worker, written so the next
+session can build it without re-deriving the constraints.
+
+## Constraints from the maintainer (2026-10-31)
+
+- Hosting the tool for the community is welcome, and paying for it is fine, but it
+  must not be able to run up a bill: abuse by one party must cost nothing beyond a
+  fixed, known amount. Prefer the **Workers Free plan**, where exceeding a limit
+  fails requests instead of billing, over Workers Paid with usage billing.
+- Heavy control and monitoring: a kill switch, per-IP and global rate limits,
+  payload size and schema caps, and a view of volume per day that the maintainer
+  checks, with alerts where Cloudflare offers them for free.
+- This is a learning trial for future (possibly commercial) plugin services, so
+  keep it small, readable and fully documented rather than clever.
 
 ## What it must not change
 
@@ -44,6 +56,24 @@ Cloudflare's own request logs exist and are retained per their policy.
   issue quoting it gets the record deleted.
 - **Re-identification:** unchanged from `docs/privacy.md`: not from the data,
   possibly from unusual counts to someone who already knows the site.
+
+## Abuse and cost controls (required before deploy)
+
+| Control | Mechanism | Free-plan ceiling it relies on |
+| --- | --- | --- |
+| Global daily cap | Workers Free: 100,000 requests/day, then requests error; KV Free: 1,000 writes/day, then writes fail | the cap is the bill: there is none |
+| Per-IP rate limit | Workers Rate Limiting binding (e.g. 5 requests / 10 min per IP) and one WAF rate-limiting rule (free plan allows one) | no cost |
+| Kill switch | KV key `paused`; checked first; set from the dashboard or `wrangler kv` | one KV read per request (100,000/day free) |
+| Payload cap | reject bodies > 8 KB, non-JSON, `schema !== 1`, unknown keys, non-integer counts, counts > 10^7 | Worker CPU only |
+| Method/path allowlist | only `POST /v1/summary`; everything else 404 with no body | – |
+| No egress | the Worker calls nothing (no email, no third parties) | – |
+| Storage growth | one KV value per record, TTL 24 months, key = random id; a daily cron summarises counts into one `stats:YYYY-MM-DD` key | KV Free 1 GB |
+| Monitoring | `GET /v1/stats` behind a bearer secret (wrangler secret) returning per-day counts; Cloudflare dashboard Workers metrics; `wrangler tail` for live logs; Cloudflare Notifications for Worker error rate | no cost |
+| Upgrade path | if the trial outgrows Free, move to Workers Paid only after adding a hard spend ceiling in the dashboard and re-reviewing this table | – |
+
+Explicitly rejected: Turnstile/CAPTCHA (the client is a server, not a browser), API
+keys shipped in the plugin (public by definition), and storing IPs for abuse
+analysis (the rate limiter needs them only in memory).
 
 ## Plugin-side change when the receiver exists
 
