@@ -26,7 +26,11 @@ require_once( 'inc/bs_icons.php' );
 require_once( 'inc/bs_lead.php' );
 require_once( 'inc/bs_tooltip.php' );
 require_once( 'inc/class-bs-scanner.php' );
+require_once( 'inc/class-bs-migrator.php' );
+require_once( 'inc/class-bs-migration.php' );
+require_once( 'inc/class-bs-companion.php' );
 require_once( 'inc/class-bs-admin-tools.php' );
+require_once( 'inc/class-bs-admin-migration.php' );
 require_once( 'inc/class-bs-cli.php' );
 
 class BootstrapShortcodes{
@@ -302,5 +306,5 @@ class BootstrapShortcodes{
 
 $bscodes = new BootstrapShortcodes();
 if ( is_admin() ) {
-    $bs_admin_tools = new BS_Admin_Tools();
+    $bs_admin_tools = new BS_Admin_Tools( new BS_Admin_Migration() );
 }

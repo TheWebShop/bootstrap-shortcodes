@@ -70,6 +70,8 @@ Please report issues directly to our [Github repository](https://github.com/TheW
 * New Tools > Bootstrap Shortcodes page: scans the site in batches and reports which shortcodes are used where (published vs drafts, widgets, options, custom fields, term descriptions, theme files), what a text scan cannot see, and what removing the plugin would change
 * New WP-CLI command: wp bs-shortcodes scan
 * Optional, manual "share a summary with the author" export: nothing is ever sent automatically (see docs/privacy.md)
+* Migration: preview (with a diff), migrate one post or a batch, and roll back. Every component has a destination (Columns, Buttons, Details, Paragraph, Group/Custom HTML blocks, or plain HTML); originals are kept in a custom field; nothing runs automatically (see docs/migration.md)
+* "Bootstrap 3 Legacy Assets" companion plugin, built and installed from the migration page with explicit consent, for sites that must keep Bootstrap 3 after removing this plugin
 
 = 3.5.0 =
 * Add optional target attribute to the button shortcode ("_blank" also adds rel="noopener noreferrer")
@@ -145,6 +147,10 @@ Please report issues directly to our [Github repository](https://github.com/TheW
 = Does the plugin send any data anywhere? =
 
 No. It makes no external requests and has no tracking. The dependency report under Tools can produce a summary of shortcode usage counts that you may choose to send to the author yourself; nothing is sent by the plugin. Details: https://github.com/TheWebShop/bootstrap-shortcodes/blob/master/docs/privacy.md
+
+= How do I stop using this plugin? =
+
+Tools > Bootstrap Shortcodes: scan, preview, migrate (per post or in batches, with rollback), then decide whether anything still needs Bootstrap 3 itself. The full component-by-component guide: https://github.com/TheWebShop/bootstrap-shortcodes/blob/master/docs/migration.md
 
 = How do I find out what on my site uses these shortcodes? =
 

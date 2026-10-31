@@ -76,9 +76,10 @@ shared summaries answer well enough. If that changes, it will be a separate,
 documented decision, with the same "off by default, inspect before sending" rules,
 and never enabled by an update.
 
-## Migration (planned, phase 3)
+## Migration
 
-Not part of this release. When it ships, migrating content will rewrite your own
-posts in your own database after explicit confirmation, keep the original in post
-meta (`_bs_migration_original`) for rollback, and send nothing anywhere. Its
-documentation (`docs/migration.md`) arrives with it.
+Migrating content rewrites your own posts in your own database after explicit
+confirmation, and keeps the original in post meta (`_bs_migration_original`, plus a
+`_bs_migration_result` summary) for rollback. Nothing is sent anywhere. Those two
+custom fields stay with the posts after uninstall so rollback remains possible; delete
+them when you no longer want it. See `docs/migration.md`.

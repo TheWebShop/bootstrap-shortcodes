@@ -12,7 +12,11 @@ class BS_Admin_Tools {
 	const ACTION = 'bs_scan_step';
 	const BATCH  = 100;
 
-	public function __construct() {
+	/** @var BS_Admin_Migration|null */
+	private $migration;
+
+	public function __construct( $migration = null ) {
+		$this->migration = $migration;
 		add_action( 'admin_menu', array( $this, 'register_page' ) );
 		add_action( 'admin_post_' . self::ACTION, array( $this, 'handle_form_step' ) );
 		add_action( 'admin_post_bs_scan_reset', array( $this, 'handle_reset' ) );
@@ -46,6 +50,11 @@ class BS_Admin_Tools {
 			'nonce'   => wp_create_nonce( self::ACTION ),
 			'batch'   => self::BATCH,
 			'reload'  => self::url(),
+			'i18n'    => array(
+				'migrated' => __( 'migrated', 'bsshortcodes' ),
+				'failed'   => __( 'not migrated', 'bsshortcodes' ),
+				'confirm'  => __( 'Migrate the selected posts now? Originals are kept for rollback.', 'bsshortcodes' ),
+			),
 		) );
 	}
 
@@ -146,6 +155,8 @@ class BS_Admin_Tools {
 		?>
 		<div class="wrap bs-tools">
 			<h1><?php esc_html_e( 'Bootstrap Shortcodes: dependency report', 'bsshortcodes' ); ?></h1>
+			<?php if ( $this->migration ) { $this->migration->render_notices(); } ?>
+			<?php if ( $this->migration && $this->migration->render_preview() ) { echo '</div>'; return; } ?>
 			<p><?php esc_html_e( 'What on this site depends on this plugin, and what would happen if you removed it. The scan reads content; it changes nothing and sends nothing anywhere.', 'bsshortcodes' ); ?></p>
 
 			<?php $this->render_controls( $state, $done ); ?>
@@ -156,6 +167,7 @@ class BS_Admin_Tools {
 				<?php $this->render_posts( $results ); ?>
 				<?php $this->render_surfaces( $results ); ?>
 				<?php $this->render_not_scanned( $results ); ?>
+				<?php if ( $this->migration ) { $this->migration->render_migration_section( $results ); } ?>
 				<?php $this->render_share( $results ); ?>
 			<?php endif; ?>
 		</div>
