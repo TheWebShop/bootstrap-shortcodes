@@ -25,7 +25,7 @@ add_shortcode( 'bs_tabs', 'bs_tabs' );
 
 function bs_thead( $params, $content=null) {
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result = '<ul class="nav nav-tabs">';
+    $result = '<ul class="nav nav-tabs" role="tablist">';
     $result .= do_shortcode( $content );
     $result .= '</ul>';
     return force_balance_tags( $result );
@@ -40,8 +40,8 @@ function bs_tab( $params, $content=null ) {
         ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
 
-    $result = '<li class="' . esc_attr($class) . '">';
-    $result .= '<a data-toggle="tab" href="' . esc_url($href) . '">' . esc_attr($title) . '</a>';
+    $result = '<li class="' . esc_attr($class) . '" role="presentation">';
+    $result .= '<a data-toggle="tab" href="' . esc_url($href) . '" role="tab">' . esc_attr($title) . '</a>';
     $result .= '</li>';
     return force_balance_tags( $result );
 }
@@ -54,7 +54,7 @@ function bs_dropdown( $params, $content=null ) {
         'class' => '',
         ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $result = '<li class="dropdown">';
+    $result = '<li class="dropdown" role="presentation">';
     $class_attr = trim( esc_attr( $class ) . ' dropdown-toggle' );
     $result .= '<a class="' . $class_attr . '" id="' . esc_attr($id) . '" data-toggle="dropdown">' . esc_attr($title) . '<b class="caret"></b></a>';
     $result .= '<ul class="dropdown-menu">';
@@ -80,7 +80,7 @@ function bs_tcontent( $params, $content=null ) {
         ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
     $class = ($class=='active')? 'active in': '';
-    $result = '<div class="tab-pane fade ' . esc_attr($class) . '" id="' . esc_attr($id) . '">';
+    $result = '<div class="tab-pane fade ' . esc_attr($class) . '" id="' . esc_attr($id) . '" role="tabpanel">';
     $result .= do_shortcode( $content );
     $result .= '</div>';
     return force_balance_tags( $result );
