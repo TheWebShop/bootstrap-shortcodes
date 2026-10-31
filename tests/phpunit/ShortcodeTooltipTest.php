@@ -19,4 +19,10 @@ class ShortcodeTooltipTest extends WP_UnitTestCase {
         $this->assertStringContainsString('data-placement="bottom"', $output);
         $this->assertStringContainsString('data-trigger="focus"', $output);
     }
+
+    public function test_tooltip_title_is_not_truncated() {
+        $output = do_shortcode('[bs_tooltip]This is a much longer tooltip text[/bs_tooltip]');
+        $this->assertStringContainsString('title="This is a much longer tooltip text"', $output);
+        $this->assertStringContainsString('>This is a much longer tooltip text</a>', $output);
+    }
 }
