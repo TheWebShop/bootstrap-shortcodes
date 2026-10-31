@@ -1,24 +1,29 @@
 === Bootstrap Shortcodes ===
 Contributors: sinetheta, beaurixon, no3x
 Tags: shortcode, shortcodes, bootstrap, buttons, grid
-Requires at least: 3.9
-Tested up to: 6.9
+Requires at least: 5.0
+Tested up to: 7.1
+Requires PHP: 7.4
 Stable tag: 3.5.0
 License: GNU General Public License v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Wordpress plugin to add shortcodes for Twitter Bootstrap 3.3
+WordPress plugin to add shortcodes for Bootstrap 3. In maintenance mode: kept safe for existing sites, with a documented path off it.
 
 == Description ==
 
-## Latest Bootstrap
+## Maintenance mode
 
-Bootstrap Shortcodes allow quick and easy implementation of Twitter Bootstrap components through the TinyMCE rich-editor.
+This plugin was written in 2013 for Bootstrap 3 and the TinyMCE editor. It is still maintained for **security and compatibility** so the sites that use it keep working, but no new components will be added. If you are starting a new site, use the block editor's own Columns, Buttons, Details, Accordion and Tabs blocks instead. If you already use it, see the [migration guide](https://github.com/TheWebShop/bootstrap-shortcodes/blob/master/docs/migration.md) for a component-by-component way out, and the [compatibility policy](https://github.com/TheWebShop/bootstrap-shortcodes/blob/master/docs/compatibility.md) for what is tested.
+
+Bootstrap Shortcodes allow quick and easy implementation of Bootstrap 3 components through the TinyMCE rich-editor (Classic Editor). In the block editor the shortcodes still render; the toolbar buttons do not appear.
 
 ## Requirements
 
-The plugin works out of the box: it loads Bootstrap's CSS and JavaScript for you.
-If your theme already includes Bootstrap, uncheck "Load Twitter Bootstrap css file" and "Load Twitter Bootstrap javascript file" under Settings > BS Shortcodes so it isn't loaded twice.
+The plugin works out of the box: it loads Bootstrap 3.4.1's CSS and JavaScript on every page.
+If your theme already includes Bootstrap 3, uncheck "Load Twitter Bootstrap css file" and "Load Twitter Bootstrap javascript file" under Settings > BS Shortcodes so it isn't loaded twice. The "Conditional loading" setting (off by default) loads the files only on pages whose content uses the shortcodes; leave it off if other parts of your site rely on the plugin's Bootstrap.
+
+The plugin makes no external requests and collects nothing.
 
 ## Supported Shortcodes
 
@@ -52,6 +57,16 @@ Please report issues directly to our [Github repository](https://github.com/TheW
 4. Add new shortcodes to posts or pages.
 
 == Changelog ==
+
+= Unreleased =
+* Load frontend assets on wp_enqueue_scripts; init.js no longer disappears when "Load Twitter Bootstrap javascript file" is off (tooltips now work with a theme-provided Bootstrap)
+* Reactivating the plugin keeps your settings instead of resetting them
+* New opt-in "Conditional loading" setting
+* Accessibility: labelled alert close button, aria-expanded/aria-controls on collapse toggles, WAI-ARIA roles on tabs, aria-hidden icons
+* Nested shortcodes inside [bs_label] now render
+* Tooltip titles are no longer cut at about 20 characters
+* Editor dialogs: bundled jQuery updated from 1.11.1 to 3.7.1
+* Declared support: WordPress 5.0+, PHP 7.4+, tested up to WordPress 7.1 (see docs/compatibility.md)
 
 = 3.5.0 =
 * Add optional target attribute to the button shortcode ("_blank" also adds rel="noopener noreferrer")
