@@ -13,6 +13,14 @@
             });
         return true;
     }
+    // Bootstrap 3 swaps the active classes when a tab is shown but leaves
+    // aria-selected alone; keep it in step for assistive technology.
+    $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function(e) {
+        $(e.target).attr('aria-selected', 'true');
+        if (e.relatedTarget) {
+            $(e.relatedTarget).attr('aria-selected', 'false');
+        }
+    });
     $(document).ready(function() {
         if (!initTooltips()) {
             $(window).on('load', initTooltips);

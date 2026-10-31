@@ -14,6 +14,18 @@
 [/bs_tabs]
 ---------------*/
 
+/**
+ * The pane id a tab's href points at, or '' when it is not a plain local anchor.
+ */
+function bs_tab_pane_id( $href ) {
+    $href = trim( (string) $href );
+    if ( '' === $href || '#' !== $href[0] ) {
+        return '';
+    }
+    $id = substr( $href, 1 );
+    return preg_match( '/^[A-Za-z][\w:.-]*$/', $id ) ? $id : '';
+}
+
 function bs_tabs( $params, $content=null ){
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
     $result = '<div class="tab_wrap">';
@@ -40,8 +52,13 @@ function bs_tab( $params, $content=null ) {
         ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
 
+    // Wire the tab to its pane when the href is a local anchor (the editor always emits one).
+    $pane     = bs_tab_pane_id( $href );
+    $selected = in_array( 'active', preg_split( '/\s+/', trim( $class ) ), true );
+    $aria     = $pane ? ' id="tab-' . esc_attr( $pane ) . '" aria-controls="' . esc_attr( $pane ) . '"' : '';
+    $aria    .= ' aria-selected="' . ( $selected ? 'true' : 'false' ) . '"';
     $result = '<li class="' . esc_attr($class) . '" role="presentation">';
-    $result .= '<a data-toggle="tab" href="' . esc_url($href) . '" role="tab">' . esc_attr($title) . '</a>';
+    $result .= '<a data-toggle="tab" href="' . esc_url($href) . '" role="tab"' . $aria . '>' . esc_attr($title) . '</a>';
     $result .= '</li>';
     return force_balance_tags( $result );
 }
@@ -80,7 +97,8 @@ function bs_tcontent( $params, $content=null ) {
         ), $params ) );
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
     $class = ($class=='active')? 'active in': '';
-    $result = '<div class="tab-pane fade ' . esc_attr($class) . '" id="' . esc_attr($id) . '" role="tabpanel">';
+    $labelled = '' !== $id ? ' aria-labelledby="tab-' . esc_attr( $id ) . '"' : '';
+    $result = '<div class="tab-pane fade ' . esc_attr($class) . '" id="' . esc_attr($id) . '" role="tabpanel"' . $labelled . '>';
     $result .= do_shortcode( $content );
     $result .= '</div>';
     return force_balance_tags( $result );
