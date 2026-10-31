@@ -5,7 +5,7 @@ function bs_well( $params, $content=null ) {
     ), $params));
 
     $content = preg_replace( '/<br class="nc".\/>/', '', $content );
-    $size_class = $size ? ' well-' . esc_attr($size) : '';
+    $size_class = (in_array( $size, array( 'sm', 'lg' ), true ))? ' well-' . $size: '';
     $result =  '<div class="well' . $size_class . '">';
     $result .= do_shortcode( $content );
     $result .= '</div>';
