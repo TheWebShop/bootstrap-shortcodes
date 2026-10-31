@@ -15,8 +15,8 @@ class ShortcodeCollapseTest extends WP_UnitTestCase {
         
         $this->assertStringContainsString('<div class="panel panel-default">', $output);
         $this->assertStringContainsString('<div class="panel-heading" role="tab" id="heading_c1">', $output);
-        $this->assertStringContainsString('<a class="accordion-toggle collapsed" data-toggle="collapse" aria-controls="heading_c1" data-parent="#collapse-group" href="#c1">Item 1</a>', $output);
-        $this->assertStringContainsString('<div id="c1" class="panel-collapse collapse " role="tabpanel" aria-labelledby="heading_c1">', $output);
+        $this->assertStringContainsString('<a class="accordion-toggle collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="c1" data-parent="#collapse-group" href="#c1">Item 1</a>', $output);
+        $this->assertStringContainsString('<div id="c1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_c1">', $output);
         $this->assertStringContainsString('<div class="panel-body">Inner Content        </div>', $output);
     }
 
