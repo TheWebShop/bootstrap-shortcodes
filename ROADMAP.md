@@ -54,18 +54,18 @@ render through the Shortcode or Classic block.
 
 Branch `fix/stability-baseline`. Acceptance criteria:
 
-- [ ] Frontend assets enqueued on `wp_enqueue_scripts`, admin CSS on `admin_enqueue_scripts`; same handles and files as before.
-- [ ] `init.js` loads and runs when "Load Bootstrap JS" is off and a theme supplies Bootstrap (regression test).
-- [ ] Reactivating the plugin keeps existing settings (regression test).
-- [ ] Settings are sanitised to the known keys on save.
-- [ ] Optional conditional asset loading, **off by default**, with a render-time fallback and a filter, documented with its limits.
-- [ ] Escaping audited per output context; every attribute quoted and escaped (tests cover the id/class/href/title paths).
-- [ ] Accessibility fixes that do not change layout: alert close button label, collapse `aria-controls`/`aria-expanded`/`collapsed` state, tab roles, icon `aria-hidden`.
-- [ ] Nested shortcodes render inside `bs_label` (was raw).
-- [ ] Bundled jQuery for the editor dialogs updated from 1.11.1 to 3.7.1 (admin-only, Bootstrap 3.4.1 supports it); e2e dialogs still pass.
-- [ ] Support policy decided and declared in `readme.txt` (see Decisions), with the tested matrix recorded in `docs/compatibility.md`.
-- [ ] Bundled dependency advisories assessed separately from shortcode-renderer issues (`docs/security.md`).
-- [ ] PHPUnit and Playwright green locally and in CI.
+- [x] Frontend assets enqueued on `wp_enqueue_scripts`, admin CSS on `admin_enqueue_scripts`; same handles and files as before.
+- [x] `init.js` loads and runs when "Load Bootstrap JS" is off and a theme supplies Bootstrap (regression test).
+- [x] Reactivating the plugin keeps existing settings (regression test).
+- [x] Settings are sanitised to the known keys on save.
+- [x] Optional conditional asset loading, **off by default**, with a render-time fallback and a filter, documented with its limits.
+- [x] Escaping audited per output context; every attribute quoted and escaped (tests cover the id/class/href/title paths).
+- [x] Accessibility fixes that do not change layout: alert close button label, collapse `aria-controls`/`aria-expanded`/`collapsed` state, tab roles, icon `aria-hidden`.
+- [x] Nested shortcodes render inside `bs_label` (was raw).
+- [x] Bundled jQuery for the editor dialogs updated from 1.11.1 to 3.7.1 (admin-only, Bootstrap 3.4.1 supports it); e2e dialogs still pass.
+- [x] Support policy decided and declared in `readme.txt` (see Decisions), with the tested matrix recorded in `docs/compatibility.md`.
+- [x] Bundled dependency advisories assessed separately from shortcode-renderer issues (`docs/security.md`).
+- [x] PHPUnit and Playwright green locally; CI pending the push.
 
 Risks: changing the enqueue hook could reorder scripts relative to a theme that also
 enqueues on `init` (very rare); conditional loading can miss shortcodes rendered
@@ -75,12 +75,12 @@ outside the main query (mitigated by the render-time fallback and by being opt-i
 
 Branch `feat/dependency-scanner`. Acceptance criteria:
 
-- [ ] Tools > Bootstrap Shortcodes page with a bounded, resumable scan over posts of all public and private post types (all statuses), reporting per component: occurrences, affected posts, published vs draft/other, with edit links.
-- [ ] Flags per occurrence: nesting, custom classes, unknown attributes, malformed or unclosed syntax, duplicate ids.
-- [ ] Also scans widgets (`text`, `custom_html`, `block`), the Customizer/theme mods and options that hold content (bounded list), post meta values that are strings, and reports the template/PHP surfaces it cannot inspect (theme files, `do_shortcode()` calls, page builders' own storage).
-- [ ] Never writes content; never executes shortcodes during discovery (text scan only, documented as candidates, not proof).
-- [ ] WP-CLI command for large sites.
-- [ ] "Share this report with the author": off by default, shows destination, exact fields, one-time vs recurring, payload preview, no identifiers by default. v1 is an **export/copy** flow (no endpoint exists; see Decisions).
+- [x] Tools > Bootstrap Shortcodes page with a bounded, resumable scan over posts of all public and private post types (all statuses), reporting per component: occurrences, affected posts, published vs draft/other, with edit links.
+- [x] Flags per occurrence: nesting, custom classes, unknown attributes, malformed or unclosed syntax, duplicate ids.
+- [x] Also scans widgets (`text`, `custom_html`, `block`), the Customizer/theme mods and options that hold content (bounded list), post meta values that are strings, and reports the template/PHP surfaces it cannot inspect (theme files, `do_shortcode()` calls, page builders' own storage).
+- [x] Never writes content; never executes shortcodes during discovery (text scan only, documented as candidates, not proof).
+- [x] WP-CLI command for large sites.
+- [x] "Share this report with the author": off by default, shows destination, exact fields, one-time vs recurring, payload preview, no identifiers by default. v1 is an **export/copy** flow (no endpoint exists; see Decisions).
 
 Risks: large sites (bounded batches, no full-table loads); serialized meta (read only,
 string search, never unserialize-and-rewrite).

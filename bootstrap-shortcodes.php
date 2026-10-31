@@ -12,6 +12,9 @@ Author URI: https://github.com/Sinetheta
 Forked from DW Shortcodes Bootstrap http://wordpress.org/plugins/dw-shortcodes-bootstrap/
 */
 
+define( 'BS_SHORTCODES_VERSION', '3.5.0' );
+define( 'BS_SHORTCODES_FILE', __FILE__ );
+
 require_once( 'inc/bs_grid.php' );
 require_once( 'inc/bs_tabs.php' );
 require_once( 'inc/bs_collapse.php' );
@@ -22,6 +25,9 @@ require_once( 'inc/bs_labels.php' );
 require_once( 'inc/bs_icons.php' );
 require_once( 'inc/bs_lead.php' );
 require_once( 'inc/bs_tooltip.php' );
+require_once( 'inc/class-bs-scanner.php' );
+require_once( 'inc/class-bs-admin-tools.php' );
+require_once( 'inc/class-bs-cli.php' );
 
 class BootstrapShortcodes{
 
@@ -295,3 +301,6 @@ class BootstrapShortcodes{
 }
 
 $bscodes = new BootstrapShortcodes();
+if ( is_admin() ) {
+    $bs_admin_tools = new BS_Admin_Tools();
+}

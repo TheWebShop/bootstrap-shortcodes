@@ -67,6 +67,9 @@ Please report issues directly to our [Github repository](https://github.com/TheW
 * Tooltip titles are no longer cut at about 20 characters
 * Editor dialogs: bundled jQuery updated from 1.11.1 to 3.7.1
 * Declared support: WordPress 5.0+, PHP 7.4+, tested up to WordPress 7.1 (see docs/compatibility.md)
+* New Tools > Bootstrap Shortcodes page: scans the site in batches and reports which shortcodes are used where (published vs drafts, widgets, options, custom fields, term descriptions, theme files), what a text scan cannot see, and what removing the plugin would change
+* New WP-CLI command: wp bs-shortcodes scan
+* Optional, manual "share a summary with the author" export: nothing is ever sent automatically (see docs/privacy.md)
 
 = 3.5.0 =
 * Add optional target attribute to the button shortcode ("_blank" also adds rel="noopener noreferrer")
@@ -138,6 +141,14 @@ Please report issues directly to our [Github repository](https://github.com/TheW
 * Upgraded from Bootstrap 2 to 3
 
 == Frequently Asked Questions ==
+
+= Does the plugin send any data anywhere? =
+
+No. It makes no external requests and has no tracking. The dependency report under Tools can produce a summary of shortcode usage counts that you may choose to send to the author yourself; nothing is sent by the plugin. Details: https://github.com/TheWebShop/bootstrap-shortcodes/blob/master/docs/privacy.md
+
+= How do I find out what on my site uses these shortcodes? =
+
+Tools > Bootstrap Shortcodes scans posts, pages, custom post types, widgets, options, custom fields, term descriptions and your theme's PHP files, and lists what it found and what it could not check. On the command line: `wp bs-shortcodes scan`.
 
 = There is no Button in the Visual Editor =
 
