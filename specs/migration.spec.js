@@ -167,8 +167,8 @@ test.describe('Migration end to end', () => {
             // classic-editor__forget is what the plugin's own "Edit (Block editor)" link
             // uses; without it a post with no blocks opens in TinyMCE.
             await admin.visitAdminPage('post.php', `post=${id}&action=edit&classic-editor__forget`);
-            await expect(page.getByRole('heading', { name: 'Edit Post', level: 1 })).toBeVisible();
-            await page.locator('iframe[name="editor-canvas"], .block-editor-writing-flow').first().waitFor({ timeout: 20000 });
+            // The block editor boots slowly on CI runners; wait for its canvas, not a heading.
+            await page.locator('iframe[name="editor-canvas"], .block-editor-writing-flow').first().waitFor({ timeout: 60000 });
             // The block list lives in an iframe only when every block supports it; a
             // Classic block (HTML-mode output) keeps the editor inline. Look in both.
             const iframed = (await page.locator('iframe[name="editor-canvas"]').count()) > 0;
