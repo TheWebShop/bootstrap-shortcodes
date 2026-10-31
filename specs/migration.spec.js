@@ -179,8 +179,12 @@ test.describe('Migration end to end', () => {
             await expect(page.locator('.block-editor-warning')).toHaveCount(0);
             await expect(root.locator('body')).not.toContainText('unexpected or invalid content');
         }
+        // Put the Classic Editor plugin back exactly as the editor specs expect:
+        // classic by default and no per-user switching (otherwise this user's
+        // last-used editor, now "block", would win on post-new.php).
         await admin.visitAdminPage('options-writing.php');
         await page.locator('input[name="classic-editor-replace"][value="classic"]').check();
+        await page.locator('input[name="classic-editor-allow-users"][value="disallow"]').check();
         await page.locator('#submit').click();
         await admin.visitAdminPage(TOOLS.path, TOOLS.query);
 
