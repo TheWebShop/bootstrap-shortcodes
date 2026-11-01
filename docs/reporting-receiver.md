@@ -50,6 +50,8 @@ Cloudflare's own request logs exist and are retained per their policy.
 - **Stored:** the payload, the server-generated id, and the received date (day).
 - **Not stored:** IP, user agent, headers, referrer.
 - **Retention:** 12 months (KV TTL), then deleted; or sooner on request quoting the id.
+  The derived keys hold counts only and expire too: `count:YYYY-MM-DD` after 2 days,
+  `stats:YYYY-MM-DD` after 12 months (both set with a per-key TTL on write).
 - **Access:** the maintainer only; used to decide which components the migration
   tools must cover; aggregate counts may be published in the repository.
 - **Deletion:** the id shown after sending is the only key; an email or GitHub
@@ -65,10 +67,10 @@ Cloudflare's own request logs exist and are retained per their policy.
 | Per-IP rate limit | Workers Rate Limiting binding with a supported period (60 s; e.g. 3 requests / 60 s per IP). Counters are approximate and per Cloudflare location, so this is a brake, not a guarantee; one WAF rate-limiting rule (free plan allows one) backs it up at the edge | no cost |
 | Kill switch | KV key `paused`; checked first; set from the dashboard or `wrangler kv` | one KV read per request (100,000/day free) |
 | Payload cap | reject bodies > 2 KB (a full payload with every component is about 1 KB), non-JSON, `schema !== 1`, unknown keys, non-integer counts, counts > 10^7 | Worker CPU only |
-| Ingestion cap | at most 300 accepted records per UTC day (a KV counter `count:YYYY-MM-DD`); beyond that reply `429` without storing | KV Free writes 1,000/day |
+| Ingestion cap | about 300 accepted records per UTC day, read from a KV counter `count:YYYY-MM-DD` (2-day TTL); beyond that reply `429` without storing. KV is eventually consistent and allows one write per key per second, so under a concurrent burst this cap is **approximate** (it can overshoot, and counter writes can fail). The hard ceiling is the account's 1,000 KV writes/day, which bounds storage whatever the counter says. If an exact cap is wanted, use a Durable Object counter (SQLite-backed Durable Objects are on the Free plan), decided when the receiver is built | KV Free writes 1,000/day |
 | Method/path allowlist | `POST /v1/summary` (public) and `GET /v1/stats` (bearer secret, see Monitoring); everything else 404 with no body | – |
 | No egress | the Worker calls nothing (no email, no third parties) | – |
-| Storage growth | one KV value per record, TTL 12 months, key = random id; a daily cron summarises counts into one `stats:YYYY-MM-DD` key. Worst case 300 × 2 KB × 365 ≈ 220 MB, inside the 1 GB KV Free limit | KV Free 1 GB |
+| Storage growth | one KV value per record, TTL 12 months, key = random id; a daily cron summarises counts into one `stats:YYYY-MM-DD` key. Worst case, using the hard 1,000 writes/day rather than the soft 300: 1,000 × 2 KB × 365 ≈ 730 MB, inside the 1 GB KV Free limit | KV Free 1 GB |
 | Monitoring | `GET /v1/stats` behind a bearer secret (wrangler secret) returning per-day counts; Cloudflare dashboard Workers metrics; `wrangler tail` for live logs; Cloudflare Notifications for Worker error rate | no cost |
 | Upgrade path | if the trial outgrows Free, move to Workers Paid only after adding a hard spend ceiling in the dashboard and re-reviewing this table | – |
 

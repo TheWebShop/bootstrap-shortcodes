@@ -163,29 +163,33 @@ test.describe('Migration end to end', () => {
         await page.locator('input[name="classic-editor-replace"][value="block"]').check();
         await page.locator('input[name="classic-editor-allow-users"][value="allow"]').check();
         await page.locator('#submit').click();
-        for (const id of [blocks.id, classic.id]) {
-            // classic-editor__forget is what the plugin's own "Edit (Block editor)" link
-            // uses; without it a post with no blocks opens in TinyMCE.
-            await admin.visitAdminPage('post.php', `post=${id}&action=edit&classic-editor__forget`);
-            // The block editor boots slowly on CI runners; wait for its canvas, not a heading.
-            await page.locator('iframe[name="editor-canvas"], .block-editor-writing-flow').first().waitFor({ timeout: 60000 });
-            // The block list lives in an iframe only when every block supports it; a
-            // Classic block (HTML-mode output) keeps the editor inline. Look in both.
-            const iframed = (await page.locator('iframe[name="editor-canvas"]').count()) > 0;
-            const root = iframed ? page.frameLocator('iframe[name="editor-canvas"]') : page;
-            await expect(root.locator('.is-root-container')).toBeVisible();
-            await expect(root.locator('.wp-block').first()).toBeVisible();
-            await expect(root.locator('.block-editor-warning')).toHaveCount(0);
-            await expect(page.locator('.block-editor-warning')).toHaveCount(0);
-            await expect(root.locator('body')).not.toContainText('unexpected or invalid content');
+        try {
+            for (const id of [blocks.id, classic.id]) {
+                // classic-editor__forget is what the plugin's own "Edit (Block editor)" link
+                // uses; without it a post with no blocks opens in TinyMCE.
+                await admin.visitAdminPage('post.php', `post=${id}&action=edit&classic-editor__forget`);
+                // The block editor boots slowly on CI runners; wait for its canvas, not a heading.
+                await page.locator('iframe[name="editor-canvas"], .block-editor-writing-flow').first().waitFor({ timeout: 60000 });
+                // The block list lives in an iframe only when every block supports it; a
+                // Classic block (HTML-mode output) keeps the editor inline. Look in both.
+                const iframed = (await page.locator('iframe[name="editor-canvas"]').count()) > 0;
+                const root = iframed ? page.frameLocator('iframe[name="editor-canvas"]') : page;
+                await expect(root.locator('.is-root-container')).toBeVisible();
+                await expect(root.locator('.wp-block').first()).toBeVisible();
+                await expect(root.locator('.block-editor-warning')).toHaveCount(0);
+                await expect(page.locator('.block-editor-warning')).toHaveCount(0);
+                await expect(root.locator('body')).not.toContainText('unexpected or invalid content');
+            }
+        } finally {
+            // Put the Classic Editor plugin back exactly as the editor specs expect,
+            // even when a check above failed: classic by default and no per-user
+            // switching (otherwise this user's last-used editor, now "block", would
+            // win on post-new.php).
+            await admin.visitAdminPage('options-writing.php');
+            await page.locator('input[name="classic-editor-replace"][value="classic"]').check();
+            await page.locator('input[name="classic-editor-allow-users"][value="disallow"]').check();
+            await page.locator('#submit').click();
         }
-        // Put the Classic Editor plugin back exactly as the editor specs expect:
-        // classic by default and no per-user switching (otherwise this user's
-        // last-used editor, now "block", would win on post-new.php).
-        await admin.visitAdminPage('options-writing.php');
-        await page.locator('input[name="classic-editor-replace"][value="classic"]').check();
-        await page.locator('input[name="classic-editor-allow-users"][value="disallow"]').check();
-        await page.locator('#submit').click();
         await admin.visitAdminPage(TOOLS.path, TOOLS.query);
 
         // Hand off the assets: consent is required, then install + activate.

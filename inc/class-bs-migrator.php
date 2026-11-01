@@ -605,6 +605,18 @@ class BS_Migrator {
 	private static function details( $title, $content, $open, $id, $group ) {
 		$title_html = esc_html( wp_strip_all_tags( $title ) );
 		if ( self::blocks() ) {
+			// Match what this WordPress's Details block can save, or the editor
+			// flags the block as invalid: no block before 6.3, no `name` before 6.8.
+			$type = WP_Block_Type_Registry::get_instance()->get_registered( 'core/details' );
+			if ( ! $type ) {
+				self::$notes[] = 'Collapsible sections are saved as Custom HTML blocks: this WordPress version has no Details block (it arrived in 6.3).';
+				$html = '<details' . ( $group ? ' name="' . self::attr( $group ) . '"' : '' ) . ( $id ? ' id="' . self::attr( $id ) . '"' : '' ) . ( $open ? ' open' : '' ) . '><summary>' . $title_html . '</summary>' . self::bake_paragraphs( self::process( $content ) ) . '</details>';
+				return self::wrap_block( 'html', array(), $html );
+			}
+			if ( $group && ! isset( $type->attributes['name'] ) ) {
+				self::$notes[] = 'Collapse items no longer close each other when one opens: the Details block\'s grouping needs WordPress 6.8 or later. Re-migrate after updating WordPress to keep that behaviour.';
+				$group = '';
+			}
 			$block_attrs = array();
 			if ( $open ) {
 				$block_attrs['showContent'] = true;

@@ -180,7 +180,33 @@ class MigratorConvertTest extends WP_UnitTestCase {
 
 	/* ---- collapse and tabs ------------------------------------------------- */
 
+	/** Run $fn with core/details registered with $attributes (null: not registered), as on older WordPress. */
+	private function with_details_block( $attributes, $fn ) {
+		$registry = WP_Block_Type_Registry::get_instance();
+		$original = $registry->get_registered( 'core/details' );
+		if ( $original ) {
+			$registry->unregister( 'core/details' );
+		}
+		if ( null !== $attributes ) {
+			$registry->register( 'core/details', array( 'attributes' => $attributes ) );
+		}
+		try {
+			return $fn();
+		} finally {
+			if ( $registry->is_registered( 'core/details' ) ) {
+				$registry->unregister( 'core/details' );
+			}
+			if ( $original ) {
+				$registry->register( $original );
+			}
+		}
+	}
+
 	public function test_collapse_becomes_details_blocks_sharing_a_name() {
+		$type = WP_Block_Type_Registry::get_instance()->get_registered( 'core/details' );
+		if ( ! $type || ! isset( $type->attributes['name'] ) ) {
+			$this->markTestSkipped( 'this WordPress has no Details name attribute (6.8+); covered by the version tests below' );
+		}
 		$r = $this->blocks( '[bs_collapse id="faq"][bs_citem id="q1" parent="faq" title="First?"]A1[/bs_citem][bs_citem id="q2" parent="faq" title="Second?" open="true"]A2[/bs_citem][/bs_collapse]' );
 		$c = $r['content'];
 		$this->assertStringContainsString( '<!-- wp:details {"name":"faq"} -->' . "\n" . '<details class="wp-block-details" name="faq" id="q1"><summary>First?</summary>', $c );
@@ -358,5 +384,25 @@ class MigratorConvertTest extends WP_UnitTestCase {
 		$this->assertSame( '<i class="icon-star" aria-hidden="true"></i>', $r['content'] );
 		$this->assertSame( array( 'bootstrap-css' ), $r['dependencies'] );
 		$this->assertNotEmpty( $r['notes'] );
+	}
+
+	public function test_details_group_name_is_left_out_before_wordpress_6_8() {
+		$r = $this->with_details_block( array( 'showContent' => array( 'type' => 'boolean' ), 'summary' => array( 'type' => 'string' ) ), function () {
+			return $this->blocks( '[bs_collapse id="faq"][bs_citem id="q1" parent="faq" title="First?"]A1[/bs_citem][/bs_collapse]' );
+		} );
+		$this->assertStringContainsString( '<!-- wp:details -->' . "\n" . '<details class="wp-block-details" id="q1"><summary>First?</summary>', $r['content'] );
+		$this->assertStringNotContainsString( 'name', $r['content'] );
+		$this->assertContains( 'Collapse items no longer close each other when one opens: the Details block\'s grouping needs WordPress 6.8 or later. Re-migrate after updating WordPress to keep that behaviour.', $r['notes'] );
+	}
+
+	public function test_details_become_custom_html_where_there_is_no_details_block() {
+		$r = $this->with_details_block( null, function () {
+			return $this->blocks( '[bs_collapse id="faq"][bs_citem id="q1" parent="faq" title="First?" open="true"]A1[/bs_citem][/bs_collapse]' );
+		} );
+		$blocks = array_values( array_filter( parse_blocks( $r['content'] ), function ( $b ) { return null !== $b['blockName']; } ) );
+		$this->assertSame( array( 'core/html' ), wp_list_pluck( $blocks, 'blockName' ) );
+		$this->assertStringContainsString( '<details name="faq" id="q1" open><summary>First?</summary><p>A1</p>', $r['content'] );
+		$this->assertStringNotContainsString( 'wp:details', $r['content'] );
+		$this->assertNotEmpty( preg_grep( '/no Details block/', $r['notes'] ) );
 	}
 }

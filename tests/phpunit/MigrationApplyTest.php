@@ -138,7 +138,10 @@ class MigrationApplyTest extends WP_UnitTestCase {
 		$rendered = apply_filters( 'the_content', get_post( $id )->post_content );
 		$shortcode_tags = $saved;
 
-		$this->assertMatchesRegularExpression( '#<details class="wp-block-details[^"]*" name="g" id="a"><summary>Q</summary>#', $rendered );
+		// The Details block stores `name` from WordPress 6.8; earlier the grouping is left out (and noted).
+		$type = WP_Block_Type_Registry::get_instance()->get_registered( 'core/details' );
+		$name = isset( $type->attributes['name'] ) ? ' name="g"' : '';
+		$this->assertMatchesRegularExpression( '#<details class="wp-block-details[^"]*"' . $name . ' id="a"><summary>Q</summary>#', $rendered );
 		$this->assertStringContainsString( '<svg class="bs-icon bs-icon-ok"', $rendered );
 		$this->assertStringNotContainsString( '[bs_', $rendered );
 	}
@@ -184,5 +187,41 @@ class MigrationApplyTest extends WP_UnitTestCase {
 		$listed = BS_Migration::migrated_posts();
 		$this->assertContains( $block, $listed );
 		$this->assertContains( $trash, $listed );
+	}
+
+	public function test_a_filtered_migration_writes_nothing_at_all() {
+		$author   = self::factory()->user->create( array( 'role' => 'author' ) );
+		$original = 'Done [bs_icon name="glyphicon glyphicon-ok"]';
+		$id       = self::factory()->post->create( array( 'post_content' => $original, 'post_author' => $author ) );
+		$before   = get_post( $id );
+		$revs     = count( wp_get_post_revisions( $id ) );
+		wp_set_current_user( $author );
+
+		$r = BS_Migration::apply( $id, array( 'mode' => 'html', 'style' => 'inline' ) );
+
+		$this->assertSame( 'bs_filtered', $r->get_error_code() );
+		$this->assertStringNotContainsString( 'administrator', $r->get_error_message() );
+		$this->assertSame( $revs, count( wp_get_post_revisions( $id ) ) );
+		$this->assertSame( $before->post_modified_gmt, get_post( $id )->post_modified_gmt );
+	}
+
+	public function test_rollback_refuses_rather_than_strip_markup_the_user_cannot_save() {
+		$author   = self::factory()->user->create( array( 'role' => 'author' ) );
+		$original = "<iframe src=\"https://video.test/embed/1\"></iframe>\n\n[bs_well]x[/bs_well]";
+		$id       = self::factory()->post->create( array( 'post_content' => $original, 'post_author' => $author ) );
+		$this->assertIsArray( BS_Migration::apply( $id, $this->opts ) ); // as the administrator
+		$migrated = get_post( $id )->post_content;
+
+		wp_set_current_user( $author );
+		$r = BS_Migration::rollback( $id );
+
+		$this->assertWPError( $r );
+		$this->assertSame( 'bs_filtered', $r->get_error_code() );
+		$this->assertSame( $migrated, get_post( $id )->post_content );
+		$this->assertTrue( BS_Migration::is_migrated( $id ) );
+
+		wp_set_current_user( $this->admin );
+		$this->assertTrue( BS_Migration::rollback( $id ) );
+		$this->assertSame( $original, get_post( $id )->post_content );
 	}
 }

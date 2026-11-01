@@ -28,8 +28,9 @@ Then deactivate the plugin, check the pages the report listed, and delete it.
   (an unclosed `[bs_well]`), escaped `[[bs_x]]` examples, `bs_` tags the plugin
   never registered (typos, other plugins), and block-level components (row, column,
   well, alert, lead, collapse, tabs) written *inside* a paragraph, heading or list
-  item of a block post, where a `<div>` would break the block; put the shortcode on
-  its own line and migrate again. Nothing in a post is dropped silently;
+  item of a block post, where a `<div>` would break the block. For a paragraph,
+  put the shortcode in its own paragraph (or a Shortcode block) and migrate again;
+  inside a list, move it out of the list block or convert that list by hand. Nothing in a post is dropped silently;
   every approximation is reported as a note in the preview and stored with the post.
 - Never runs on activation, update or a schedule. Needs `manage_options`, a nonce
   and a button press (or `edit_post` for each post).
@@ -65,7 +66,7 @@ behaviourally different; "Needs" what the output still depends on.
 | `bs_label` | inline `<span class="label label-x">` with inline colours | same | – | text, type colour | – | classes variant needs Bootstrap CSS |
 | `bs_icon` | inline SVG built from the bundled Glyphicons font (`<svg class="bs-icon bs-icon-star">`, `currentColor`, 1em) | same | – | the glyph, size relative to text, extra classes | none visible; unknown glyph names keep `<i class="glyphicon ...">` and are noted; old `icon-*` sprite names keep their `<i>` and are noted | classes variant, or unknown glyphs, need the Glyphicons font (Bootstrap CSS); `icon-*` names need the plugin's `shortcodes.css` sprite, which the companion ships |
 | `bs_tooltip` | `<span class="bs-tooltip" title="...">` (dotted underline when self-contained) | same | – | the text and the tooltip text (they were always identical) | native browser tooltip: no placement/trigger, none on touch devices; noted | – |
-| `bs_collapse` + `bs_citem` | one Details block per item; items with a `parent` (what the editor button writes) share `name` = that parent so one opens at a time (WP 6.6+; ignored earlier), items without one stay independent, as Bootstrap's `data-parent` worked; `open` for `open="true"`, element `id` kept so `#anchor` links work | `<div class="bs-collapse"><details name><summary>` | 6.3 (Details block); HTML works everywhere | titles, content, initial open state, one-at-a-time behaviour, anchor ids | Bootstrap panel chrome gone (theme styles the Details block); keyboard: native `<summary>` | – |
+| `bs_collapse` + `bs_citem` | one Details block per item; items with a `parent` (what the editor button writes) share `name` = that parent so one opens at a time (the block's `name` needs WP 6.8+; on 6.3 to 6.7 it is left out and the lost grouping is noted; below 6.3 each item is a Custom HTML block holding a `<details>`), items without one stay independent, as Bootstrap's `data-parent` worked; `open` for `open="true"`, element `id` kept so `#anchor` links work | `<div class="bs-collapse"><details name><summary>` | 6.3 (Details block); HTML works everywhere | titles, content, initial open state, one-at-a-time behaviour, anchor ids | Bootstrap panel chrome gone (theme styles the Details block); keyboard: native `<summary>` | – |
 | `bs_tabs` + `bs_thead` + `bs_tab` + `bs_dropdown` + `bs_tcontents` + `bs_tcontent` | one Details block per pane, titled by the matching tab (`href="#id"` ↔ `id`), active pane open; dropdown tabs flattened as "Dropdown: Tab" | `<div class="bs-tabs"><details>` per pane | 6.3 / any | every pane's content, titles, order, initial pane, anchor ids | **tabs become stacked collapsible sections** (semantic alternative, noted). On WordPress 7.1+ the editor's Tabs block can be built from them by hand if tabs are wanted back | – |
 
 Attributes the plugin never used (anything not in the table above, such as a
@@ -97,8 +98,10 @@ repository; the migration page builds its zip from this plugin's own files). It:
   Bootstrap Shortcodes' conditional loading on, the companion covers the pages
   without shortcodes and Bootstrap Shortcodes covers the rest;
 - is installed only from the migration page after ticking an explicit statement, or
-  by uploading the downloaded zip yourself. Its settings start as copies of this
-  plugin's CSS/JS settings.
+  by uploading the downloaded zip yourself. Installed from the migration page, its
+  settings start as copies of this plugin's CSS/JS settings; uploaded by hand, it
+  starts with its own defaults (CSS, JS and tooltips on), so check Settings > Legacy
+  Bootstrap.
 
 Be honest with yourself about what that means: the site no longer depends on
 Bootstrap Shortcodes, but it still depends on **end-of-life Bootstrap 3** (see
