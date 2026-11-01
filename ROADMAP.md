@@ -1,6 +1,6 @@
 # Roadmap: a safe landing for Bootstrap Shortcodes
 
-Status: living document. Last updated 2026-10-31.
+Status: living document. Last updated 2026-10-31 (all three phases implemented locally; PRs pending push approval).
 
 This plugin is in **maintenance mode**. It is kept safe and working for the sites
 that already depend on it; it is not being grown into a page builder or a Bootstrap
@@ -89,12 +89,12 @@ string search, never unserialize-and-rewrite).
 
 Branch `feat/migration`. Acceptance criteria:
 
-- [ ] Component-by-component matrix in `docs/migration.md` (destination, WP version, preserved content/interaction, visual differences, retained dependency, fallback, limitations).
-- [ ] Converter: shortcode text to block markup or reviewed static HTML, preserving unrelated markup and third-party shortcodes; unknown/malformed/ambiguous occurrences are left in place and listed for manual review.
-- [ ] Preview, migrate selected, migrate in batches, review outstanding; explicit confirmation, nonces, capability checks.
-- [ ] Originals stored in post meta (not only revisions) with a tested rollback; stale-content protection via `post_modified_gmt` check; bounded, resumable, safe to retry.
-- [ ] Legacy assets handoff: a separate, minimal companion plugin ("Bootstrap 3 Legacy Assets") shipped in this repo, installable from the migration page only with explicit consent; works with this plugin deactivated and deleted; avoids double-loading with theme Bootstrap; documents what retaining Bootstrap 3 means.
-- [ ] Verified by deactivating this plugin in wp-env after migration: desktop/mobile layouts, keyboard, tabs, collapse, icons, tooltips.
+- [x] Component-by-component matrix in `docs/migration.md` (destination, WP version, preserved content/interaction, visual differences, retained dependency, fallback, limitations).
+- [x] Converter: shortcode text to block markup or reviewed static HTML, preserving unrelated markup and third-party shortcodes; unknown/malformed/ambiguous occurrences are left in place and listed for manual review.
+- [x] Preview, migrate selected, migrate in batches, review outstanding; explicit confirmation, nonces, capability checks.
+- [x] Originals stored in post meta (not only revisions) with a tested rollback; stale-content protection via `post_modified_gmt` check; bounded, resumable, safe to retry.
+- [x] Legacy assets handoff: a separate, minimal companion plugin ("Bootstrap 3 Legacy Assets") shipped in this repo, installable from the migration page only with explicit consent; works with this plugin deactivated and deleted; avoids double-loading with theme Bootstrap; documents what retaining Bootstrap 3 means.
+- [x] Verified by deactivating this plugin in wp-env after migration: desktop/mobile layouts, keyboard, tabs, collapse, icons, tooltips.
 
 ## Decisions
 

@@ -20,8 +20,8 @@ itself still supports.
 
 | WordPress | PHP | What ran | Result |
 | --- | --- | --- | --- |
-| 7.1.4 | 8.3 | PHPUnit (81 tests), Playwright (17 tests: Classic Editor dialogs, frontend rendering and interaction under plugin-/theme-/no-Bootstrap-JS setups, conditional loading, block-editor Shortcode block) | green, 2026-10-31 |
-| 6.4.7 | 7.4 | PHPUnit (81 tests); every component rendered on the frontend with assets present; deactivate/reactivate keeps settings | green, 2026-10-31 |
+| 7.1.4 | 8.3 | PHPUnit (151 tests), Playwright (20 tests: Classic Editor dialogs; frontend rendering and interaction under plugin-/theme-/no-Bootstrap-JS setups; conditional loading; block-editor Shortcode block; the Tools report; the full migration run ending with the plugin deactivated and the migrated pages checked on desktop and phone viewports) | green, 2026-10-31 |
+| 6.4.7 | 7.4 | PHPUnit (151 tests, including converter, scanner and migration); every component rendered on the frontend with assets present; deactivate/reactivate keeps settings | green, 2026-10-31 |
 | latest (wp-env default) | 8.2 | PHPUnit + Playwright in GitHub Actions on every PR | see CI |
 
 Not tested: multisite, PHP 8.4 specifically (nothing in the plugin is version
