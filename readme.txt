@@ -14,7 +14,7 @@ WordPress plugin to add shortcodes for Bootstrap 3. In maintenance mode: kept sa
 
 ## Maintenance mode
 
-This plugin was written in 2013 for Bootstrap 3 and the TinyMCE editor. It is still maintained for **security and compatibility** so the sites that use it keep working, but no new components will be added. If you are starting a new site, use the block editor's own Columns, Buttons, Details, Accordion and Tabs blocks instead. If you already use it, a component-by-component migration guide and tooling ship in the next release; the [compatibility policy](https://github.com/TheWebShop/bootstrap-shortcodes/blob/master/docs/compatibility.md) says what is tested today.
+This plugin was written in 2013 for Bootstrap 3 and the TinyMCE editor. It is still maintained for **security and compatibility** so the sites that use it keep working, but no new components will be added. If you are starting a new site, use the block editor's own Columns, Buttons, Details, Accordion and Tabs blocks instead. If you already use it, Tools > Bootstrap Shortcodes finds where it is used and migrates that content to blocks, with a preview and rollback (see the [migration guide](https://github.com/TheWebShop/bootstrap-shortcodes/blob/master/docs/migration.md)); the [compatibility policy](https://github.com/TheWebShop/bootstrap-shortcodes/blob/master/docs/compatibility.md) says what is tested today.
 
 Bootstrap Shortcodes allow quick and easy implementation of Bootstrap 3 components through the TinyMCE rich-editor (Classic Editor). In the block editor the shortcodes still render; the toolbar buttons do not appear.
 
