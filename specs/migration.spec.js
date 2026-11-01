@@ -220,6 +220,13 @@ test.describe('Migration end to end', () => {
         await expectMigratedPageWorks(page, classic.link);
         await expect(page.locator('link#bs_bootstrap-css')).toHaveCount(0);
         await expect(page.locator('link#bs-legacy-bootstrap-css')).toHaveCount(companionInstalled ? 1 : 0);
+        await expect(page.locator('link#bs-legacy-shortcodes-css')).toHaveCount(companionInstalled ? 1 : 0);
+        if (companionInstalled) {
+            // shortcodes.css points its icon-* sprite at ../images/; the companion must ship it.
+            const css = await page.locator('link#bs-legacy-shortcodes-css').getAttribute('href');
+            const sprite = await page.request.get(new URL('../images/glyphicons-halflings.png', css).href);
+            expect(sprite.ok()).toBeTruthy();
+        }
         await page.goto(blocks.link);
         await expect(page.locator('.wp-block-columns .wp-block-column').first()).toContainText('Block left');
 

@@ -280,4 +280,83 @@ class MigratorConvertTest extends WP_UnitTestCase {
 		$this->assertStringNotContainsString( 'wp:shortcode', $r['content'] );
 		$this->assertSame( 'core/paragraph', parse_blocks( $r['content'] )[0]['innerBlocks'][0]['innerBlocks'][0]['blockName'] );
 	}
+
+	/* ---- fixes from the pre-merge review ---------------------------------- */
+
+	public function test_block_level_component_inside_a_paragraph_is_left_in_place_and_listed() {
+		$doc = "<!-- wp:paragraph -->\n<p>See [bs_well]x[/bs_well] and [bs_label]ok[/bs_label]</p>\n<!-- /wp:paragraph -->";
+		$r   = BS_Migrator::convert( $doc, array( 'mode' => 'auto' ) );
+		$this->assertStringContainsString( '<p>See [bs_well]x[/bs_well] and <span class="label label-default"', $r['content'] );
+		$this->assertStringNotContainsString( '<div', $r['content'] );
+		$this->assertSame( 1, $r['converted'] );
+		$this->assertSame( array( array( 'tag' => 'bs_well', 'reason' => 'inline-context' ) ), array_map( function ( $s ) { return array( 'tag' => $s['tag'], 'reason' => $s['reason'] ); }, $r['skipped'] ) );
+	}
+
+	public function test_block_level_component_inside_a_heading_is_left_in_place() {
+		$doc = "<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">[bs_lead]Big[/bs_lead]</h2>\n<!-- /wp:heading -->";
+		$r   = BS_Migrator::convert( $doc, array( 'mode' => 'auto' ) );
+		$this->assertSame( $doc, $r['content'] );
+		$this->assertSame( 'inline-context', $r['skipped'][0]['reason'] );
+	}
+
+	public function test_html_mode_on_a_block_document_never_puts_a_div_inside_a_paragraph() {
+		$doc = "<!-- wp:paragraph -->\n<p>[bs_well]x[/bs_well]</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>Text [bs_well]y[/bs_well]</p>\n<!-- /wp:paragraph -->";
+		$r   = $this->html( $doc );
+		$this->assertStringNotContainsString( '<p><div', $r['content'] );
+		$this->assertStringNotContainsString( 'Text <div', $r['content'] );
+		$this->assertStringContainsString( '<div class="well" style="', $r['content'] );
+		$this->assertStringContainsString( 'Text [bs_well]y[/bs_well]', $r['content'] );
+		$this->assertSame( 1, $r['converted'] );
+	}
+
+	public function test_skipped_items_in_a_block_are_reported_once() {
+		$doc = "<!-- wp:paragraph -->\n<p>Broken [bs_well]never closed</p>\n<!-- /wp:paragraph -->";
+		$r   = BS_Migrator::convert( $doc, array( 'mode' => 'auto' ) );
+		$this->assertCount( 1, $r['skipped'] );
+	}
+
+	public function test_alert_as_group_block_carries_no_attribute_the_block_cannot_save() {
+		$r = $this->blocks( '[bs_notification type="info"]Msg[/bs_notification]', 'classes' );
+		$this->assertStringContainsString( '<div class="wp-block-group alert alert-info">', $r['content'] );
+		$this->assertStringNotContainsString( 'role=', $r['content'] );
+		$this->assertContains( 'The alert role is not kept: the Group block cannot store it. The message and colours are kept.', $r['notes'] );
+		// Inline styling keeps it: a Custom HTML block saves whatever it holds.
+		$this->assertStringContainsString( 'role="alert"', $this->blocks( '[bs_notification type="info"]Msg[/bs_notification]' )['content'] );
+	}
+
+	public function test_a_column_outside_a_row_gets_a_columns_parent() {
+		$r      = $this->blocks( '[bs_col class="col-sm-6"]Hello[/bs_col]' );
+		$blocks = array_values( array_filter( parse_blocks( $r['content'] ), function ( $b ) { return null !== $b['blockName']; } ) );
+		$this->assertSame( 'core/columns', $blocks[0]['blockName'] );
+		$this->assertSame( 'core/column', $blocks[0]['innerBlocks'][0]['blockName'] );
+		$this->assertSame( $r['content'], serialize_blocks( parse_blocks( $r['content'] ) ) );
+		// Columns inside a row are not double-wrapped.
+		$row = $this->blocks( '[bs_row][bs_col class="col-sm-6"]a[/bs_col][/bs_row]' );
+		$this->assertSame( 1, substr_count( $row['content'], '<!-- wp:columns' ) );
+	}
+
+	public function test_row_with_a_custom_class_keeps_exactly_that_class_in_html_mode() {
+		$this->assertSame( '<div class="container">x</div>', $this->html( '[bs_row class="container"]x[/bs_row]' )['content'] );
+		$this->assertSame( '<div class="row">x</div>', $this->html( '[bs_row]x[/bs_row]' )['content'] );
+	}
+
+	public function test_collapse_items_without_a_parent_stay_independent() {
+		$c = $this->html( '[bs_collapse id="g"][bs_citem id="a" title="A" open="true"]1[/bs_citem][bs_citem id="b" title="B" open="true"]2[/bs_citem][/bs_collapse]' )['content'];
+		$this->assertStringNotContainsString( 'name=', $c );
+		$this->assertSame( 2, substr_count( $c, ' open>' ) );
+	}
+
+	public function test_standalone_button_style_that_the_block_drops_is_noted() {
+		$r = $this->blocks( '[bs_button type="danger" size="lg" value="Buy" href="/buy"]' );
+		$this->assertStringContainsString( '<!-- wp:buttons -->', $r['content'] );
+		$this->assertContains( 'Button style "btn-danger btn-lg" is not carried over: the Button block uses your theme\'s button style. Restyle it in the editor if the colour or size mattered.', $r['notes'] );
+		$this->assertSame( array(), $this->blocks( '[bs_button value="Plain" href="/p"]' )['notes'] );
+	}
+
+	public function test_legacy_sprite_icons_depend_on_the_bootstrap_css_bundle() {
+		$r = $this->html( '[bs_icon name="icon-star"]' );
+		$this->assertSame( '<i class="icon-star" aria-hidden="true"></i>', $r['content'] );
+		$this->assertSame( array( 'bootstrap-css' ), $r['dependencies'] );
+		$this->assertNotEmpty( $r['notes'] );
+	}
 }

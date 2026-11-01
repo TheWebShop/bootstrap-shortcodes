@@ -28,6 +28,15 @@ class BS_Migrator {
 	private static $unbalanced;
 	private static $tab_titles;
 	private static $section_counter;
+	private static $row_depth = 0;
+	/** True while converting inside a block whose HTML only allows inline content (paragraph, heading ...). */
+	private static $inline_only = false;
+
+	/** Components that render block-level HTML (a div, p or details). */
+	private static $block_level = array( 'bs_row', 'bs_col', 'bs_well', 'bs_notification', 'bs_lead', 'bs_collapse', 'bs_citem', 'bs_tabs', 'bs_thead', 'bs_tab', 'bs_dropdown', 'bs_tcontents', 'bs_tcontent' );
+
+	/** Blocks whose saved HTML may hold block-level markup converted in place. */
+	private static $block_containers = array( 'core/freeform', 'core/html' );
 
 	public static function convert( $content, $options = array() ) {
 		$options = wp_parse_args( $options, array( 'mode' => 'auto', 'style' => 'inline' ) );
@@ -41,6 +50,8 @@ class BS_Migrator {
 		self::$converted  = 0;
 		self::$tab_titles = array();
 		self::$section_counter = 0;
+		self::$row_depth       = 0;
+		self::$inline_only     = false;
 
 		$result = array(
 			'content'      => $content,
@@ -59,13 +70,13 @@ class BS_Migrator {
 		$scan             = BS_Scanner::scan_text( $content );
 		self::$unbalanced = $scan['unbalanced'];
 
-		if ( 'blocks' === $options['mode'] && has_blocks( $content ) ) {
+		if ( has_blocks( $content ) ) {
 			// A block document: convert inside the blocks that hold shortcodes
 			// (Shortcode, Classic, Paragraph, Custom HTML ...) without breaking
-			// their structure.
+			// their structure. In html mode the replacements are plain HTML.
 			$result['content'] = serialize_blocks( self::convert_blocks( parse_blocks( $content ) ) );
 		} else {
-			$result['content'] = self::process( $content, true );
+			$result['content'] = self::process( $content );
 			if ( 'blocks' === $options['mode'] ) {
 				// Loose text between blocks becomes paragraphs (or a Classic block), as the editor would.
 				$result['content'] = self::inner_blocks( $result['content'] );
@@ -94,34 +105,40 @@ class BS_Migrator {
 			$has  = false !== strpos( $html, '[bs_' );
 			if ( null === $block['blockName'] ) {
 				if ( $has ) {
-					$block = self::raw_block( self::inner_blocks( self::process( $html, true ) ) );
+					$block = self::replacement_block( $html );
 				}
 				$out[] = $block;
 				continue;
 			}
 			if ( 'core/shortcode' === $block['blockName'] && $has ) {
-				$converted = self::inner_blocks( self::process( $html, true ) );
-				$out[]     = self::raw_block( $converted );
+				$out[] = self::replacement_block( $html );
 				continue;
 			}
 			if ( 'core/paragraph' === $block['blockName'] && $has && preg_match( '/^\s*<p[^>]*>\s*(\[bs_[\s\S]*\])\s*<\/p>\s*$/', $html, $m ) && self::is_single_shortcode( $m[1] ) ) {
-				$converted = self::inner_blocks( self::process( $m[1], true ) );
-				$out[]     = self::raw_block( $converted );
+				$out[] = self::replacement_block( $m[1] );
 				continue;
 			}
 			if ( $has ) {
-				// Inline components inside this block's own HTML (paragraph, heading,
-				// list, classic, custom HTML ...): static HTML keeps the block valid.
-				$saved_mode              = self::$options['mode'];
-				self::$options['mode']   = 'html';
-				$block['innerHTML']      = self::process( $html, false );
-				$counted                 = self::$converted;
+				// Components inside this block's own HTML (paragraph, heading, list,
+				// classic, custom HTML ...) are converted in place as static HTML. Only
+				// Classic and Custom HTML blocks may take block-level markup; inside a
+				// paragraph or heading a <div> would break the block (and the page), so
+				// block-level components there are left in place and listed.
+				$saved_mode            = self::$options['mode'];
+				self::$options['mode'] = 'html';
+				self::$inline_only     = ! in_array( $block['blockName'], self::$block_containers, true );
+				$block['innerHTML']    = self::process( $html );
+				$counted               = self::$converted;
+				$skipped               = self::$skipped;
 				foreach ( $block['innerContent'] as $i => $chunk ) {
 					if ( is_string( $chunk ) && false !== strpos( $chunk, '[bs_' ) ) {
-						$block['innerContent'][ $i ] = self::process( $chunk, false );
+						$block['innerContent'][ $i ] = self::process( $chunk );
 					}
 				}
-				self::$converted       = $counted; // innerContent repeats innerHTML; count once
+				// innerContent repeats innerHTML: count and list each occurrence once.
+				self::$converted       = $counted;
+				self::$skipped         = $skipped;
+				self::$inline_only     = false;
 				self::$options['mode'] = $saved_mode;
 			}
 			if ( ! empty( $block['innerBlocks'] ) ) {
@@ -140,6 +157,12 @@ class BS_Migrator {
 		return 1 === count( $m ) && 0 === $m[0][0][1] && strlen( $m[0][0][0] ) === strlen( $text );
 	}
 
+	/** A whole block (Shortcode, Classic text, lone-shortcode paragraph) replaced by its conversion. */
+	private static function replacement_block( $html ) {
+		$converted = self::process( $html );
+		return self::raw_block( self::blocks() ? self::inner_blocks( $converted ) : $converted );
+	}
+
 	private static function raw_block( $html ) {
 		$html = "\n" . trim( $html ) . "\n";
 		return array( 'blockName' => null, 'attrs' => array(), 'innerBlocks' => array(), 'innerHTML' => $html, 'innerContent' => array( $html ) );
@@ -149,7 +172,7 @@ class BS_Migrator {
 	/* Walking                                                             */
 	/* ------------------------------------------------------------------ */
 
-	private static function process( $text, $top_level ) {
+	private static function process( $text ) {
 		if ( false === strpos( $text, '[bs_' ) ) {
 			return $text;
 		}
@@ -175,6 +198,11 @@ class BS_Migrator {
 				$out .= $whole;
 				continue;
 			}
+			if ( self::$inline_only && in_array( $tag, self::$block_level, true ) ) {
+				self::$skipped[] = array( 'tag' => $tag, 'reason' => 'inline-context', 'offset' => $start );
+				$out .= $whole;
+				continue;
+			}
 			$attrs   = shortcode_parse_atts( $m[3][0] );
 			$attrs   = is_array( $attrs ) ? $attrs : array();
 			$content = isset( $m[5][0] ) ? $m[5][0] : '';
@@ -187,7 +215,7 @@ class BS_Migrator {
 			$after      = substr( $text, $last );
 			$standalone = (bool) preg_match( '/(^|\n)[ \t]*$/', $before ) && (bool) preg_match( '/^[ \t]*(\n|$)/', $after );
 
-			$replacement = self::convert_one( $tag, $attrs, $content, $standalone, $top_level );
+			$replacement = self::convert_one( $tag, $attrs, $content, $standalone );
 			if ( null === $replacement ) {
 				$out .= $whole;
 				continue;
@@ -221,12 +249,12 @@ class BS_Migrator {
 		return esc_attr( (string) $value );
 	}
 
-	private static function convert_one( $tag, $attrs, $content, $standalone, $top_level ) {
+	private static function convert_one( $tag, $attrs, $content, $standalone ) {
 		switch ( $tag ) {
 			case 'bs_row':
 				return self::row( $attrs, $content );
 			case 'bs_col':
-				return self::col( $attrs, $content, $top_level );
+				return self::col( $attrs, $content );
 			case 'bs_well':
 				return self::well( $attrs, $content );
 			case 'bs_notification':
@@ -254,7 +282,7 @@ class BS_Migrator {
 				self::$notes[] = sprintf( 'A stray [%s] outside [bs_tabs] was removed (it rendered an empty tab strip).', $tag );
 				return '';
 			case 'bs_tcontents':
-				return self::process( $content, false );
+				return self::process( $content );
 			case 'bs_tcontent':
 				return self::tcontent( $attrs, $content );
 		}
@@ -319,7 +347,7 @@ class BS_Migrator {
 
 	/** Static HTML keeps classic behaviour: wpautop runs later, as it always did. */
 	private static function inner_html( $html ) {
-		return self::process( $html, false );
+		return self::process( $html );
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -327,13 +355,16 @@ class BS_Migrator {
 	/* ------------------------------------------------------------------ */
 
 	private static function row( $attrs, $content ) {
-		$classes = isset( $attrs['class'] ) ? preg_split( '/\s+/', trim( $attrs['class'] ) ) : array( 'row' );
-		$extra   = array_values( array_diff( array_filter( $classes ), array( 'row' ) ) );
+		// The handler used `class` instead of "row" (shortcode_atts default), never in addition.
+		$classes = isset( $attrs['class'] ) ? array_values( array_filter( preg_split( '/\s+/', trim( $attrs['class'] ) ) ) ) : array( 'row' );
+		$extra   = array_values( array_diff( $classes, array( 'row' ) ) );
 		if ( ! self::blocks() ) {
 			self::$deps[] = 'bootstrap-css';
-			return '<div class="' . self::attr( implode( ' ', array_merge( array( 'row' ), $extra ) ) ) . '">' . self::inner_html( $content ) . '</div>';
+			return '<div class="' . self::attr( implode( ' ', $classes ) ) . '">' . self::inner_html( $content ) . '</div>';
 		}
-		$inner = self::process( $content, false );
+		self::$row_depth++;
+		$inner = self::process( $content );
+		self::$row_depth--;
 		// Inner must be columns only; stray text between columns is kept as its own column.
 		$columns = array();
 		foreach ( parse_blocks( trim( $inner ) ) as $block ) {
@@ -349,7 +380,7 @@ class BS_Migrator {
 		return self::wrap_block( 'columns', $block_attrs, '<div class="' . self::attr( $class ) . '">' . implode( '', $columns ) . '</div>' );
 	}
 
-	private static function col( $attrs, $content, $top_level ) {
+	private static function col( $attrs, $content ) {
 		$classes = isset( $attrs['class'] ) ? preg_split( '/\s+/', trim( $attrs['class'] ) ) : array( 'col-sm-1' );
 		$classes = array_values( array_filter( $classes ) );
 		if ( ! self::blocks() ) {
@@ -379,9 +410,15 @@ class BS_Migrator {
 		if ( $extra ) {
 			$block_attrs['className'] = implode( ' ', $extra );
 		}
-		$class = 'wp-block-column' . ( $extra ? ' ' . implode( ' ', $extra ) : '' );
-		$inner = self::inner_blocks( self::process( $content, false ) );
-		return self::wrap_block( 'column', $block_attrs, '<div class="' . self::attr( $class ) . '"' . $style . '>' . $inner . '</div>' );
+		$class  = 'wp-block-column' . ( $extra ? ' ' . implode( ' ', $extra ) : '' );
+		$inner  = self::inner_blocks( self::process( $content ) );
+		$column = self::wrap_block( 'column', $block_attrs, '<div class="' . self::attr( $class ) . '"' . $style . '>' . $inner . '</div>' );
+		if ( 0 === self::$row_depth ) {
+			// A Column block is only valid inside Columns.
+			self::$notes[] = 'A [bs_col] outside a [bs_row] was given its own Columns block.';
+			return self::wrap_block( 'columns', array(), '<div class="wp-block-columns">' . $column . '</div>' );
+		}
+		return $column;
 	}
 
 	private static function well( $attrs, $content ) {
@@ -412,12 +449,16 @@ class BS_Migrator {
 	private static function box( $class, $style, $content, $extra_attrs ) {
 		if ( self::blocks() ) {
 			if ( self::inline_style() ) {
-				$inner = self::process( $content, false );
+				$inner = self::process( $content );
 				$html  = '<div class="' . self::attr( $class ) . '"' . $extra_attrs . ' style="' . self::attr( $style ) . '">' . self::bake_paragraphs( $inner ) . '</div>';
 				return self::wrap_block( 'html', array(), $html );
 			}
 			self::$deps[] = 'bootstrap-css';
-			return self::wrap_block( 'group', array( 'className' => $class ), '<div class="wp-block-group ' . self::attr( $class ) . '"' . $extra_attrs . '>' . self::inner_blocks( self::process( $content, false ) ) . '</div>' );
+			if ( '' !== $extra_attrs ) {
+				// The Group block's save() writes no role attribute; keeping it would make the block invalid.
+				self::$notes[] = 'The alert role is not kept: the Group block cannot store it. The message and colours are kept.';
+			}
+			return self::wrap_block( 'group', array( 'className' => $class ), '<div class="wp-block-group ' . self::attr( $class ) . '">' . self::inner_blocks( self::process( $content ) ) . '</div>' );
 		}
 		$inner = self::inner_html( $content );
 		if ( self::inline_style() ) {
@@ -443,7 +484,7 @@ class BS_Migrator {
 	}
 
 	private static function lead( $content ) {
-		$inner = self::process( $content, false );
+		$inner = self::process( $content );
 		if ( self::blocks() ) {
 			if ( trim( $inner ) === wp_strip_all_tags( trim( $inner ) ) || self::is_simple_inline_html( trim( $inner ) ) ) {
 				return self::wrap_block( 'paragraph', array( 'className' => 'lead', 'fontSize' => 'large' ), '<p class="lead has-large-font-size">' . trim( $inner ) . '</p>' );
@@ -466,6 +507,16 @@ class BS_Migrator {
 			$target_attr = ' target="' . self::attr( $target ) . '"' . ( '_blank' === $target ? ' rel="noopener noreferrer"' : '' );
 		}
 		if ( self::blocks() && $standalone ) {
+			$dropped = array();
+			if ( 'default' !== $a['type'] && '' !== $a['type'] ) {
+				$dropped[] = 'btn-' . $a['type'];
+			}
+			if ( '' !== $a['size'] && $a['size'] !== $a['type'] ) {
+				$dropped[] = 'btn-' . $a['size'];
+			}
+			if ( $dropped ) {
+				self::$notes[] = sprintf( 'Button style "%s" is not carried over: the Button block uses your theme\'s button style. Restyle it in the editor if the colour or size mattered.', implode( ' ', $dropped ) );
+			}
 			$link = '<a class="wp-block-button__link wp-element-button" href="' . esc_url( $a['href'] ) . '"' . $target_attr . '>' . esc_html( $a['value'] ) . '</a>';
 			$inner = self::wrap_block( 'button', array(), '<div class="wp-block-button">' . $link . '</div>' );
 			return self::wrap_block( 'buttons', array(), '<div class="wp-block-buttons">' . $inner . '</div>' );
@@ -485,7 +536,7 @@ class BS_Migrator {
 		$type   = isset( $attrs['type'] ) ? sanitize_html_class( $attrs['type'], 'default' ) : 'default';
 		$colors = array( 'default' => '#777', 'primary' => '#337ab7', 'success' => '#5cb85c', 'info' => '#5bc0de', 'warning' => '#f0ad4e', 'danger' => '#d9534f' );
 		$bg     = isset( $colors[ $type ] ) ? $colors[ $type ] : '#777';
-		$inner  = self::process( $content, false );
+		$inner  = self::process( $content );
 		if ( self::inline_style() ) {
 			return '<span class="label label-' . $type . '" style="display:inline-block;padding:.2em .6em .3em;font-size:75%;font-weight:700;line-height:1;color:#fff;background-color:' . $bg . ';border-radius:.25em;white-space:nowrap;vertical-align:baseline">' . $inner . '</span>';
 		}
@@ -503,6 +554,13 @@ class BS_Migrator {
 			}
 		}
 		$fallback = '<i class="' . self::attr( $name ) . '" aria-hidden="true"></i>';
+		if ( ! $glyph && preg_match( '/(^|\s)icon-[a-z0-9-]+/', $name ) ) {
+			// Bootstrap 2 style icon-* classes: a PNG sprite styled by the plugin's
+			// shortcodes.css, which loads with the Bootstrap CSS (and the companion's).
+			self::$deps[]  = 'bootstrap-css';
+			self::$notes[] = sprintf( 'Icon "%s" uses the old icon-* sprite; its markup was kept and still needs the Bootstrap 3 CSS bundle (theme or companion).', $name );
+			return $fallback;
+		}
 		if ( ! self::inline_style() || ! $glyph ) {
 			self::$deps[] = 'glyphicons';
 			return $fallback;
@@ -527,25 +585,17 @@ class BS_Migrator {
 
 	private static function collapse( $attrs, $content ) {
 		$group = isset( $attrs['id'] ) ? sanitize_html_class( $attrs['id'] ) : '';
-		// Children need the group name; pass it through a static so citem() sees it.
-		$inner = self::process_with_group( $content, $group );
+		$inner = self::process( $content );
 		if ( self::blocks() ) {
 			return trim( $inner );
 		}
 		return '<div class="bs-collapse"' . ( $group ? ' id="' . self::attr( $group ) . '"' : '' ) . '>' . $inner . '</div>';
 	}
 
-	private static $group_stack = array();
-
-	private static function process_with_group( $content, $group ) {
-		self::$group_stack[] = $group;
-		$out = self::process( $content, false );
-		array_pop( self::$group_stack );
-		return $out;
-	}
-
 	private static function citem( $attrs, $content, $unused ) {
-		$group = self::$group_stack ? end( self::$group_stack ) : ( isset( $attrs['parent'] ) ? sanitize_html_class( $attrs['parent'] ) : '' );
+		// Bootstrap made items exclusive only through data-parent (the `parent`
+		// attribute); without it each item toggled on its own, so no group name.
+		$group = isset( $attrs['parent'] ) ? sanitize_html_class( ltrim( trim( $attrs['parent'] ), '#' ) ) : '';
 		$id    = isset( $attrs['id'] ) ? sanitize_html_class( $attrs['id'] ) : '';
 		$title = isset( $attrs['title'] ) ? $attrs['title'] : 'Collapse title';
 		$open  = isset( $attrs['open'] ) && 'true' === $attrs['open'];
@@ -562,7 +612,7 @@ class BS_Migrator {
 			if ( $group ) {
 				$block_attrs['name'] = $group;
 			}
-			$html = '<details class="wp-block-details"' . ( $group ? ' name="' . self::attr( $group ) . '"' : '' ) . ( $id ? ' id="' . self::attr( $id ) . '"' : '' ) . ( $open ? ' open' : '' ) . '><summary>' . $title_html . '</summary>' . self::inner_blocks( self::process( $content, false ) ) . '</details>';
+			$html = '<details class="wp-block-details"' . ( $group ? ' name="' . self::attr( $group ) . '"' : '' ) . ( $id ? ' id="' . self::attr( $id ) . '"' : '' ) . ( $open ? ' open' : '' ) . '><summary>' . $title_html . '</summary>' . self::inner_blocks( self::process( $content ) ) . '</details>';
 			return self::wrap_block( 'details', $block_attrs, $html );
 		}
 		return '<details' . ( $group ? ' name="' . self::attr( $group ) . '"' : '' ) . ( $id ? ' id="' . self::attr( $id ) . '"' : '' ) . ( $open ? ' open' : '' ) . '><summary>' . $title_html . '</summary>' . self::inner_html( $content ) . '</details>';
@@ -585,7 +635,7 @@ class BS_Migrator {
 		self::$section_counter = 0;
 		// Strip the head: its tabs are now titles. Convert the panes.
 		$panes = preg_replace( '/' . get_shortcode_regex( array( 'bs_thead' ) ) . '/', '', $content );
-		$panes = self::process( $panes, false );
+		$panes = self::process( $panes );
 		self::$tab_titles = $previous;
 		if ( self::blocks() ) {
 			return trim( $panes );

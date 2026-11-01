@@ -148,11 +148,15 @@ class BS_Migration {
 		return $out;
 	}
 
-	/** Posts that hold a stored original, newest first (bounded). */
+	/**
+	 * Posts that hold a stored original, newest first (bounded). Same types and
+	 * statuses as the scan: 'any' would leave out reusable blocks, templates
+	 * and trashed posts, which could then be migrated but never rolled back.
+	 */
 	public static function migrated_posts( $limit = 500 ) {
 		return get_posts( array(
-			'post_type'      => 'any',
-			'post_status'    => 'any',
+			'post_type'      => BS_Scanner::post_types(),
+			'post_status'    => BS_Scanner::post_statuses(),
 			'posts_per_page' => $limit,
 			'meta_key'       => self::META_ORIGINAL,
 			'orderby'        => 'modified',

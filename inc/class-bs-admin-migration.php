@@ -239,7 +239,11 @@ class BS_Admin_Migration {
 			<?php
 			$parts = array();
 			foreach ( $r['skipped'] as $s ) {
-				$parts[] = sprintf( '[%s] (%s)', $s['tag'], 'unbalanced' === $s['reason'] ? __( 'opening/closing tags do not match', 'bsshortcodes' ) : $s['reason'] );
+				$reasons = array(
+					'unbalanced'     => __( 'opening/closing tags do not match', 'bsshortcodes' ),
+					'inline-context' => __( 'a block-level component written inside a paragraph or heading; move it onto its own line, then migrate again', 'bsshortcodes' ),
+				);
+				$parts[] = sprintf( '[%s] (%s)', $s['tag'], isset( $reasons[ $s['reason'] ] ) ? $reasons[ $s['reason'] ] : $s['reason'] );
 			}
 			echo esc_html( implode( ', ', $parts ) );
 			?>

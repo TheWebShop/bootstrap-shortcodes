@@ -12,6 +12,9 @@ class CompanionTest extends WP_UnitTestCase {
 		$this->assertArrayHasKey( 'bootstrap-legacy-assets/js/bootstrap.js', $files );
 		$this->assertArrayHasKey( 'bootstrap-legacy-assets/js/init.js', $files );
 		$this->assertArrayHasKey( 'bootstrap-legacy-assets/fonts/glyphicons-halflings-regular.woff2', $files );
+		// The original loaded shortcodes.css with bootstrap.css; legacy icon-* sprites live there.
+		$this->assertArrayHasKey( 'bootstrap-legacy-assets/css/shortcodes.css', $files );
+		$this->assertArrayHasKey( 'bootstrap-legacy-assets/images/glyphicons-halflings.png', $files );
 		foreach ( $files as $src ) {
 			$this->assertFileExists( $src );
 		}
@@ -93,5 +96,47 @@ class CompanionTest extends WP_UnitTestCase {
 			WP_Filesystem();
 			$wp_filesystem->delete( $dir, true );
 		}
+	}
+
+	public function test_companion_loads_shortcodes_css_with_bootstrap_css() {
+		require_once dirname( dirname( __DIR__ ) ) . '/companion/bootstrap-legacy-assets/bootstrap-legacy-assets.php';
+		update_option( 'bs_options', array( 'chk_default_options_grid' => '1' ) );
+		update_option( 'bs_legacy_assets', array( 'css' => '1' ) );
+		$GLOBALS['wp_styles'] = new WP_Styles();
+		( new BS_Legacy_Assets() )->enqueue();
+		$this->assertContains( 'bs-legacy-bootstrap', $GLOBALS['wp_styles']->queue );
+		$this->assertContains( 'bs-legacy-shortcodes', $GLOBALS['wp_styles']->queue );
+		delete_option( 'bs_options' );
+		delete_option( 'bs_legacy_assets' );
+	}
+
+	public function test_with_conditional_loading_the_companion_covers_pages_the_original_skips() {
+		require_once dirname( dirname( __DIR__ ) ) . '/companion/bootstrap-legacy-assets/bootstrap-legacy-assets.php';
+		update_option( 'bs_options', array_merge( BootstrapShortcodes::default_options(), array( 'chk_conditional_assets' => '1' ) ) );
+		update_option( 'bs_legacy_assets', array( 'css' => '1', 'js' => '1' ) );
+		$this->assertFalse( BS_Legacy_Assets::original_plugin_loads_assets() );
+
+		// A page without shortcodes: the original queues nothing, the companion loads.
+		$GLOBALS['wp_styles']  = new WP_Styles();
+		$GLOBALS['wp_scripts'] = new WP_Scripts();
+		( new BS_Legacy_Assets() )->enqueue();
+		$this->assertContains( 'bs-legacy-bootstrap', $GLOBALS['wp_styles']->queue );
+		$this->assertContains( 'bs-legacy-bootstrap', $GLOBALS['wp_scripts']->queue );
+
+		// The original's render-time fallback then stands down instead of loading Bootstrap twice.
+		$plugin = new BootstrapShortcodes();
+		$plugin->enqueue_assets();
+		$this->assertNotContains( 'bs_bootstrap', $GLOBALS['wp_styles']->queue );
+		$this->assertNotContains( 'bs_bootstrap', $GLOBALS['wp_scripts']->queue );
+
+		// A page where the original already queued its copy: the companion stays out.
+		$GLOBALS['wp_styles']  = new WP_Styles();
+		$GLOBALS['wp_scripts'] = new WP_Scripts();
+		( new BootstrapShortcodes() )->enqueue_assets();
+		( new BS_Legacy_Assets() )->enqueue();
+		$this->assertNotContains( 'bs-legacy-bootstrap', $GLOBALS['wp_styles']->queue );
+		$this->assertNotContains( 'bs-legacy-bootstrap', $GLOBALS['wp_scripts']->queue );
+		delete_option( 'bs_options' );
+		delete_option( 'bs_legacy_assets' );
 	}
 }

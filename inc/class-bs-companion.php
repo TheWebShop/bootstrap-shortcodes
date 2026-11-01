@@ -20,6 +20,9 @@ class BS_Companion {
 			self::SLUG . '/bootstrap-legacy-assets.php' => self::source_dir() . '/bootstrap-legacy-assets.php',
 			self::SLUG . '/readme.txt'                  => self::source_dir() . '/readme.txt',
 			self::SLUG . '/css/bootstrap.css'           => $plugin . '/css/bootstrap.css',
+			// Loaded with bootstrap.css by the original: legacy icon-* sprites and layout fixups.
+			self::SLUG . '/css/shortcodes.css'          => $plugin . '/css/shortcodes.css',
+			self::SLUG . '/images/glyphicons-halflings.png' => $plugin . '/images/glyphicons-halflings.png',
 			self::SLUG . '/js/bootstrap.js'             => $plugin . '/js/bootstrap.js',
 			self::SLUG . '/js/init.js'                  => $plugin . '/js/init.js',
 		);

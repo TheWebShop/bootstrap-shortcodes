@@ -44,13 +44,22 @@ class BS_Legacy_Assets {
 		}
 	}
 
-	/** True when Bootstrap Shortcodes is active and still loading its own copy. */
+	/**
+	 * True when Bootstrap Shortcodes is active and loading its own copy on every
+	 * page. With its conditional loading on it only loads where shortcodes
+	 * remain, so this plugin covers the other pages; other_bootstrap() then sees
+	 * the original's files on pages where it did load, and the original stands
+	 * down on late (render-time) loads once this plugin's files are queued.
+	 */
 	public static function original_plugin_loads_assets() {
 		if ( ! class_exists( 'BootstrapShortcodes' ) ) {
 			return false;
 		}
 		$o = get_option( 'bs_options' );
-		return is_array( $o ) && ( ! empty( $o['chk_default_options_css'] ) || ! empty( $o['chk_default_options_js'] ) );
+		if ( ! is_array( $o ) || ! empty( $o['chk_conditional_assets'] ) ) {
+			return false;
+		}
+		return ! empty( $o['chk_default_options_css'] ) || ! empty( $o['chk_default_options_js'] );
 	}
 
 	/** A theme or another plugin already registered a Bootstrap file of this kind. */
@@ -75,6 +84,8 @@ class BS_Legacy_Assets {
 		$base = plugins_url( '', __FILE__ );
 		if ( ! empty( $o['css'] ) && ! self::other_bootstrap( 'css' ) ) {
 			wp_enqueue_style( 'bs-legacy-bootstrap', $base . '/css/bootstrap.css', array(), '3.4.1' );
+			// The original loaded this alongside: icon-* sprites and small layout fixups.
+			wp_enqueue_style( 'bs-legacy-shortcodes', $base . '/css/shortcodes.css', array( 'bs-legacy-bootstrap' ), self::VERSION );
 		}
 		if ( ! empty( $o['js'] ) && ! self::other_bootstrap( 'js' ) ) {
 			wp_enqueue_script( 'bs-legacy-bootstrap', $base . '/js/bootstrap.js', array( 'jquery' ), '3.4.1' );
@@ -116,7 +127,7 @@ class BS_Legacy_Assets {
 		?>
 		<div class="wrap">
 			<h1>Bootstrap 3 Legacy Assets</h1>
-			<p><?php esc_html_e( 'This plugin exists so a site can remove Bootstrap Shortcodes without losing the Bootstrap 3 styling its remaining markup depends on. It loads the same files that plugin loaded (Bootstrap 3.4.1 CSS and JavaScript, the Glyphicons font, and a small tooltip initialiser). It registers no shortcodes.', 'bs-legacy-assets' ); ?></p>
+			<p><?php esc_html_e( 'This plugin exists so a site can remove Bootstrap Shortcodes without losing the Bootstrap 3 styling its remaining markup depends on. It loads the same files that plugin loaded (Bootstrap 3.4.1 CSS and JavaScript, the Glyphicons font, that plugin\'s small shortcodes.css, and a tooltip initialiser). It registers no shortcodes.', 'bs-legacy-assets' ); ?></p>
 			<div class="notice notice-warning inline"><p><strong><?php esc_html_e( 'Bootstrap 3 is end-of-life.', 'bs-legacy-assets' ); ?></strong> <?php esc_html_e( 'Version 3.4.1 (2019) is the last release; the Bootstrap project publishes no fixes for it. Keeping it is a deliberate compatibility choice. Treat this plugin as temporary: migrate the remaining markup to your theme or to blocks, then deactivate it.', 'bs-legacy-assets' ); ?></p></div>
 			<form method="post" action="options.php">
 				<?php settings_fields( 'bs_legacy_assets' ); ?>

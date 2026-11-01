@@ -25,8 +25,11 @@ Then deactivate the plugin, check the pages the report listed, and delete it.
   `wp_update_post()` records a revision as usual. **Roll back** restores the stored
   original and removes the custom field. Rollback does not depend on revisions.
 - Leaves in place, and lists: occurrences whose opening and closing tags do not match
-  (an unclosed `[bs_well]`), escaped `[[bs_x]]` examples, and `bs_` tags the plugin
-  never registered (typos, other plugins). Nothing in a post is dropped silently;
+  (an unclosed `[bs_well]`), escaped `[[bs_x]]` examples, `bs_` tags the plugin
+  never registered (typos, other plugins), and block-level components (row, column,
+  well, alert, lead, collapse, tabs) written *inside* a paragraph, heading or list
+  item of a block post, where a `<div>` would break the block; put the shortcode on
+  its own line and migrate again. Nothing in a post is dropped silently;
   every approximation is reported as a note in the preview and stored with the post.
 - Never runs on activation, update or a schedule. Needs `manage_options`, a nonce
   and a button press (or `edit_post` for each post).
@@ -53,16 +56,16 @@ behaviourally different; "Needs" what the output still depends on.
 
 | Shortcode | Blocks destination | HTML destination | WP | Keeps | Changes | Needs |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bs_row` + `bs_col` | Columns > Column, width from the first `col-*-N` class (N/12 as %) | `<div class="row"><div class="col-sm-6">` unchanged | 5.0 | content, nesting, column proportions, extra classes (as block className) | responsive breakpoints become the Columns block's own (stack on mobile); `offset`/`push`/`pull` dropped and noted; theme spacing | HTML output needs Bootstrap CSS |
-| `bs_button` standalone | Buttons > Button with url/text/target (`rel="noopener noreferrer"` for `_blank`) | `<a class="btn btn-primary">` identical to today | 5.4 | text, link, target | theme button style instead of Bootstrap colours/sizes | HTML output needs Bootstrap CSS |
+| `bs_row` + `bs_col` | Columns > Column, width from the first `col-*-N` class (N/12 as %); a `bs_col` outside any `bs_row` gets its own Columns block (noted) | `<div class="row"><div class="col-sm-6">` unchanged (a custom `class` on `bs_row` replaces `row`, as the shortcode did) | 5.0 | content, nesting, column proportions, extra classes (as block className) | responsive breakpoints become the Columns block's own (stack on mobile); `offset`/`push`/`pull` dropped and noted; theme spacing | HTML output needs Bootstrap CSS |
+| `bs_button` standalone | Buttons > Button with url/text/target (`rel="noopener noreferrer"` for `_blank`) | `<a class="btn btn-primary">` identical to today | 5.4 | text, link, target | theme button style instead of Bootstrap colours/sizes (noted when a `type` or `size` was set) | HTML output needs Bootstrap CSS |
 | `bs_button` inline in a sentence | stays an inline `<a class="btn ...">` (noted) | same | – | everything | – | Bootstrap CSS |
 | `bs_well` | self-contained: Custom HTML block with inline well styling; classes: Group block with `well` class | `<div class="well" style="...">` or `<div class="well">` | 5.0 | content (paragraphs baked in for the HTML block) | editable as HTML rather than blocks (self-contained); small sizing differences | classes variant needs Bootstrap CSS |
-| `bs_notification` | same shape as wells with alert colours and `role="alert"` | same | 5.0 | message, type colour | **dismiss (×) button removed** (needs Bootstrap JS), noted | classes variant needs Bootstrap CSS |
+| `bs_notification` | same shape as wells with alert colours and `role="alert"` (the classes variant's Group block cannot store `role`, so it is dropped there, noted) | same | 5.0 | message, type colour | **dismiss (×) button removed** (needs Bootstrap JS), noted | classes variant needs Bootstrap CSS |
 | `bs_lead` | Paragraph with `lead` class and the theme's `large` font size | `<p class="lead" style="font-size:1.3em;font-weight:300">` | 5.0 | text | exact size follows the theme | classes variant needs Bootstrap CSS |
 | `bs_label` | inline `<span class="label label-x">` with inline colours | same | – | text, type colour | – | classes variant needs Bootstrap CSS |
-| `bs_icon` | inline SVG built from the bundled Glyphicons font (`<svg class="bs-icon bs-icon-star">`, `currentColor`, 1em) | same | – | the glyph, size relative to text, extra classes | none visible; unknown glyph names keep `<i class="glyphicon ...">` and are noted | classes variant, or unknown glyphs, need the Glyphicons font (Bootstrap CSS) |
+| `bs_icon` | inline SVG built from the bundled Glyphicons font (`<svg class="bs-icon bs-icon-star">`, `currentColor`, 1em) | same | – | the glyph, size relative to text, extra classes | none visible; unknown glyph names keep `<i class="glyphicon ...">` and are noted; old `icon-*` sprite names keep their `<i>` and are noted | classes variant, or unknown glyphs, need the Glyphicons font (Bootstrap CSS); `icon-*` names need the plugin's `shortcodes.css` sprite, which the companion ships |
 | `bs_tooltip` | `<span class="bs-tooltip" title="...">` (dotted underline when self-contained) | same | – | the text and the tooltip text (they were always identical) | native browser tooltip: no placement/trigger, none on touch devices; noted | – |
-| `bs_collapse` + `bs_citem` | one Details block per item, `name` = group id so one opens at a time (WP 6.6+; ignored earlier), `open` for `open="true"`, element `id` kept so `#anchor` links work | `<div class="bs-collapse"><details name><summary>` | 6.3 (Details block); HTML works everywhere | titles, content, initial open state, one-at-a-time behaviour, anchor ids | Bootstrap panel chrome gone (theme styles the Details block); keyboard: native `<summary>` | – |
+| `bs_collapse` + `bs_citem` | one Details block per item; items with a `parent` (what the editor button writes) share `name` = that parent so one opens at a time (WP 6.6+; ignored earlier), items without one stay independent, as Bootstrap's `data-parent` worked; `open` for `open="true"`, element `id` kept so `#anchor` links work | `<div class="bs-collapse"><details name><summary>` | 6.3 (Details block); HTML works everywhere | titles, content, initial open state, one-at-a-time behaviour, anchor ids | Bootstrap panel chrome gone (theme styles the Details block); keyboard: native `<summary>` | – |
 | `bs_tabs` + `bs_thead` + `bs_tab` + `bs_dropdown` + `bs_tcontents` + `bs_tcontent` | one Details block per pane, titled by the matching tab (`href="#id"` ↔ `id`), active pane open; dropdown tabs flattened as "Dropdown: Tab" | `<div class="bs-tabs"><details>` per pane | 6.3 / any | every pane's content, titles, order, initial pane, anchor ids | **tabs become stacked collapsible sections** (semantic alternative, noted). On WordPress 7.1+ the editor's Tabs block can be built from them by hand if tabs are wanted back | – |
 
 Attributes the plugin never used (anything not in the table above, such as a
@@ -84,12 +87,15 @@ in the bundled set, the site still needs Bootstrap 3 after this plugin is gone.
 **Bootstrap 3 Legacy Assets** is a separate, minimal plugin (`companion/` in this
 repository; the migration page builds its zip from this plugin's own files). It:
 
-- loads the same Bootstrap 3.4.1 CSS, JS, Glyphicons font and tooltip initialiser
-  this plugin loads, with three on/off switches (Settings > Legacy Bootstrap);
+- loads the same Bootstrap 3.4.1 CSS (with this plugin's `shortcodes.css` and its
+  `icon-*` sprite), JS, Glyphicons font and tooltip initialiser this plugin loads,
+  with three on/off switches (Settings > Legacy Bootstrap);
 - registers **no** shortcodes and has no other behaviour;
-- stays idle while Bootstrap Shortcodes is active with its asset settings on, and
-  skips its CSS or JS when the theme registers its own `bootstrap.css` / `bootstrap.js`,
-  so nothing loads twice;
+- stays idle while Bootstrap Shortcodes is active and loading its assets on every
+  page, and skips its CSS or JS when the theme (or Bootstrap Shortcodes itself)
+  registers a `bootstrap.css` / `bootstrap.js`, so nothing loads twice. With
+  Bootstrap Shortcodes' conditional loading on, the companion covers the pages
+  without shortcodes and Bootstrap Shortcodes covers the rest;
 - is installed only from the migration page after ticking an explicit statement, or
   by uploading the downloaded zip yourself. Its settings start as copies of this
   plugin's CSS/JS settings.

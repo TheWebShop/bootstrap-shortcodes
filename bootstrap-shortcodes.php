@@ -182,13 +182,19 @@ class BootstrapShortcodes{
         }
         $this->assets_enqueued = true;
         $init_deps = array( 'jquery' );
-        if ( $this->option_on( 'chk_default_options_css' ) ) {
+        // The legacy-assets companion may already have queued the same files
+        // (conditional loading, late render-time load): never load Bootstrap twice.
+        if ( $this->option_on( 'chk_default_options_css' ) && ! wp_style_is( 'bs-legacy-bootstrap', 'enqueued' ) ) {
             wp_enqueue_style( 'bs_bootstrap', plugins_url( 'css/bootstrap.css', __FILE__ ) );
             wp_enqueue_style( 'bs_shortcodes', plugins_url( 'css/shortcodes.css', __FILE__ ) );
         }
         if ( $this->option_on( 'chk_default_options_js' ) ) {
-            wp_enqueue_script( 'bs_bootstrap', plugins_url( 'js/bootstrap.js', __FILE__ ), array( 'jquery' ) );
-            $init_deps[] = 'bs_bootstrap';
+            if ( wp_script_is( 'bs-legacy-bootstrap', 'enqueued' ) ) {
+                $init_deps[] = 'bs-legacy-bootstrap';
+            } else {
+                wp_enqueue_script( 'bs_bootstrap', plugins_url( 'js/bootstrap.js', __FILE__ ), array( 'jquery' ) );
+                $init_deps[] = 'bs_bootstrap';
+            }
         }
         wp_enqueue_script( 'bs_init', plugins_url( 'js/init.js', __FILE__ ), $init_deps );
     }

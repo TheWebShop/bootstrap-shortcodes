@@ -175,4 +175,14 @@ class MigrationApplyTest extends WP_UnitTestCase {
 		$this->assertSame( $original, get_post( $id )->post_content );
 		$this->assertFalse( BS_Migration::is_migrated( $id ) );
 	}
+
+	public function test_migrated_list_includes_every_type_and_status_the_scan_covers() {
+		$block = self::factory()->post->create( array( 'post_type' => 'wp_block', 'post_content' => '[bs_well]reusable[/bs_well]' ) );
+		$trash = self::factory()->post->create( array( 'post_status' => 'trash', 'post_content' => '[bs_well]binned[/bs_well]' ) );
+		$this->assertIsArray( BS_Migration::apply( $block, $this->opts ) );
+		$this->assertIsArray( BS_Migration::apply( $trash, $this->opts ) );
+		$listed = BS_Migration::migrated_posts();
+		$this->assertContains( $block, $listed );
+		$this->assertContains( $trash, $listed );
+	}
 }
